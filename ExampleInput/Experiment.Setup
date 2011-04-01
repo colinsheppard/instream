@@ -1,0 +1,25 @@
+Experiment setup file - 
+created Mar 21 2000
+For no experiment SFR
+
+numberOfScenarios    1
+numberOfReplicates   1
+
+sendScenarioCountToParam: scenario
+inClass:                  TroutModelSwarm
+
+sendReplicateCountToParam: replicate
+inClass:                  TroutModelSwarm
+
+
+
+#ClassName    TroutModelSwarm
+#ParamName    appendFiles
+#ValueType    BOOL
+#Value        YES
+
+#ClassName    FishParams
+#ParamName    fishSpawnProb
+#ValueType    double
+#Value        0.9
+

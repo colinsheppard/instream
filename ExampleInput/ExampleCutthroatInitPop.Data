@@ -1,0 +1,11 @@
+Initial Fish Populations for inSTREAM 4.5 Example Site
+Made-up values   SFR 12/18/2010    
+Year            Age      Number  MeanL, CM      StdDevLength   Reach
+10/1/2008              0     250     6.1            0.938      ExampleSiteA
+10/1/2008              1      50    11.6            1.095      ExampleSiteA
+10/1/2008              2      10    17.1            2.449      ExampleSiteA
+10/1/2008              3       0    19.3            3.161      ExampleSiteA
+10/1/2008              0     350     6.1            0.938      ExampleSiteC
+10/1/2008              1      70    11.6            1.095      ExampleSiteC
+10/1/2008              2      20    17.1            2.449      ExampleSiteC
+10/1/2008              3       5    19.3            3.161      ExampleSiteC
