@@ -159,38 +159,20 @@ Boston, MA 02111-1307, USA.
    }
    colorRatio = colorVariable/shadeColorMax; 
 
+//  New shading code 1/14/2011 SFR
 
-   maxIndex = (int) (shadeColorMax + 0.5);
+   if (colorRatio >= 1.0)
+    {
+      colorRatio = 0.99;  // so interiorColor truncates to CELL_COLOR_MAX - 1
+    }
+
+   interiorColor = (int) ( ((double) CELL_COLOR_MAX) * colorRatio);
 
    //fprintf(stdout, "FishCell >>>> drawSelfOn >>>> colorVariable = %f\n",colorVariable);
    //fprintf(stdout, "FishCell >>>> drawSelfOn >>>> shadeColorMax = %f\n",shadeColorMax);
    //fprintf(stdout, "FishCell >>>> drawSelfOn >>>> colorRatio = %f\n",colorRatio);
    //fprintf(stdout, "FishCell >>>> drawSelfOn >>>> maxIndex = %d\n",maxIndex);
    //fflush(0);
-
-   if(colorVariable == 0.0) 
-   {
-      interiorColor = POLYINTERIORCOLOR;
-   }
-   else
-   {  
-       //fprintf(stdout, "FishCell >>>> drawSelfOn >>>> rasterColorVariable value = %s\n",rasterColorVariable);
-       //fflush(0);
-       for(i = 0; i < maxIndex; i++)
-       {
-           double aColorFrac =  1.0 - (double) (maxIndex - 1.0 - i)/((double) (maxIndex - 1.0));
-   
-           interiorColor = i;
-
-           //fprintf(stdout, "FishCell >>>> drawSelfOn >>>> aColorFrac = %f\n",aColorFrac);
-           //fflush(0);
-    
-           if(colorRatio < aColorFrac)
-           {
-              break;
-           }
-       }
-   }
    
    if(tagCell)
    {

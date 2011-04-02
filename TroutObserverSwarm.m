@@ -360,19 +360,12 @@ Boston, MA 02111-1307, USA.
            fflush(0);
            exit(1);
        }
-       else if(maxShadeVelocity < CELL_COLOR_MAX)
-       {
-           shadeColorMax = (double) maxShadeVelocity;
-       }
-       else 
-       {
-           shadeColorMax = (double) CELL_COLOR_MAX;
-       }
+       else shadeColorMax = (double) maxShadeVelocity;
  
-       for(ndx = 0; ndx < (int) (shadeColorMax + 0.5); ndx++)
+       for(ndx = 0; ndx < CELL_COLOR_MAX; ndx++)
        {
              double aRedFrac = 1.0;
-             double aGreenFrac = (double) (shadeColorMax - 1.0 - ndx)/((double) shadeColorMax - 1.0);
+             double aGreenFrac = (double) (CELL_COLOR_MAX - 1.0 - ndx)/((double) CELL_COLOR_MAX - 1.0);
              double aBlueFrac = 0.0;
 
              [velocityColormap setColor: ndx 
@@ -389,19 +382,12 @@ Boston, MA 02111-1307, USA.
            fflush(0);
            exit(1);
        }
-       else if(maxShadeDepth < CELL_COLOR_MAX)
-       {
-           shadeColorMax = (double) maxShadeDepth;
-       }
-       else 
-       {
-           shadeColorMax = (double) CELL_COLOR_MAX;
-       }
+       else shadeColorMax = (double) maxShadeDepth;
  
-       for(ndx = 0; ndx < (int) (shadeColorMax + 0.5); ndx++)
+       for(ndx = 0; ndx < CELL_COLOR_MAX; ndx++)
        {
              double aRedFrac = 0.0;
-             double aGreenFrac = (double) (shadeColorMax - 1.0 - ndx)/((double) shadeColorMax - 1.0);
+             double aGreenFrac = (double) (CELL_COLOR_MAX - 1.0 - ndx)/((double) CELL_COLOR_MAX - 1.0);
              double aBlueFrac =  1.0;
 
              [depthColormap setColor: ndx 
@@ -751,14 +737,7 @@ Boston, MA 02111-1307, USA.
                 fflush(0);
                 exit(1);
             }
-            else if(maxShadeVelocity < CELL_COLOR_MAX)
-            {
-                shadeColorMax = (double) maxShadeVelocity;
-            }
-            else 
-            {
-                shadeColorMax = (double) CELL_COLOR_MAX;
-            }
+            else shadeColorMax = (double) maxShadeVelocity;
       }
       else if(habitatColormap == velocityColormap)
       {
@@ -771,14 +750,7 @@ Boston, MA 02111-1307, USA.
                 fflush(0);
                 exit(1);
             }
-            else if(maxShadeDepth < CELL_COLOR_MAX)
-            {
-                shadeColorMax = (double) maxShadeDepth;
-            }
-            else 
-            {
-                shadeColorMax = (double) CELL_COLOR_MAX;
-            }
+            else shadeColorMax = (double) maxShadeDepth;
       }
       
       [troutModelSwarm setShadeColorMax: shadeColorMax

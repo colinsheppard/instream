@@ -1311,12 +1311,6 @@ Boston, MA 02111-1307, USA.
 {
   id  newRedd;
 
-       fprintf(stderr,"\n");
-       fprintf(stderr,"<<<<< _createAReddInCell speciesNdx = %d >>>>>\n", speciesNdx);
-       fprintf(stderr,"<<<<< _createAReddInCell redd = %p >>>>>\n", self);
-       fprintf(stderr,"<<<<< _createAReddInCell myCell = %p >>>>>\n", aCell);
-       fprintf(stderr,"fishFecundParamA = %f fishFecundParamB = %f\n", fishParams->fishFecundParamA, fishParams->fishFecundParamB);
-       fprintf(stderr,"\n"); 
    #ifdef DEBUG_TROUT_FISHPARAMS
      #ifdef DEBUG_SPAWN
    
