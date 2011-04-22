@@ -11,13 +11,6 @@ inClass:                  TroutModelSwarm
 sendReplicateCountToParam: replicate
 inClass:                  TroutModelSwarm
 
-
-
-#ClassName    TroutModelSwarm
-#ParamName    appendFiles
-#ValueType    BOOL
-#Value        YES
-
 #ClassName    FishParams
 #ParamName    fishSpawnProb
 #ValueType    double
