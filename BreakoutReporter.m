@@ -26,15 +26,14 @@ Boston, MA 02111-1307, USA.
 
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include <time.h>
 
 #import "BreakoutReporter.h"
 
 @implementation BreakoutReporter
 
-
-
-+          createBegin: aZone
++          createBeginWithFixedColumns: aZone
                forList: (id <List>) aListOfObj
     withOutputFilename: (char *) aFileName
      withFileOverwrite: (BOOL) aBool
@@ -45,8 +44,7 @@ Boston, MA 02111-1307, USA.
    size_t fileNameLen = strlen(aFileName) + 1;
    id <Zone> myZone = [Zone create: aZone];
 
-   if(aListOfObj == nil)
-   {
+   if(aListOfObj == nil){
        fprintf(stderr, "ERROR: BreakoutReporter >>>> createBegin: >>>> objectList is nil\n");
        fflush(0);
        exit(1);
@@ -54,8 +52,7 @@ Boston, MA 02111-1307, USA.
 
    reporter->objectList = aListOfObj; 
 
-   if(fileNameLen > 50)
-   {
+   if(fileNameLen > 50){
         fprintf(stderr, "ERROR: BreakoutReporter >>>> createBegin >>>> fileName length is too long\n");
         fflush(0);
         exit(1);
@@ -63,22 +60,17 @@ Boston, MA 02111-1307, USA.
    strncpy(reporter->fileName, aFileName, fileNameLen);
 
    reporter->numberOfBreakoutLevels = 0;
-
    reporter->dummyKeySymbol = [Symbol create: myZone
                                         setName: "dummyKeySymbol"];
 
    reporter->level1ListOfKeys = [List create: myZone];
    [reporter->level1ListOfKeys addLast: reporter->dummyKeySymbol];  
-
    reporter->level2ListOfKeys = [List create: myZone];
    [reporter->level2ListOfKeys addLast: reporter->dummyKeySymbol];  
-
    reporter->level3ListOfKeys = [List create: myZone];
    [reporter->level3ListOfKeys addLast: reporter->dummyKeySymbol];  
-
    reporter->level4ListOfKeys = [List create: myZone];
    [reporter->level4ListOfKeys addLast: reporter->dummyKeySymbol];  
-
    reporter->level5ListOfKeys = [List create: myZone];
    [reporter->level5ListOfKeys addLast: reporter->dummyKeySymbol];  
 
@@ -90,53 +82,47 @@ Boston, MA 02111-1307, USA.
 
    reporter->breakoutMap = [Map create: myZone];
    reporter->averagerMapList = [List create: myZone];
-
    reporter->useCSV = FALSE;
    reporter->columnWidth = aColumnWidth;
    sprintf(reporter->headerFormatString, "%s%d%s", "%-",aColumnWidth,"s");
-   sprintf(reporter->floatFormatString, "%s%d%s", "%-",aColumnWidth,"E");
+   sprintf(reporter->floatFormatString, "%s%d%s", "%-",aColumnWidth,"f");
+   sprintf(reporter->intFormatString, "%s%d%s", "%-",aColumnWidth,"d");
+   sprintf(reporter->expFormatString, "%s%d%s", "%-",aColumnWidth,"E");
+   fprintf(stdout, "BreakoutReport >>>>   createBegin: aZone >>>> useCSV = %d \n", (int) reporter->useCSV);
+   fprintf(stdout, "BreakoutReport >>>>   headerFormatString = %s\n", reporter->headerFormatString);
+   fprintf(stdout, "BreakoutReport >>>>   floatFormatString = %s\n", reporter->floatFormatString);
+   fprintf(stdout, "BreakoutReport >>>>   intFormatString = %s\n", reporter->intFormatString);
+   fprintf(stdout, "BreakoutReport >>>>   expFormatString = %s\n", reporter->expFormatString);
 
-
-   if(aBool == TRUE)
-   {
+   if(aBool == TRUE){
       [reporter openFileNamed: reporter->fileName
                 withWriteMode: "w"];
-
-   }
-   else
-   {
+   }else{
       [reporter openFileNamed: reporter->fileName
                 withWriteMode: "a"];
-
    }
 
    reporter->outputWithLabelsList = [List create: myZone];
-
    reporter->dataColumnStructList = [List create: myZone];
    reporter->dataColumnList = [List create: myZone];
    reporter->blankColumnLabelList = [List create: myZone];
-
    reporter->reporterZone = myZone;
-
    reporter->suppressColumnLabels = NO;
 
    return reporter;
-
 }
 
 
-+          createBegin: aZone
++          createBeginWithCSV: aZone
                forList: (id <List>) aListOfObj
     withOutputFilename: (char *) aFileName
      withFileOverwrite: (BOOL) aBool
 {
-
    BreakoutReporter* reporter = [super createBegin: aZone];
    size_t fileNameLen = strlen(aFileName) + 1;
    id <Zone> myZone = [Zone create: aZone];
 
-   if(aListOfObj == nil)
-   {
+   if(aListOfObj == nil){
        fprintf(stderr, "ERROR: BreakoutReporter >>>> createBegin: >>>> objectList is nil\n");
        fflush(0);
        exit(1);
@@ -144,8 +130,7 @@ Boston, MA 02111-1307, USA.
 
    reporter->objectList = aListOfObj; 
 
-   if(fileNameLen > 50)
-   {
+   if(fileNameLen > 50){
         fprintf(stderr, "ERROR: BreakoutReporter >>>> createBegin >>>> fileName length is too long\n");
         fflush(0);
         exit(1);
@@ -153,22 +138,16 @@ Boston, MA 02111-1307, USA.
    strncpy(reporter->fileName, aFileName, fileNameLen);
 
    reporter->numberOfBreakoutLevels = 0;
-
    reporter->dummyKeySymbol = [Symbol create: myZone
                                         setName: "dummyKeySymbol"];
-
    reporter->level1ListOfKeys = [List create: myZone];
    [reporter->level1ListOfKeys addLast: reporter->dummyKeySymbol];  
-
    reporter->level2ListOfKeys = [List create: myZone];
    [reporter->level2ListOfKeys addLast: reporter->dummyKeySymbol];  
-
    reporter->level3ListOfKeys = [List create: myZone];
    [reporter->level3ListOfKeys addLast: reporter->dummyKeySymbol];  
-
    reporter->level4ListOfKeys = [List create: myZone];
    [reporter->level4ListOfKeys addLast: reporter->dummyKeySymbol];  
-
    reporter->level5ListOfKeys = [List create: myZone];
    [reporter->level5ListOfKeys addLast: reporter->dummyKeySymbol];  
 
@@ -177,56 +156,41 @@ Boston, MA 02111-1307, USA.
    reporter->level3KeySelector = (SEL) nil;
    reporter->level4KeySelector = (SEL) nil;
    reporter->level5KeySelector = (SEL) nil;
-
    reporter->breakoutMap = [Map create: myZone];
    reporter->averagerMapList = [List create: myZone];
 
    reporter->useCSV = TRUE;
    reporter->columnWidth = 25;
    sprintf(reporter->headerFormatString, "%s%s%s", "%", "s", ",");
-   sprintf(reporter->floatFormatString, "%s%s%s", "%","E", ",");
+   sprintf(reporter->floatFormatString, "%s%d%s%s", "%",reporter->columnWidth,"f", ",");
 
-   fprintf(stdout, "BreakoutReport >>>>   createBegin: aZone >>>> useCSV = %d \n", (int) reporter->useCSV);
-   fprintf(stdout, "BreakoutReport >>>>   headerFormatString = %s\n", reporter->headerFormatString);
-   fprintf(stdout, "BreakoutReport >>>>   floatFormatString = %s\n", reporter->floatFormatString);
-   fprintf(stdout, "BreakoutReport >>>>   test >>>>\n");
-   fprintf(stdout, reporter->headerFormatString, "testString");
-   fprintf(stdout, reporter->floatFormatString, 123.8967435);
-   fflush(0);
+   //fprintf(stdout, "BreakoutReport >>>>   createBegin: aZone >>>> useCSV = %d \n", (int) reporter->useCSV);
+   //fprintf(stdout, "BreakoutReport >>>>   headerFormatString = %s\n", reporter->headerFormatString);
+   //fprintf(stdout, "BreakoutReport >>>>   floatFormatString = %s\n", reporter->floatFormatString);
+   //fprintf(stdout, "BreakoutReport >>>>   test >>>>\n");
+   //fprintf(stdout, reporter->headerFormatString, "testString");
+   //fprintf(stdout, reporter->floatFormatString, -0.0012345678901234567890123456789012345678901234567890);
+   //fprintf(stdout, reporter->floatFormatString, log10(0.00012345678901234567890123456789012345678901234567890));
+   //fflush(0);
    //exit(0);
-
-
-  
-
-   if(aBool == TRUE)
-   {
+   
+   if(aBool == TRUE){
       [reporter openFileNamed: reporter->fileName
                 withWriteMode: "w"];
-
-   }
-   else
-   {
+   }else{
       [reporter openFileNamed: reporter->fileName
                 withWriteMode: "a"];
-
    }
-
    reporter->outputWithLabelsList = [List create: myZone];
-
    reporter->dataColumnStructList = [List create: myZone];
    reporter->dataColumnList = [List create: myZone];
    reporter->blankColumnLabelList = [List create: myZone];
-
    reporter->reporterZone = myZone;
-
    reporter->suppressColumnLabels = NO;
-
    return reporter;
-
 }
 
-- suppressColumnLabels: (BOOL) aBool
-{
+- suppressColumnLabels: (BOOL) aBool{
    suppressColumnLabels = aBool;
    return self;
 }
@@ -1299,6 +1263,7 @@ Boston, MA 02111-1307, USA.
       id level5Key = nil;
 
       int i;
+      double aVal;
 
       for(i = 0; i < [dataColumnList getCount]; i++)
       {
@@ -1380,7 +1345,36 @@ Boston, MA 02111-1307, USA.
                                                            at: level5Key];
                            [anAverager update];
 
-                           fprintf(filePtr, floatFormatString, [anAverager getAveragerValue]);
+			  aVal = [anAverager getAveragerValue];
+			  if(aVal==(double)(int)aVal){
+			    if(useCSV == TRUE){
+			      fprintf(filePtr, "%d,",(int)aVal);
+			    }else{
+			      fprintf(filePtr, intFormatString,(int)aVal);
+			    }
+			  }else{
+			    if(aVal == 0.0){
+				   fprintf(filePtr, floatFormatString,aVal);
+			    }else if(aVal < 0.0){
+				    if(log10(-aVal) < -3.0){
+				      if(useCSV == TRUE){
+					   fprintf(filePtr,"%E,",aVal);
+				      }else{
+				        fprintf(filePtr,expFormatString,aVal);
+				      }
+				    }else{
+				      fprintf(filePtr, floatFormatString,aVal);
+				    }
+			    }else if(log10(aVal) < -3.0){
+			      if(useCSV == TRUE){
+				   fprintf(filePtr,"%E,",aVal);
+			      }else{
+				fprintf(filePtr,expFormatString,aVal);
+			      }
+			    }else{
+				   fprintf(filePtr, floatFormatString,aVal);
+			    }
+			  }
                            fflush(filePtr);
                       }                           
                    }
@@ -1543,14 +1537,40 @@ Boston, MA 02111-1307, USA.
 
 }
 
++ (char *) reportFileMetaData: (id) aZone {
+  char* sysDateAndTime = (char *) [(id <Zone>)aZone alloc: (size_t) 55];
+  struct tm *timeStruct;
+  time_t aTime;
+  aTime = time(NULL);
+  timeStruct = localtime(&aTime);
+  strftime(sysDateAndTime, 55, "Model Run System Date and Time: %a %d-%b-%Y %H:%M:%S", timeStruct);
+  return sysDateAndTime;
+}
+    
++ (char *) formatFloatOrExponential: (double) aVal{
+	int sigFigsKept = 4;
 
+	if(aVal == 0.0){
+	   return "%f";
+	}else if(aVal < 0.0){
+	    if(log10(-aVal) < -(sigFigsKept-1)){
+		   return "%E";
+	    }else{
+		   return "%f";
+	    }
+	}else if(log10(aVal) < -(sigFigsKept-1)){
+	   return "%E";
+	}else{
+	   return "%f";
+	}
+}
     
 
 - (void) drop
 {
 
-    fprintf(stdout, "BreakoutReporter drop >>>> BEGIN\n");
-    fflush(0);
+   // fprintf(stdout, "BreakoutReporter drop >>>> BEGIN\n");
+   // fflush(0);
 
     if(outputWithLabelsList)
     {
@@ -1626,8 +1646,8 @@ Boston, MA 02111-1307, USA.
 
     [super drop];
 
-    fprintf(stdout, "BreakoutReporter drop >>>> END\n");
-    fflush(0);
+   // fprintf(stdout, "BreakoutReporter drop >>>> END\n");
+   // fflush(0);
 
 }
 

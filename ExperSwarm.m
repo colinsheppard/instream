@@ -650,13 +650,13 @@ Boston, MA 02111-1307, USA.
 //////////////////////////////////////////////
 - updateTkEvents
 {
-    fprintf(stdout, "ExperSwarm >>>> updateTkEvents >>>> BEGIN\n");
-    fflush(0);
+    //fprintf(stdout, "ExperSwarm >>>> updateTkEvents >>>> BEGIN\n");
+    //fflush(0);
 
     [actionCache doTkEvents];
 
-    fprintf(stdout, "ExperSwarm >>>> updateTkEvents >>>> END\n");
-    fflush(0);
+    //fprintf(stdout, "ExperSwarm >>>> updateTkEvents >>>> END\n");
+    //fflush(0);
 
     return self;
 }

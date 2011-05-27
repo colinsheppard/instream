@@ -181,12 +181,10 @@ char **speciesColor;
 // setPolyRasterResolution
 //
 /////////////////////////////////////////////////////////////
--    setPolyRasterResolution:  (int) aRasterResolution
-    setPolyRasterResolutionX:  (int) aRasterResolutionX
+-   setPolyRasterResolutionX:  (int) aRasterResolutionX
     setPolyRasterResolutionY:  (int) aRasterResolutionY
   setPolyRasterColorVariable:  (char *) aRasterColorVariable
 {
-     polyRasterResolution = aRasterResolution;
      polyRasterResolutionX = aRasterResolutionX;
      polyRasterResolutionY = aRasterResolutionY;
      strncpy(polyRasterColorVariable, aRasterColorVariable, 35);
@@ -339,14 +337,13 @@ char **speciesColor;
   //
   // Moved from instantiateObjects 
   //
-  [habitatManager  setPolyRasterResolution:  polyRasterResolution
-                  setPolyRasterResolutionX:  polyRasterResolutionX
+  [habitatManager setPolyRasterResolutionX:  polyRasterResolutionX
                   setPolyRasterResolutionY:  polyRasterResolutionY
                     setRasterColorVariable:   polyRasterColorVariable
                           setShadeColorMax:  shadeColorMax];
 
   [habitatManager buildObjects];
-
+  
   #ifdef PRINT_CELL_FISH_REPORT
       [habitatManager buildHabSpaceCellFishInfoReporter];
   #endif
@@ -378,8 +375,7 @@ char **speciesColor;
   reddRemovedList = [List create: modelZone];
   emptyReddList = [List create: modelZone];
 
-  //if(fishColorMap = nil) 
-  {
+  if(theColormaps != nil) {
       [self setFishColormap: theColormaps];
   }
 
@@ -2023,36 +2019,27 @@ char **speciesColor;
 // printReddSurvReport
 //
 /////////////////////////////////////////////////////////
-- printReddSurvReport 
-{ 
+- printReddSurvReport { 
     FILE *printRptPtr=NULL;
-    const char * reddSurvFile = "ReddSurvivalTest.rpt";
+    const char * reddSurvFile = "Redd_Survival_Test_Out.csv";
     id <ListIndex> reddListNdx;
     id redd;
 
-    if((printRptPtr = fopen(reddSurvFile,"w+")) != NULL) 
-    {
-        if([[self getReddRemovedList] getCount] != 0) 
-        {
+    if((printRptPtr = fopen(reddSurvFile,"w+")) != NULL){
+        if([[self getReddRemovedList] getCount] != 0){
             reddListNdx = [reddRemovedList listBegin: modelZone];
 
-            while(([reddListNdx getLoc] != End) && ((redd = [reddListNdx next]) != nil)) 
-            {
+            while(([reddListNdx getLoc] != End) && ((redd = [reddListNdx next]) != nil)){
                [redd printReddSurvReport: printRptPtr];
-
             }
             [reddListNdx drop];
         }
-   }
-   else 
-   {
+   }else{
        fprintf(stderr, "ERROR: TroutModelSwarm >>>> printReddSurvReport >>>> Couldn't open %s\n", reddSurvFile);
        fflush(0);
        exit(1);
    }
-
    fclose(printRptPtr);
-
    return self;
 }
 
@@ -2066,119 +2053,98 @@ char **speciesColor;
 //
 //////////////////////////////////////////////////
 - openReddSummaryFilePtr {
+  char * formatString = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n";
+  char * fileMetaData;
 
-  char* formatString = "%-12s%-12s%-12s%-15s%-15s%-12s%-12s%-25s%-12s%-12s%-12s%-21s%-12s%-12s%-12s%-12s%-12s%-12s%-12s\n";
 
   if(reddSummaryFilePtr == NULL) {
 
-     if ((appendFiles == NO) && (scenario == 1) && (replicate == 1))
-     {
-        if((reddSummaryFilePtr = fopen(reddOutputFile,"w")) == NULL ) 
-        {
-             fprintf(stderr, "ERROR: TroutModelSwarm >>>> openReddSummaryFilePtr >>>> Cannot open %s for writing\n",reddOutputFile);
-             fflush(0);
-             exit(1);
-        }
-          fprintf(reddSummaryFilePtr,"\n");
-          fprintf(reddSummaryFilePtr,"SYSTEM TIME:  %s\n", [timeManager getSystemDateAndTime]);
-          fprintf(reddSummaryFilePtr,formatString, "Scenario",
-                                                   "Replicate",
-                                                   "ReddID",
-                                                   "SpawnerLength",
-                                                   "SpawnerWeight",
-                                                   "SpawnerAge",
-                                                   "Species",
-                                                   "Reach",
-                                                   "Transect",
-                                                   "CellNo",
-                                                   "CreateDate",
-                                                   "InitialNumberOfEggs",
-                                                   "EmptyDate",
-                                                   "Dewatering",
-                                                   "Scouring",
-                                                   "LowTemp",
-                                                   "HiTemp",
-                                                   "SuperImp",
-                                                   "FryEmerged"); 
+    if ((appendFiles == NO) && (scenario == 1) && (replicate == 1)){
+      if((reddSummaryFilePtr = fopen(reddOutputFile,"w")) == NULL ){
+            fprintf(stderr, "ERROR: TroutModelSwarm >>>> openReddSummaryFilePtr >>>> Cannot open %s for writing\n",reddOutputFile);
+            fflush(0);
+            exit(1);
+       }
+       fileMetaData = [BreakoutReporter reportFileMetaData: scratchZone];
+       fprintf(reddSummaryFilePtr,"\n%s\n\n",fileMetaData);
+       [scratchZone free: fileMetaData];
 
-     }
-     else if ((scenario == 1) && (replicate == 1) && (appendFiles == YES))
-     {
-        if( (reddSummaryFilePtr = fopen(reddOutputFile,"a")) == NULL ) 
-        {
-             fprintf(stderr, "ERROR: TroutModelSwarm >>>> openReddSummaryFilePtr >>>> Cannot open %s for writing\n",reddOutputFile);
-             fflush(0);
-             exit(1);
-        }
-          fprintf(reddSummaryFilePtr,"\n");
-          fprintf(reddSummaryFilePtr,"SYSTEM TIME:  %s\n", [timeManager getSystemDateAndTime]);
-          fprintf(reddSummaryFilePtr,formatString, "Scenario",
-                                                   "Replicate",
-                                                   "ReddID",
-                                                   "SpawnerLength",
-                                                   "SpawnerWeight",
-                                                   "SpawnerAge",
-                                                   "Species",
-                                                   "Reach",
-                                                   "Transect",
-                                                   "CellNo",
-                                                   "CreateDate",
-                                                   "InitialNumberOfEggs",
-                                                   "EmptyDate",
-                                                   "Dewatering",
-                                                   "Scouring",
-                                                   "LowTemp",
-                                                   "HiTemp",
-                                                   "SuperImp",
-                                                   "FryEmerged"); 
+	fprintf(reddSummaryFilePtr,formatString, "Scenario",
+						 "Replicate",
+						 "ReddID",
+						 "SpawnerLength",
+						 "SpawnerWeight",
+						 "SpawnerAge",
+						 "Species",
+						 "Reach",
+						 "CellNo",
+						 "CreateDate",
+						 "InitialNumberOfEggs",
+						 "EmptyDate",
+						 "Dewatering",
+						 "Scouring",
+						 "LowTemp",
+						 "HiTemp",
+						 "Superimp",
+						 "FryEmerged"); 
+    }else if ((scenario == 1) && (replicate == 1) && (appendFiles == YES)){
+      if( (reddSummaryFilePtr = fopen(reddOutputFile,"a")) == NULL ) {
+	fprintf(stderr, "ERROR: TroutModelSwarm >>>> openReddSummaryFilePtr >>>> Cannot open %s for writing\n",reddOutputFile);
+	fflush(0);
+	exit(1);
+      }
+      fileMetaData = [BreakoutReporter reportFileMetaData: scratchZone];
+      fprintf(reddSummaryFilePtr,"\n%s\n\n",fileMetaData);
+      [scratchZone free: fileMetaData];
 
-     }
-     else // Not the first replicate or scenario, so no header
-     {
-         if((reddSummaryFilePtr = fopen(reddOutputFile,"a")) == NULL ) 
-         {
-             fprintf(stderr, "ERROR: TroutModelSwarm >>>> openReddSummaryFilePtr >>>> Cannot open %s for appending\n",reddOutputFile);
-             fflush(0);
-             exit(1);
-         }
-     }
-
-
-
-
+      fprintf(reddSummaryFilePtr,formatString, "Scenario",
+					   "Replicate",
+					   "ReddID",
+					   "SpawnerLength",
+					   "SpawnerWeight",
+					   "SpawnerAge",
+					   "Species",
+					   "Reach",
+					   "CellNo",
+					   "CreateDate",
+					   "InitialNumberOfEggs",
+					   "EmptyDate",
+					   "Dewatering",
+					   "Scouring",
+					   "LowTemp",
+					   "HiTemp",
+					   "Superimp",
+					   "FryEmerged"); 
+    }else{ // Not the first replicate or scenario, so no header
+	   if((reddSummaryFilePtr = fopen(reddOutputFile,"a")) == NULL ){
+	       fprintf(stderr, "ERROR: TroutModelSwarm >>>> openReddSummaryFilePtr >>>> Cannot open %s for appending\n",reddOutputFile);
+	       fflush(0);
+	       exit(1);
+	   }
+    }
   }
-
-   if(reddSummaryFilePtr == NULL)
-   {
-       fprintf(stderr, "ERROR: TroutModelSwarm >>>> openReddSummaryFilePtr >>>> Cannot open %s for writing\n",reddOutputFile);
-       fflush(0);
-       exit(1);
-   }
-
-   return self;
+  if(reddSummaryFilePtr == NULL){
+     fprintf(stderr, "ERROR: TroutModelSwarm >>>> openReddSummaryFilePtr >>>> Cannot open %s for writing\n",reddOutputFile);
+     fflush(0);
+     exit(1);
+  }
+  return self;
 
 }
-
 
 ///////////////////////////////////
 //
 // getReddSummaryFilePtr 
 //
 /////////////////////////////////// 
-- (FILE *) getReddSummaryFilePtr 
-{
-   if(reddSummaryFilePtr == NULL)
-   {
+- (FILE *) getReddSummaryFilePtr {
+   if(reddSummaryFilePtr == NULL){
        fprintf(stderr, "ERROR: TroutModelSwarm >>>> openReddSummaryFilePtr >>>>  file %s is not open\n",reddOutputFile);
        fflush(0);
        exit(1);
    }
-    
    return reddSummaryFilePtr;
 }
-
-
-
 
 //////////////////////////////////////////////////////////
 //
@@ -2516,12 +2482,12 @@ char **speciesColor;
   //
   // Fish mortality reporter
   //
-  fishMortalityReporter = [BreakoutReporter   createBegin: modelZone
+  fishMortalityReporter = [BreakoutReporter   createBeginWithCSV: modelZone
                                                   forList: deadFish
                                        //withOutputFilename: "FishMortality.rpt"
                                        withOutputFilename: (char *) fishMortalityFile
-                                        withFileOverwrite: fileOverWrite
-                                          withColumnWidth: 25];
+                                        withFileOverwrite: fileOverWrite];
+					//withColumnWidth: 25];
 
 
   [fishMortalityReporter addColumnWithValueOfVariable: "scenario"
@@ -2563,12 +2529,12 @@ char **speciesColor;
   //
   // Live fish reporter
   //
-  liveFishReporter = [BreakoutReporter   createBegin: modelZone
+  liveFishReporter = [BreakoutReporter   createBeginWithCSV: modelZone
                                              forList: liveFish
                                   //withOutputFilename: "LiveFish.rpt"
                                   withOutputFilename: (char *) fishOutputFile
-                                   withFileOverwrite: fileOverWrite
-                                     withColumnWidth: 25];
+                                   withFileOverwrite: fileOverWrite];
+  //withColumnWidth: 25];
 
 
   [liveFishReporter addColumnWithValueOfVariable: "scenario"
@@ -2629,6 +2595,9 @@ char **speciesColor;
 /////////////////////////////////////////////////
 - outputBreakoutReports
 {
+  //  fprintf(stderr, "TroutModelSwarm >>>> outputBreakoutReports >>> BEGIN\n");
+  //  fflush(0);
+
    [fishMortalityReporter updateByReplacement];
    [fishMortalityReporter output];
 
@@ -2636,6 +2605,9 @@ char **speciesColor;
    [liveFishReporter output];
 
    [deadFish deleteAll];
+
+  //  fprintf(stderr, "TroutModelSwarm >>>> outputBreakoutReports >>> END\n");
+  //  fflush(0);
 
    return self;
 }
@@ -2840,105 +2812,6 @@ char **speciesColor;
 }
 
 
-/*
-//////////////////////////////////////////////////////////
-//
-// drop
-//
-//////////////////////////////////////////////////////////
-- (void) drop 
-{
-
-  fprintf(stdout, "TroutModelSwarm >>>> drop >>>> BEGIN\n");
-  fflush(0);
-
-
-  if(reddSummaryFilePtr != NULL)
-  {
-      fclose(reddSummaryFilePtr);
-  }
-  if(reddRptFilePtr != NULL)
-  {
-      fclose(reddRptFilePtr);
-  }
-
-
-
-  if(timeManager)
-  {
-      fprintf(stdout, "TroutModelSwarm >>>> drop >>>> dropping timeManager\n");
-      fflush(0);
-
-      [timeManager drop];
-      timeManager = nil;
-  }
-
-  //
-  // Drop the fishParams
-  //
-  {
-      fprintf(stdout, "TroutModelSwarm >>>> drop >>>> dropping fishParams >>>> BEGIN\n");
-      fflush(0);
-
-      [fishParamsMap deleteAll];
-
-      fprintf(stdout, "TroutModelSwarm >>>> drop >>>> dropping fishParams >>>> END\n");
-      fflush(0);
-  }
-  
-  if(randGen)
-  {
-      [randGen drop]; 
-      randGen = nil;
-  }
-
-  if(modelZone)
-  {
-      fprintf(stdout, "TroutModelSwarm >>>> drop >>>> dropping modelZone >>>> BEGIN\n");
-      fflush(0);
-
-      [modelZone free:modelDate];
-      
-      if(fishColorMap != nil)
-      {
-          id <ListIndex> speciesNdx;
-          id nextSpecies= nil;
-
-          fprintf(stdout, "TroutModelSwarm >>>> drop >>>> before drop fishColorMap\n");
-          fflush(0);
-
-          speciesNdx = [speciesSymbolList listBegin: scratchZone];
-          while(([speciesNdx getLoc] != End) && ((nextSpecies = [speciesNdx next]) != nil)) 
-          {
-              [modelZone free: [fishColorMap at: nextSpecies]];
-          }
-
-          [speciesNdx drop]; 
-
-          fprintf(stdout, "TroutModelSwarm >>>> drop >>>> after drop fishColorMap\n");
-          fflush(0);
-       }
-
-      [self outputModelZone: modelZone];
-         
-      exit(0);
-      //[modelZone drop];
-      //modelZone = nil;
-
-      fprintf(stdout, "TroutModelSwarm >>>> drop >>>> dropping modelZone >>>> END\n");
-      fflush(0);
-  }
-  
-
-
-  [super drop];
-
-  fprintf(stdout, "TroutModelSwarm >>>> drop >>>> END\n");
-  fflush(0);
-
-} //drop
-
-*/
 
 //////////////////////////////////////////////////////////
 //
@@ -2947,26 +2820,18 @@ char **speciesColor;
 //////////////////////////////////////////////////////////
 - (void) drop 
 {
+  //fprintf(stderr, "TroutModelSwarm >>>> drop >>>> BEGIN\n");
+  //fflush(0);
 
-  fprintf(stderr, "TroutModelSwarm >>>> drop >>>> BEGIN\n");
-  fflush(0);
-
-
-  if(reddSummaryFilePtr != NULL)
-  {
+  if(reddSummaryFilePtr != NULL){
       fclose(reddSummaryFilePtr);
   }
-  if(reddRptFilePtr != NULL)
-  {
+  if(reddRptFilePtr != NULL){
       fclose(reddRptFilePtr);
   }
-
-
-
-  if(timeManager)
-  {
-      fprintf(stderr, "TroutModelSwarm >>>> drop >>>> dropping timeManager\n");
-      fflush(0);
+  if(timeManager){
+    //  fprintf(stderr, "TroutModelSwarm >>>> drop >>>> dropping timeManager\n");
+    //  fflush(0);
 
       [timeManager drop];
       timeManager = nil;
@@ -2988,28 +2853,20 @@ char **speciesColor;
        [speciesSymbolList deleteAll];
        [speciesSymbolList drop];
        speciesSymbolList = nil;
-
   }
-
-
-  
-  if(randGen)
-  {
+  if(randGen){
       [randGen drop]; 
       randGen = nil;
   }
-
-  if(modelZone != nil)
-  {
+  if(modelZone != nil){
       int speciesIDX = 0;
-      fprintf(stderr, "TroutModelSwarm >>>> drop >>>> dropping objects in  modelZone >>>> BEGIN\n");
-      fflush(0);
+      //fprintf(stderr, "TroutModelSwarm >>>> drop >>>> dropping objects in  modelZone >>>> BEGIN\n");
+      //fflush(0);
  
       [modelZone free: mySpecies];
       [modelZone free: modelDate];
 
-      for(speciesIDX=0;speciesIDX<numberOfSpecies;speciesIDX++) 
-      {
+      for(speciesIDX=0;speciesIDX<numberOfSpecies;speciesIDX++) {
           [modelZone free: speciesName[speciesIDX]];
           [modelZone free: speciesParameter[speciesIDX]];
           [modelZone free: speciesPopFile[speciesIDX]];
@@ -3022,65 +2879,38 @@ char **speciesColor;
 
       [modelZone free: MyTroutClass];
 
-      fprintf(stdout, "Before drop interpolationTables\n");
-      fflush(0);
       //
       // drop interpolation tables
       //
-
-            [spawnVelocityInterpolatorMap deleteAll];
-            [spawnVelocityInterpolatorMap drop];
-            spawnVelocityInterpolatorMap = nil;
-            [spawnDepthInterpolatorMap deleteAll];
-            [spawnDepthInterpolatorMap drop];
-            spawnDepthInterpolatorMap = nil;
-            [cmaxInterpolatorMap deleteAll];
-            [cmaxInterpolatorMap drop];
-            cmaxInterpolatorMap = nil;
+    [spawnVelocityInterpolatorMap deleteAll];
+    [spawnVelocityInterpolatorMap drop];
+    spawnVelocityInterpolatorMap = nil;
+    [spawnDepthInterpolatorMap deleteAll];
+    [spawnDepthInterpolatorMap drop];
+    spawnDepthInterpolatorMap = nil;
+    [cmaxInterpolatorMap deleteAll];
+    [cmaxInterpolatorMap drop];
+    cmaxInterpolatorMap = nil;
      //
      // End drop interpolation tables
      //
-     fprintf(stdout, "After drop interpolationTables\n");
-     fflush(0);
+    //fprintf(stdout, "After drop interpolationTables\n");
+    //fflush(0);
 
 
-      fprintf(stdout, "Before drop capture logistic\n");
-      fflush(0);
+    //fprintf(stdout, "Before drop capture logistic\n");
+    //fflush(0);
      //
      // drop capture logistics
      //
-     if(1)
-     {
-        /*
-            id <Index> mapNdx;
-            FishParams* fishParams;
-            LogisticFunc* aCaptureLogistic = (LogisticFunc *) nil;
-
-            mapNdx = [fishParamsMap mapBegin: scratchZone];
- 
-            while(([mapNdx getLoc] != End) && ((fishParams = (FishParams *) [mapNdx next]) != nil))
-            {
-                 aCaptureLogistic = [captureLogisticMap at: [fishParams getFishSpecies]];
-                 [aCaptureLogistic drop];
-                 aCaptureLogistic = nil;
-            }
-
-            [mapNdx drop];
-            [captureLogisticMap drop];
-           */
-
-            [captureLogisticMap deleteAll];
-            [captureLogisticMap drop];
-            captureLogisticMap = nil;
-
-     }
+    [captureLogisticMap deleteAll];
+    [captureLogisticMap drop];
+    captureLogisticMap = nil;
      //
      // drop capture logistics
      //
-      fprintf(stdout, "After drop capture logistic\n");
-      fflush(0);
-
-
+    //fprintf(stdout, "After drop capture logistic\n");
+    //fflush(0);
 
      [mortalityCountLstNdx drop];
      mortalityCountLstNdx = nil;
@@ -3092,6 +2922,35 @@ char **speciesColor;
      [liveFish deleteAll];
      [liveFish drop];
      liveFish = nil;
+     [updateActions drop];
+     updateActions = nil;
+     [initAction drop];
+     initAction = nil;
+     [fishActions drop];
+     fishActions = nil;
+     [reddActions drop];
+     reddActions = nil;
+     [modelActions drop];
+     modelActions = nil;
+     [overheadActions drop];
+     overheadActions = nil;
+  #ifdef PRINT_CELL_FISH_REPORT
+     [printCellFishAction drop];
+     printCellFishAction = nil;
+  #endif
+
+     [modelSchedule drop];
+     modelSchedule = nil;
+     [printSchedule drop];
+     printSchedule = nil;
+      
+     // The following produces error: FallChinook does not recognize drop
+     //[speciesClassList deleteAll];
+     //[speciesClassList drop];
+     //speciesClassList = nil;
+        
+     [reddBinomialDist drop];
+     reddBinomialDist = nil;
         
      [deadFish deleteAll];
      [deadFish drop];
@@ -3110,13 +2969,16 @@ char **speciesColor;
      [emptyReddList drop];
      emptyReddList = nil;
 
-
      [reddList deleteAll];
      [reddList drop];
      reddList = nil;
 
-     if(yearShuffler != nil)
-     {
+     //[Male drop];
+     Male = nil;
+     //[Female drop];
+     Female = nil;
+
+     if(yearShuffler != nil){
           [yearShuffler drop];
           yearShuffler = nil;
      }
@@ -3130,15 +2992,9 @@ char **speciesColor;
      //
      // Drop the fishParams
      //
-     {
-         fprintf(stdout, "TroutModelSwarm >>>> drop >>>> dropping fishParams >>>> BEGIN\n");
-         fflush(0);
-
-         [fishParamsMap deleteAll];
-
-         fprintf(stdout, "TroutModelSwarm >>>> drop >>>> dropping fishParams >>>> END\n");
-         fflush(0);
-     }
+    [fishParamsMap deleteAll];
+    [fishParamsMap drop];
+    fishParamsMap = nil;
 
      [fishMortSymbolList deleteAll];
      [fishMortSymbolList drop];
@@ -3156,25 +3012,24 @@ char **speciesColor;
      [reachSymbolList drop];
      reachSymbolList = nil;
 
-      if(habitatManager)
-      {
+      if(habitatManager){
           [habitatManager drop];
           habitatManager = nil;
       }
 
-     [self outputModelZone: modelZone];
+ //    [self outputModelZone: modelZone];
 
      [modelZone drop];
      modelZone = nil;
 
-     fprintf(stdout, "TroutModelSwarm >>>> drop >>>> dropping modelZone >>>> END\n");
-     fflush(0);
+     //fprintf(stdout, "TroutModelSwarm >>>> drop >>>> dropping modelZone >>>> END\n");
+     //fflush(0);
   }
   
   [super drop];
 
-  fprintf(stdout, "TroutModelSwarm >>>> drop >>>> END\n");
-  fflush(0);
+  //fprintf(stdout, "TroutModelSwarm >>>> drop >>>> END\n");
+  //fflush(0);
 
   //exit(0);
 

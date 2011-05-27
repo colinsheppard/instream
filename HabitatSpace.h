@@ -246,8 +246,8 @@ long int maxYCoordinate;
 
   int maxPolyCellNumber;
   int maxNode;
-  double** nodeUTMXArray;
-  double** nodeUTMYArray;
+//  double** nodeUTMXArray;
+//  double** nodeUTMYArray;
   id <ListIndex> polyCellListNdx;
 
   unsigned int polySpaceSizeX;
@@ -256,7 +256,6 @@ long int maxYCoordinate;
   unsigned int polyPixelsX;
   unsigned int polyPixelsY;
 
-  int polyRasterResolution;
   int polyRasterResolutionX;
   int polyRasterResolutionY;
   char polyRasterColorVariable[25];
@@ -338,8 +337,7 @@ long int maxYCoordinate;
 //
 - setPolyCellGeomFile: (char *) aFile;
 - setHydraulicFile: (char *) aFile;
--    setPolyRasterResolution: (int) aPolyRasterResolution
-    setPolyRasterResolutionX: (int) aPolyRasterResolutionX
+-   setPolyRasterResolutionX: (int) aPolyRasterResolutionX
     setPolyRasterResolutionY: (int) aPolyRasterResolutionY
      setRasterColorVariable: (char *) aRasterColorVariable
           setShadeColorMax: (double) aShadeColorMax;
@@ -500,12 +498,10 @@ long int maxYCoordinate;
 - setAreaDepthHistoFmtStr: (char *) aFmtStr;
 - setAreaVelocityHistoFmtStr: (char *) aFmtStr;
 
-- openAreaDepthFile: (char *) aFileName;
-- openAreaVelocityFile: (char *) aFileName;
+// STRING FUNCTIONS
 
-- printAreaDepthHisto;
-- printAreaVelocityHisto;
-
++ (char *) scrubString: (char *) toScrub withZone: (id) aZone withIgnoredCharacters: (char *) ignoredCharacters;
++ (void) unQuote: (char *) toScrub;
 
 //
 // CLEANUP

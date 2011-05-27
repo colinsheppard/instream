@@ -374,24 +374,22 @@ Boston, MA 02111-1307, USA.
 // setPolyRasterResolution
 //
 /////////////////////////////////////////////////////
--    setPolyRasterResolution: (int) aPolyRasterResolution
-    setPolyRasterResolutionX: (int) aPolyRasterResolutionX
+-   setPolyRasterResolutionX: (int) aPolyRasterResolutionX
     setPolyRasterResolutionY: (int) aPolyRasterResolutionY
      setRasterColorVariable:  (char *) aRasterColorVariable
            setShadeColorMax:  (double) aShadeColorMax
 {
 
-    fprintf(stdout, "HabitatManager >>>>  setPolyRasterResolution >>>> BEGIN\n");
-    fflush(0);
+  //  fprintf(stdout, "HabitatManager >>>>  setPolyRasterResolution >>>> BEGIN\n");
+  //  fflush(0);
 
-    polyRasterResolution = aPolyRasterResolution;
     polyRasterResolutionX = aPolyRasterResolutionX;
     polyRasterResolutionY = aPolyRasterResolutionY;
     strncpy(polyRasterColorVariable, aRasterColorVariable, 35);
            shadeColorMax = aShadeColorMax; 
 
-    fprintf(stdout, "HabitatManager >>>>  setPolyRasterResolution >>>> END\n");
-    fflush(0);
+  //  fprintf(stdout, "HabitatManager >>>>  setPolyRasterResolution >>>> END\n");
+  //  fflush(0);
 
     return self;
 }
@@ -428,8 +426,8 @@ Boston, MA 02111-1307, USA.
    id habSpace = nil;
    int julianDate;
 
-   fprintf(stdout, "HabitatManager >>>> updateHabitatManagerWithTime >>>> BEGIN\n");
-   fflush(0);
+//   fprintf(stdout, "HabitatManager >>>> updateHabitatManagerWithTime >>>> BEGIN\n");
+//   fflush(0);
 
 
    modelTime = aTime;
@@ -473,8 +471,8 @@ Boston, MA 02111-1307, USA.
 
    }
 
-   fprintf(stdout, "HabitatManager >>>> updateHabitatManagerWithTime >>>> END\n");
-   fflush(0);
+//   fprintf(stdout, "HabitatManager >>>> updateHabitatManagerWithTime >>>> END\n");
+//   fflush(0);
 
    return self;
 
@@ -591,6 +589,8 @@ Boston, MA 02111-1307, USA.
 
      [habitatSpace buildObjects];
 
+  fprintf(stdout, "HabitatManager >>> before setPolyCellGeomFile\n");
+  fflush(0); 
      [habitatSpace setPolyCellGeomFile: [habSetup getCellGeomFile]];
      [habitatSpace setHydraulicFile: [habSetup getHydraulicFile]];
      [habitatSpace setFlowFile: [habSetup getFlowFile]];
@@ -599,6 +599,8 @@ Boston, MA 02111-1307, USA.
      [habitatSpace setCellHabVarsFile: [habSetup getCellHabVarsFile]];
      [habitatSpace setListOfPolyInputData: [habSetup getListOfPolyInputData]];
    
+  fprintf(stdout, "HabitatManager >>> after setListOfPolyInputData \n");
+  fflush(0); 
      xprint(habitatSpace);
 
      [habitatSpaceList addLast: habitatSpace];  
@@ -649,11 +651,10 @@ Boston, MA 02111-1307, USA.
      // Poly Cells BEGIN
      //
   
-     [habitatSpace setPolyRasterResolution: polyRasterResolution
-                  setPolyRasterResolutionX: polyRasterResolutionX
-                  setPolyRasterResolutionY: polyRasterResolutionY
-                    setRasterColorVariable: polyRasterColorVariable
-                          setShadeColorMax: shadeColorMax];
+     [habitatSpace setPolyRasterResolutionX: polyRasterResolutionX
+                   setPolyRasterResolutionY: polyRasterResolutionY
+                     setRasterColorVariable: polyRasterColorVariable
+                           setShadeColorMax: shadeColorMax];
 
      [habitatSpace buildPolyCells];
 
@@ -874,16 +875,16 @@ Boston, MA 02111-1307, USA.
 ////////////////////////////////
 - (void) drop
 {
-    fprintf(stdout, "HabitatManager >>>> drop >>>> BEGIN\n");
-    fflush(0);
+  //  fprintf(stdout, "HabitatManager >>>> drop >>>> BEGIN\n");
+  //  fflush(0);
 
     [habitatSpaceList deleteAll];
     [habitatSpaceList drop];
     habitatSpaceList = nil; 
 
 
-    fprintf(stdout, "HabitatManager >>>> drop >>>> END\n");
-    fflush(0);
+  //  fprintf(stdout, "HabitatManager >>>> drop >>>> END\n");
+  //  fflush(0);
 }
 
 

@@ -290,8 +290,7 @@ Boston, MA 02111-1307, USA.
 
   [ObjectLoader load: troutModelSwarm fromFileNamed: "Model.Setup"];
 
-   [troutModelSwarm setPolyRasterResolution:  rasterResolution
-                   setPolyRasterResolutionX:  rasterResolutionX
+   [troutModelSwarm setPolyRasterResolutionX:  rasterResolutionX
                    setPolyRasterResolutionY:  rasterResolutionY 
                  setPolyRasterColorVariable:  rasterColorVariable];
   //troutModelSwarm->rasterResolution = rasterResolution;
@@ -322,11 +321,11 @@ Boston, MA 02111-1307, USA.
 {
   int ndx;
 
-  fprintf(stdout, "TroutObeserverSwarm >>>> buildObjects >>>> BEGIN\n");
+  fprintf(stdout, "TroutObserverSwarm >>>> buildObjects >>>> BEGIN\n");
   fflush(0);
 
 
-  if((rasterResolution <= 0) || (rasterResolutionX <= 0) || (rasterResolutionY <= 0))
+  if((rasterResolutionX <= 0) || (rasterResolutionY <= 0))
   {
      fprintf(stderr, "TroutObserverSwarm >>>> buildObjects >>>> one of the rasterResolution parameters is <= zero\n");
      fflush(0);
@@ -356,7 +355,7 @@ Boston, MA 02111-1307, USA.
   {
        if(maxShadeVelocity <= 0)
        {
-           fprintf(stderr, "ERROR: UTMTroutObserverSwarm >>>> maxShadeVelocity is <= 0 >>>> check Observer.Setup\n");
+           fprintf(stderr, "ERROR: TroutObserverSwarm >>>> maxShadeVelocity is <= 0 >>>> check Observer.Setup\n");
            fflush(0);
            exit(1);
        }
@@ -378,7 +377,7 @@ Boston, MA 02111-1307, USA.
   {
        if(maxShadeDepth <= 0)
        {
-           fprintf(stderr, "ERROR: UTMTroutObserverSwarm >>>> maxShadeDepth is <= 0 >>>> check Observer.Setup\n");
+           fprintf(stderr, "ERROR: TroutObserverSwarm >>>> maxShadeDepth is <= 0 >>>> check Observer.Setup\n");
            fflush(0);
            exit(1);
        }
@@ -417,8 +416,7 @@ Boston, MA 02111-1307, USA.
 
    //build model Objects and set the fish color in the ModelSwarm
    //
-   [troutModelSwarm setPolyRasterResolution:  rasterResolution
-                   setPolyRasterResolutionX:  rasterResolutionX
+   [troutModelSwarm setPolyRasterResolutionX:  rasterResolutionX
                    setPolyRasterResolutionY:  rasterResolutionY 
                  setPolyRasterColorVariable:  rasterColorVariable];
 
@@ -483,7 +481,7 @@ Boston, MA 02111-1307, USA.
              }
              else
              {
-                 fprintf(stderr, "ERROR: UTMTroutObserverSwarm >>>> buildObjects >>>> rasterColorVariable = %s\n", rasterColorVariable);
+                 fprintf(stderr, "ERROR: TroutObserverSwarm >>>> buildObjects >>>> rasterColorVariable = %s\n", rasterColorVariable);
                  fflush(0);
                  exit(1);
              }
@@ -491,12 +489,11 @@ Boston, MA 02111-1307, USA.
 
             polyRasterX = [habitatSpace getPolyPixelsX];
             polyRasterY = [habitatSpace getPolyPixelsY];
-            polyRasterSize = (polyRasterX >= polyRasterY ? polyRasterX : polyRasterY )/rasterResolution;
-            [polyWorldRaster setZoomFactor: rasterZoomFactor];
+	    //[polyWorldRaster setZoomFactor: rasterZoomFactor];
 
-            fprintf(stdout, "TroutObserverSwarm >>>> buildObjects >>>> polyRasterX = %d\n", polyRasterX);
-            fprintf(stdout, "TroutObserverSwarm >>>> buildObjects >>>> polyRasterY = %d\n", polyRasterY);
-            fflush(0);
+            //fprintf(stdout, "TroutObserverSwarm >>>> buildObjects >>>> polyRasterX = %d\n", polyRasterX);
+            //fprintf(stdout, "TroutObserverSwarm >>>> buildObjects >>>> polyRasterY = %d\n", polyRasterY);
+            //fflush(0);
 
             [polyWorldRaster setWidth: polyRasterX/rasterResolutionX Height: polyRasterY/rasterResolutionY];
 
@@ -580,7 +577,7 @@ Boston, MA 02111-1307, USA.
   mortalityGraph = [EZGraph createBegin: self];
   SET_WINDOW_GEOMETRY_RECORD_NAME (mortalityGraph); 
   [mortalityGraph setTitle: "Mortality"];
-  [mortalityGraph setAxisLabelsX: "Time" Y: "NumberDead"];
+  [mortalityGraph setAxisLabelsX: "Time" Y: "Number dead"];
   mortalityGraph = [mortalityGraph createEnd];
 
   //
@@ -632,8 +629,8 @@ Boston, MA 02111-1307, USA.
       }
   }
 
-  //fprintf(stdout, "TroutObeserverSwarm >>>> buildObjects >>>> shadeColorMax = %f\n", shadeColorMax);
-  //fprintf(stdout, "TroutObeserverSwarm >>>> buildObjects >>>> maxShadeVelocity = %f\n", (double) maxShadeVelocity);
+  fprintf(stdout, "TroutObeserverSwarm >>>> buildObjects >>>> shadeColorMax = %f\n", shadeColorMax);
+  fprintf(stdout, "TroutObeserverSwarm >>>> buildObjects >>>> maxShadeVelocity = %f\n", (double) maxShadeVelocity);
   //fprintf(stdout, "TroutObeserverSwarm >>>> buildObjects >>>> maxShadeDepth = %f\n", (double) maxShadeDepth);
   //fprintf(stdout, "TroutObeserverSwarm >>>> buildObjects >>>> END\n");
   fflush(0);
@@ -658,8 +655,8 @@ Boston, MA 02111-1307, USA.
 //////////////////////////////////////////////////
 - _update_ 
 {
-  fprintf(stdout, "TroutObserverSwarm >>>> update >>>> BEGIN\n");
-  fflush(0);
+//  fprintf(stdout, "TroutObserverSwarm >>>> update >>>> BEGIN\n");
+//  fflush(0);
 
   if (depthHisto) 
   {
@@ -705,8 +702,8 @@ Boston, MA 02111-1307, USA.
 
     } //if habitatRasterMap
        
-  fprintf(stdout, "TroutObserverSwarm >>>> update >>>> END\n");
-  fflush(0);
+//  fprintf(stdout, "TroutObserverSwarm >>>> update >>>> END\n");
+//  fflush(0);
 
   return self;
 }
@@ -946,8 +943,8 @@ Boston, MA 02111-1307, USA.
 
 -(void) writeFrame 
 {
-  char filename[256];
-  id pixID;
+  //char filename[256];
+  //id pixID;
   //id raster = nil;
 
   fprintf(stdout, "TroutObserverSwarm >>>> writeFrame >>>> BEGIN\n");

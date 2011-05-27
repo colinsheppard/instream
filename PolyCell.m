@@ -113,19 +113,6 @@ Boston, MA 02111-1307, USA.
 }
 
 
-///////////////////////////////////
-//
-// getCornerNodeArray
-//
-///////////////////////////////////
-- (int **) getCornerNodeArray
-{
-   return cornerNodeArray;
-
-}
-
-
-
 /////////////////////////////////////////////////
 //
 // incrementNumCoordinatess
@@ -377,17 +364,6 @@ Boston, MA 02111-1307, USA.
 // setRaster* 
 //
 ///////////////////////////////////////////
-- setPolyRasterResolution: (int) aResolution 
-{
-  polyRasterResolution = aResolution;
-  return self;
-}
-
-
-- (int) getPolyRasterResolution 
-{
-  return polyRasterResolution;
-}
 
 - setPolyRasterResolutionX: (int) aResolutionX 
 {
@@ -1121,12 +1097,6 @@ Boston, MA 02111-1307, USA.
                 Width: 1
                 Color: boundaryColor];
 
-      //[aRaster lineX0: displayPointArray[i - 1]->x
-                   //Y0: displayPointArray[i - 1]->y
-                   //X1: displayPointArray[i % numberOfNodes]->x
-                   //Y1: displayPointArray[i % numberOfNodes]->y
-                //Width: 1
-                   //Color: boundaryColor];
   }
   
   //fprintf(stdout, "PolyCell >>>> drawSelfOn >>>> END\n");
@@ -1148,26 +1118,7 @@ Boston, MA 02111-1307, USA.
     //fprintf(stdout, "PolyCell >>>> drop >>>> BEGIN\n");
     //fflush(0);
 
-
-    /*
     for(i = 0; i < numberOfNodes; i++)
-    {
-          [cellZone free: polyPointArray[i]];
-          polyPointArray[i] = NULL;
-    }
-    [cellZone free: polyPointArray];
-    polyPointArray = NULL;
-    */
-
-    for(i = 0; i < numberOfNodes; i++)
-    {
-         [cellZone free: polyCoordinates[i]]; 
-         polyCoordinates[i] = NULL;
-    }
-    [cellZone free: polyCoordinates]; 
-    polyCoordinates = NULL;
-
-    for(i = 0; i < numCornerCoords; i++)
     {
          [cellZone free: polyCoordinates[i]]; 
          polyCoordinates[i] = NULL;
@@ -1177,23 +1128,6 @@ Boston, MA 02111-1307, USA.
 
     [polyPointList deleteAll];
     polyPointList = nil;
-
-    for(i = 0; i < numberOfNodes; i++)
-    {
-          [cellZone free: displayPointArray[i]];
-          displayPointArray[i] = NULL;
-    }
-    [cellZone free: displayPointArray];
-    displayPointArray= NULL;
-
-    for(i = 0; i < numberOfNodes; i++)
-    {
-          [cellZone free: cornerNodeArray[i]];
-          cornerNodeArray[i] = NULL;
-    }
-    [cellZone free: cornerNodeArray];
-
-    cornerNodeArray= NULL;
 
     for(i = 0; i < pixelCount; i++)
     {

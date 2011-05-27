@@ -114,8 +114,7 @@ Boston, MA 02111-1307, USA.
   obsZone = [Zone create: [self getZone]];
   troutModelSwarm = [TroutModelSwarm create: obsZone];
 
-   [troutModelSwarm setPolyRasterResolution:  rasterResolution
-                   setPolyRasterResolutionX:  rasterResolutionX
+   [troutModelSwarm setPolyRasterResolutionX:  rasterResolutionX
                    setPolyRasterResolutionY:  rasterResolutionY 
                  setPolyRasterColorVariable:  rasterColorVariable];
   //troutModelSwarm->rasterResolution  = rasterResolution;
@@ -147,7 +146,7 @@ Boston, MA 02111-1307, USA.
   [super buildObjects];
 
   [troutModelSwarm buildObjectsWith: nil
-                            andWith: 0.0]; 
+                            andWith: 1.0]; 
 
   return self;
 
@@ -227,8 +226,8 @@ Boston, MA 02111-1307, USA.
 - (void) drop 
 {
 
-  fprintf(stderr,"TroutBatchSwarm >>>> drop >>>> BEGIN\n");
-  fflush(stderr);
+ // fprintf(stderr,"TroutBatchSwarm >>>> drop >>>> BEGIN\n");
+ // fflush(stderr);
 
   if(troutModelSwarm != nil) 
   {
@@ -245,8 +244,8 @@ Boston, MA 02111-1307, USA.
 
   [super drop];
 
-  fprintf(stderr,"TroutBatchSwarm >>>> drop >>>> END\n");
-  fflush(stderr);
+ // fprintf(stderr,"TroutBatchSwarm >>>> drop >>>> END\n");
+ // fflush(stderr);
 }
 
 

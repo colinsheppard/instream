@@ -83,7 +83,6 @@ typedef struct FishSetupStruct TroutInitializationRecord;
   //
   // POLY Cell Display
   //
-  int    polyRasterResolution;
   int    polyRasterResolutionX;
   int    polyRasterResolutionY;
   char   polyRasterColorVariable[35];
@@ -282,8 +281,7 @@ char* tagFishColor;
 - buildObjectsWith: theColormaps
            andWith: (double) aShadeColorMax;
 
--    setPolyRasterResolution:  (int) aRasterResolution
-    setPolyRasterResolutionX:  (int) aRasterResolutionX
+-    setPolyRasterResolutionX:  (int) aRasterResolutionX
     setPolyRasterResolutionY:  (int) aRasterResolutionY
   setPolyRasterColorVariable:  (char *) aRasterColorVariable;
 

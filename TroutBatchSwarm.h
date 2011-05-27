@@ -58,12 +58,17 @@ Boston, MA 02111-1307, USA.
   // building of the utm cells. These variables are
   // read in by the ObjectLoader in the create method.
   // 
-  int    rasterZoomFactor;
-  int    rasterResolution;
   int    rasterResolutionX;
   int    rasterResolutionY;
   char*  rasterColorVariable;
   char*  takeRasterPictures;
+  double shadeColorMax;
+  int maxShadeDepth;
+  int maxShadeVelocity;
+
+  char* tagFishColor;
+  char* tagCellColor;
+  char* dryCellColor;
 
 @public
   int modelNumber;

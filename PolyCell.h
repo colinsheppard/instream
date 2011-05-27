@@ -80,8 +80,6 @@ typedef struct PolyPixelCoordStruct PolyPixelCoord;
 
    id <List> polyPointList;
  
-   PolyDisplayPoint** displayPointArray; 
-
    long int minXCoordinate;
    long int maxYCoordinate;
 
@@ -155,13 +153,10 @@ typedef struct PolyPixelCoordStruct PolyPixelCoord;
 
 
 
-- setPolyRasterResolution: (int) aResolution;
 - setPolyRasterResolutionX: (int) aResolutionX;
 - setPolyRasterResolutionY: (int) aResolutionY;
 - (int) getPolyRasterResolutionX;
 - (int) getPolyRasterResolutionY;
-- (int) getPolyRasterResolution;
-
 -  setVelocityInterpolator: (id <InterpolationTable>) aVelocityInterpolator;
 -  (id <InterpolationTable>) getVelocityInterpolator;
 - checkVelocityInterpolator;
