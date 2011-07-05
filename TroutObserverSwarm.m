@@ -488,7 +488,6 @@ Boston, MA 02111-1307, USA.
 
             polyRasterX = [habitatSpace getPolyPixelsX];
             polyRasterY = [habitatSpace getPolyPixelsY];
-	    //[polyWorldRaster setZoomFactor: rasterZoomFactor];
 
             //fprintf(stdout, "TroutObserverSwarm >>>> buildObjects >>>> polyRasterX = %d\n", polyRasterX);
             //fprintf(stdout, "TroutObserverSwarm >>>> buildObjects >>>> polyRasterY = %d\n", polyRasterY);
@@ -628,10 +627,10 @@ Boston, MA 02111-1307, USA.
       }
   }
 
-  fprintf(stdout, "TroutObeserverSwarm >>>> buildObjects >>>> shadeColorMax = %f\n", shadeColorMax);
-  fprintf(stdout, "TroutObeserverSwarm >>>> buildObjects >>>> maxShadeVelocity = %f\n", (double) maxShadeVelocity);
-  //fprintf(stdout, "TroutObeserverSwarm >>>> buildObjects >>>> maxShadeDepth = %f\n", (double) maxShadeDepth);
-  //fprintf(stdout, "TroutObeserverSwarm >>>> buildObjects >>>> END\n");
+  fprintf(stdout, "TroutObserverSwarm >>>> buildObjects >>>> shadeColorMax = %f\n", shadeColorMax);
+  fprintf(stdout, "TroutObserverSwarm >>>> buildObjects >>>> maxShadeVelocity = %f\n", (double) maxShadeVelocity);
+  //fprintf(stdout, "TroutObserverSwarm >>>> buildObjects >>>> maxShadeDepth = %f\n", (double) maxShadeDepth);
+  //fprintf(stdout, "TroutObserverSwarm >>>> buildObjects >>>> END\n");
   fflush(0);
   return self;
 }  

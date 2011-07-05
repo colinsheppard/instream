@@ -100,7 +100,6 @@ typedef struct PolyPixelCoordStruct PolyPixelCoord;
   long int displayCenterX;
   long int displayCenterY;
 
-  unsigned int polyRasterResolution;
   unsigned int polyRasterResolutionX;
   unsigned int polyRasterResolutionY;
   char rasterColorVariable[35];

@@ -130,7 +130,6 @@ Boston, MA 02111-1307, USA.
   //
   // POLY Cell Display
   //
-  /*int    rasterZoomFactor;*/
   int    rasterResolutionX;
   int    rasterResolutionY;
 
