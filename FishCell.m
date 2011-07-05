@@ -42,6 +42,9 @@ Boston, MA 02111-1307, USA.
 
   fishCell->cellDataSet = NO;
 
+  fishCell->velocityInterpolator = nil;
+  fishCell->depthInterpolator = nil;
+
   return fishCell;
 }
 
@@ -324,6 +327,192 @@ Boston, MA 02111-1307, USA.
   depthVelRptFirstTime=YES;
  
   return self;
+}
+
+
+////////////////////////////////////////////////
+//
+// setVelocityInterpolator
+//
+////////////////////////////////////////////////
+-  setVelocityInterpolator: (id <InterpolationTable>) aVelocityInterpolator
+{
+    velocityInterpolator = aVelocityInterpolator;
+    return self;
+}
+
+
+////////////////////////////////////////////////////
+//
+// getVelocityInterpolator
+//
+////////////////////////////////////////////////////
+-  (id <InterpolationTable>) getVelocityInterpolator
+{
+   return velocityInterpolator;
+}
+
+
+////////////////////////////////////////////////
+//
+// setDepthInterpolator
+//
+////////////////////////////////////////////////
+-  setDepthInterpolator: (id <InterpolationTable>) aDepthInterpolator
+{
+    depthInterpolator = aDepthInterpolator;
+    return self;
+}
+/////////////////////////////////////////////////////
+//
+// getDepthInterpolator
+//
+/////////////////////////////////////////////////////
+-  (id <InterpolationTable>) getDepthInterpolator
+{
+    return depthInterpolator;
+}
+
+
+/////////////////////////////////////////////
+//
+// checkVelocityInterpolator
+//
+////////////////////////////////////////////
+- checkVelocityInterpolator
+{
+  if(velocityInterpolator == nil)
+  {
+      fprintf(stdout, "FishCell >>>> checkVelocityInterpolator >>>> velocityInterpolator is nil in polyCell = %d in reach = %s, this is likely due to missing data in the reach's hydraulic input file.\n", polyCellNumber, [reach getReachName]);
+      fflush(0);
+      exit(1);
+  }
+  return self;
+}
+
+/////////////////////////////////////////////
+//
+// checkDepthInterpolator
+//
+////////////////////////////////////////////
+- checkDepthInterpolator
+{
+  if(depthInterpolator == nil)
+  {
+      fprintf(stdout, "FishCell >>>> checkDepthInterpolator >>>> depthInterpolator is nil in polyCell = %d in reach = %s\n", polyCellNumber, [reach getReachName]);
+      fflush(0);
+      exit(1);
+  }
+  return self;
+}
+
+
+
+///////////////////////////////
+//
+// updatePolyCellDepth  -- 
+// This is no longer used; instead: updateWithDepthTableIndex:
+//
+///////////////////////////////
+- updatePolyCellDepthWith: (double) aFlow
+{
+   polyCellDepth = [depthInterpolator getValueFor: aFlow];
+
+   return self;
+}
+
+
+////////////////////////////////////////////////////////
+//
+// getPolyCellDepth
+//
+///////////////////////////////////////////////////////
+- (double) getPolyCellDepth
+{
+   if(polyCellDepth < 0.0)
+   {
+         fprintf(stderr, "ERROR: FishCell >>>> %d  reach = %s flow = %f depth = %f date = %s >>>> getPolyCellDepth >>>> polyCellDepth is negative\n", 
+                                polyCellNumber, 
+                                [reach getReachName], 
+                                [reach getRiverFlow], 
+                                polyCellDepth,
+                                [timeManager getDateWithTimeT: [reach getModelTime]]) ;
+         fflush(0);
+         //exit(1);
+   }
+
+   return polyCellDepth;
+}
+
+
+//////////////////////////////
+//
+// updatePolyCellVelocity  --
+// This is no longer used; instead: updateWithDepthTableIndex:
+//
+//////////////////////////////
+- updatePolyCellVelocityWith: (double) aFlow
+{
+   polyCellVelocity = [velocityInterpolator getValueFor: aFlow];
+
+   if(polyCellVelocity < 0.0)
+   {
+         fprintf(stderr, "ERROR: FishCell >>>> reach = %s >>>> cell number = %d aFlow = %f polyCellVelocity = %f >>>> updatePolyCellVelocityWith >>>> polyCellVelocity is negative\n", 
+	[reach getReachName], polyCellNumber, aFlow, polyCellVelocity);
+         fflush(0);
+         [velocityInterpolator printSelf];
+         exit(1);
+   }
+
+   return self;
+}
+
+
+//////////////////////////////
+//
+// updateWithDepthTableIndex:
+//
+//////////////////////////////
+- updateWithDepthTableIndex: (int) depthInterpolationIndex
+        depthInterpFraction: (double) depthInterpFraction
+              velTableIndex: (int) velInterpolationIndex
+          velInterpFraction: (double) velInterpFraction
+  {
+ 
+    polyCellVelocity = 
+      [velocityInterpolator getValueWithTableIndex: velInterpolationIndex 
+                                withInterpFraction: velInterpFraction];
+
+    polyCellDepth = 
+      [depthInterpolator getValueWithTableIndex: depthInterpolationIndex
+                             withInterpFraction: depthInterpFraction];
+
+   if (polyCellDepth < 0.0)
+    {
+      polyCellDepth = 0.0;   // This can happen at flows less than lowest in hydraulic input
+    }
+
+   return self;
+}
+
+
+
+
+
+////////////////////////////////////
+//
+// getPolyCellVelocity
+//
+////////////////////////////////////
+- (double) getPolyCellVelocity
+{
+   if(polyCellVelocity < 0.0)
+   {
+         fprintf(stderr, "ERROR: FishCell >>>> getPolyCellVelocity >>>> polyCellVelocity is negative\n");
+         fflush(0);
+         exit(1);
+   }
+    return polyCellVelocity;
 }
 
 
@@ -1310,12 +1499,6 @@ Boston, MA 02111-1307, USA.
    return [space getDayLength];
 }
 
-- (double) getPolyCellDepth
-{
-   return [super getPolyCellDepth];
-}
-
-
 //////////////////////////////////////////
 //
 // isDepthGreaterThan0
@@ -1765,36 +1948,6 @@ Boston, MA 02111-1307, USA.
 }
 
 
-///////////////////////////////////////////////
-//
-// updatePolyCellVelocity
-//
-// This was done in the super class but was moved here
-// for diagnostic purposes
-//
-///////////////////////////////////////////////
-- updatePolyCellVelocityWith: (double) aFlow
-{
-   //polyCellVelocity = [velocityInterpolator getValueFor: aFlow];
-
-  [super updatePolyCellVelocityWith: aFlow];
-
-   if(polyCellVelocity < 0.0)
-   {
-         fprintf(stderr, "ERROR: FishCell >>>> reach = %s >>>> cell number = %d aFlow = %f polyCellVelocity = %f >>>> updatePolyCellVelocityWith >>>> polyCellVelocity is negative\n", [reach getReachName], 
-                                                                                                                                                                                       polyCellNumber,
-                                                                                                                                                                                       aFlow,
-                                                                                                                                                                                       polyCellVelocity);
-         fflush(0);
-         [velocityInterpolator printSelf];
-         exit(1);
-   }
-
-   return self;
-}
-
-
-
 //////////////////////////////////////////
 //
 //(id <List>) getListOfSurvProbsFor: aFish
@@ -1993,38 +2146,6 @@ Boston, MA 02111-1307, USA.
 
     return self;
 }
-
-/////////////////////////////////////////////
-//
-// checkVelocityInterpolator
-//
-////////////////////////////////////////////
-- checkVelocityInterpolator
-{
-  if(velocityInterpolator == nil)
-  {
-      fprintf(stdout, "FishCell >>>> checkVelocityInterpolator >>>> velocityInterpolator is nil in polyCell = %d in reach = %s\n", polyCellNumber, [reach getReachName]);
-      fflush(0);
-      exit(1);
-  }
-  return self;
-}
-/////////////////////////////////////////////
-//
-// checkDepthInterpolator
-//
-////////////////////////////////////////////
-- checkDepthInterpolator
-{
-  if(depthInterpolator == nil)
-  {
-      fprintf(stdout, "FishCell >>>> checkDepthInterpolator >>>> depthInterpolator is nil in polyCell = %d in reach = %s\n", polyCellNumber, [reach getReachName]);
-      fflush(0);
-      exit(1);
-  }
-  return self;
-}
-
 
 /////////////////////////////////////////
 //

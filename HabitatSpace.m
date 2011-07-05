@@ -2890,14 +2890,35 @@ Boston, MA 02111-1307, USA.
 {
    id <ListIndex> ndx = [polyCellList listBegin: scratchZone];
    FishCell* fishCell = nil;
+   id <InterpolationTable> aVelInterpolator = [[polyCellList getFirst] getVelocityInterpolator];
+   id <InterpolationTable> aDepthInterpolator = [[polyCellList getFirst] getDepthInterpolator];
 
    //fprintf(stdout, "HabitatSpace >>>> updateFishCells >>>> BEGIN\n");
    //fflush(0);
 
-   while(([ndx getLoc] != End) && ((fishCell = [ndx next]) != nil))
-   {
-       [fishCell updatePolyCellDepthWith: riverFlow];
-       [fishCell updatePolyCellVelocityWith: riverFlow];
+   // Get interpolator indices for current flow. This must be done separately
+   // for depth and velocity because the d and v interpolators have different
+   // numbers of values. (Velocity always starts with zero vel. at zero flow;
+   // depth does not.)
+   if((aVelInterpolator == nil) || (aDepthInterpolator == nil))
+    {
+        fprintf(stdout, "ERROR: HabitatSpace >>>> updateFishCell >>>> an Interpolator is nil\n");
+        fflush(0);
+        exit(1);
+    }
+
+  int velInterpolationIndex = [aVelInterpolator getTableIndexFor: riverFlow];
+  double velInterpFraction = [aVelInterpolator getInterpFractionFor: riverFlow];
+  int depthInterpolationIndex = [aDepthInterpolator getTableIndexFor: riverFlow];
+  double depthInterpFraction = [aDepthInterpolator getInterpFractionFor: riverFlow];
+
+   while(([ndx getLoc] != End) && ((fishCell = [ndx next]) != nil)){
+       [fishCell updateWithDepthTableIndex: depthInterpolationIndex
+                       depthInterpFraction: depthInterpFraction
+                             velTableIndex: velInterpolationIndex
+                         velInterpFraction: velInterpFraction];
+
+//       [fishCell updatePolyCellVelocityWith: riverFlow];
    }
 
    [ndx drop];
