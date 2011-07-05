@@ -142,17 +142,17 @@ Boston, MA 02111-1307, USA.
 // drawSelfOn
 //
 /////////////////////////////////////////////////////////////
-- drawSelfOn: (id <Raster>) aRaster atX: (int) anX Y: (int) aY 
+- drawSelfOn: (id <Raster>) aRaster 
 {
-  [aRaster ellipseX0: anX - 2 
-                  Y0: aY - 2 
-                  X1: anX + 2 
-                  Y1: aY + 2 
-               Width: 1
+  [aRaster ellipseX0: myRasterX - 3 
+                  Y0: myRasterY - 2 
+                  X1: myRasterX + 3 
+                  Y1: myRasterY + 2 
+               Width: 1 
                Color: myColor];  
 
-  fprintf(stdout, "Redd >>>> drawSelfOn >>>> END\n");
-  fflush(0);
+  //fprintf(stdout, "Redd >>>> drawSelfOn >>>> END\n");
+  //fflush(0);
 
   return self;
 }

@@ -291,15 +291,13 @@ Boston, MA 02111-1307, USA.
   //fprintf(stdout, "Trout >>>> drawSelfOn >>>> myColor = %ld\n", (long) myColor);
   //fflush(0);
 
-  // new from Colin 2011-04-01
   if (age > 0)
   {
-
-  [aRaster ellipseX0: anX - age*2
-                  Y0: aY - age
-                  X1: anX + age*2
-                  Y1: aY + age
-               Width: age
+  [aRaster fillRectangleX0: anX - 4 
+                  Y0: aY - 2 
+                  X1: anX + 4 
+                  Y1: aY + 2 
+           //    Width: 3 
                Color: myColor];  
   }
   else
@@ -308,15 +306,6 @@ Boston, MA 02111-1307, USA.
                   Y: aY 
               Color: myColor];  
   }
-  /*
-  [aRaster ellipseX0: anX - 2 
-                  Y0: aY - 2 
-                  X1: anX + 2 
-                  Y1: aY + 2 
-               Width: 10 
-               Color: myColor];  
-  */
-  // endnew from Colin 2011-04-01
 
   //fprintf(stdout, "Trout >>>> drawSelfOn >>>> END\n");
   //fflush(0);

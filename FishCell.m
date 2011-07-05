@@ -103,7 +103,6 @@ Boston, MA 02111-1307, USA.
   double colorVariable = 0.0;
   double colorRatio;
   int i;
-
   id aRedd;
   int pixToUse;
   double numToDraw;
@@ -152,7 +151,6 @@ Boston, MA 02111-1307, USA.
     interiorColor = (int) ( ((double) CELL_COLOR_MAX) * colorRatio);
 
   }
-   
    if(tagCell)
    {
       interiorColor = TAG_CELL_COLOR;
@@ -185,8 +183,6 @@ Boston, MA 02111-1307, USA.
       }
    }
   
-  
-  // new from Colin 2011-04-01
    numToDraw = (double) [fishIContain getCount];
    if(numToDraw > 0.0)
    {
@@ -219,44 +215,7 @@ Boston, MA 02111-1307, USA.
              }
         [ndx drop];
   }
-  // endnew from Colin 2011-04-01
-
-  // new from Colin 2011-04-01
-  // Commented out the following
-/*
-   if([fishIContain getCount] > 0)
-   {
-       id <ListIndex> ndx;
-       ndx = [fishIContain listBegin: scratchZone];
-       Trout* fish = nil;
-
-       while(([ndx getLoc] != End) && ((fish = [ndx next]) != nil))
-       {    
-           [fish drawSelfOn: aRaster 
-                        atX: displayCenterX 
-                          Y: displayCenterY];
-       }
-  
-       [ndx drop];
-   }
-
-  // endnew from Colin 2011-04-01
-
-
-   if([reddList getCount] > 0);
-   {
-        id <ListIndex> ndx = [reddList listBegin: scratchZone];
-        UTMRedd* redd = nil;
  
-        while(([ndx getLoc] != End) && ((redd = [ndx next]) != nil)) 
-        {
-             [redd drawSelfOn: aRaster
-                          atX: displayCenterX 
-                            Y: displayCenterY];
-             }
-        [ndx drop];
-  }
-*/
 
   //fprintf(stdout, "FishCell >>>> drawSelfOn >>>> END\n");
   //fflush(0);
