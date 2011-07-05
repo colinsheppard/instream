@@ -1,4 +1,3 @@
-
 /*
 inSTREAM Version 4.3, October 2006.
 Individual-based stream trout modeling software. Developed and maintained by Steve Railsback (Lang, Railsback & Associates, Arcata, California) and
@@ -22,25 +21,29 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 */
 
+#import "SurvProb.h"
+#import "ReddSuperimpFunc.h"
 
-#import "Func.h"
-#import "FishParams.h"
 
-@interface ReddSuperImpFunc : Func
+@interface ReddSuperimp : SurvProb
 {
 
-//id <UniformDoubleDist> uniformDist;
-id uniformDist;
-double uniformRanNum;
 
 }
 
-+    createBegin: aZone
-  setInputMethod: (SEL) anInputMethod;
-
++ createBegin: aZone;
 - createEnd;
 
-- updateWith: anObj;
+
+-  createReddSuperimpFuncWithMap: (id <Map>) aMap
+                 withInputMethod: (SEL) anInputMethod;
+
+
+- (double) getSurvivalProb;
+
 
 
 @end
+
+
+

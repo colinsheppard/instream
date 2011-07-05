@@ -75,14 +75,14 @@ Boston, MA 02111-1307, USA.
 
    if(inputMethod == (SEL) nil)
    {
-      fprintf(stderr, "ERROR: ReddSuperImpFunc >>>> updateWith >>>> anObj >>>> inputMethod = %p\n", inputMethod);
+      fprintf(stderr, "ERROR: ReddSuperimpFunc >>>> updateWith >>>> anObj >>>> inputMethod = %p\n", inputMethod);
       fflush(0);
       exit(1);
    }
   
    if(![anObj respondsTo: inputMethod])
    {
-      fprintf(stderr, "ERROR: ReddSuperImpFunc >>>> updateWith >>>> anObj does not respond to inputMethod\n");
+      fprintf(stderr, "ERROR: ReddSuperimpFunc >>>> updateWith >>>> anObj does not respond to inputMethod\n");
       fflush(0);
       exit(1);
    }

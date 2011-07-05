@@ -43,8 +43,8 @@ OBJECTS=Trout.o \
 	ReddScour.o \
 	ReddScourFunc.o \
 \
-	ReddSuperImp.o \
-	ReddSuperImpFunc.o \
+	ReddSuperimp.o \
+	ReddSuperimpFunc.o \
 \
 	EcoAverager.o \
 	BreakoutAverager.o \
@@ -108,8 +108,8 @@ SurvMGR.o : SurvMGR.[hm]
 ReddScour.o : ReddScour.[hm] SurvProb.h
 ReddScourFunc.o : ReddScourFunc.[hm] Func.h
 #
-ReddSuperImp.o : ReddSuperImp.[hm] SurvProb.h
-ReddSuperImpFunc.o : ReddSuperImpFunc.[hm] Func.h
+ReddSuperimp.o : ReddSuperimp.[hm] SurvProb.h
+ReddSuperimpFunc.o : ReddSuperimpFunc.[hm] Func.h
 #
 Func.o : Func.[hm] globals.h
 LogisticFunc.o : LogisticFunc.[hm]

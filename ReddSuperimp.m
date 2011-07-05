@@ -24,15 +24,15 @@ Boston, MA 02111-1307, USA.
 #include <stdlib.h>
 
 
-#import "ReddSuperImp.h"
+#import "ReddSuperimp.h"
 
 
-@implementation ReddSuperImp
+@implementation ReddSuperimp
 
 + createBegin: aZone
 {
 
-  ReddSuperImp* aCustomProb = [super createBegin: aZone];
+  ReddSuperimp* aCustomProb = [super createBegin: aZone];
 
   aCustomProb->funcList = [List create: aCustomProb->probZone];
 
@@ -48,11 +48,11 @@ Boston, MA 02111-1307, USA.
 }
 
 
-- createReddSuperImpFuncWithMap: (id <Map>) aMap
+- createReddSuperimpFuncWithMap: (id <Map>) aMap
                 withInputMethod: (SEL) anInputMethod
 {
 
-  ReddSuperImpFunc* superImpFunc = [ReddSuperImpFunc createBegin: probZone
+  ReddSuperimpFunc* superImpFunc = [ReddSuperimpFunc createBegin: probZone
                                                    setInputMethod: anInputMethod];
 
 
@@ -72,7 +72,7 @@ Boston, MA 02111-1307, USA.
 
     if(aFunc == nil)
     {
-       fprintf(stderr, "ERROR: ReddSuperImp >>>> getSurvivalProb >>>> aFunc is nil\n");
+       fprintf(stderr, "ERROR: ReddSuperimp >>>> getSurvivalProb >>>> aFunc is nil\n");
        fflush(0);
        exit(1);
     }

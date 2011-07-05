@@ -262,7 +262,7 @@ Boston, MA 02111-1307, USA.
    }
 
   // endnew from Colin 2011-04-01
-/*
+
 
    if([reddList getCount] > 0);
    {
@@ -1666,14 +1666,14 @@ Boston, MA 02111-1307, USA.
      // SuperImposition
      //
      
-      [survMgr addPROBWithSymbol: [model getReddMortalitySymbolWithName: "ReddSuperImp"] 
+      [survMgr addPROBWithSymbol: [model getReddMortalitySymbolWithName: "ReddSuperimp"] 
                        withType: "CustomProb"
                  withAgentKnows: YES
                 withIsStarvProb: NO];
   
    
-      [survMgr addCustomFuncToProbWithSymbol: [model getReddMortalitySymbolWithName: "ReddSuperImp"] 
-                               withClassName: "ReddSuperImpFunc"
+      [survMgr addCustomFuncToProbWithSymbol: [model getReddMortalitySymbolWithName: "ReddSuperimp"] 
+                               withClassName: "ReddSuperimpFunc"
                          withInputObjectType: ANIMAL
                            withInputSelector: M(getCell)];
 

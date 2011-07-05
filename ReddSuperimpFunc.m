@@ -23,18 +23,18 @@ Boston, MA 02111-1307, USA.
 
 
 
-#import "ReddSuperImpFunc.h"
+#import "ReddSuperimpFunc.h"
 #import "FishCell.h"
 #import "Redd.h"
 #import "globals.h"
 
-@implementation ReddSuperImpFunc
+@implementation ReddSuperimpFunc
 
 +    createBegin: aZone
   setInputMethod: (SEL) anInputMethod
 {
 
-   ReddSuperImpFunc* superImpFunc = [super createBegin: aZone];
+   ReddSuperimpFunc* superImpFunc = [super createBegin: aZone];
 
    superImpFunc->uniformDist = nil;
  
@@ -76,21 +76,21 @@ Boston, MA 02111-1307, USA.
 
    if(inputMethod == (SEL) nil)
    {
-      fprintf(stderr, "ERROR: ReddSuperImpFunc >>>> updateWith >>>> anObj >>>> inputMethod = %p\n", inputMethod);
+      fprintf(stderr, "ERROR: ReddSuperimpFunc >>>> updateWith >>>> anObj >>>> inputMethod = %p\n", inputMethod);
       fflush(0);
       exit(1);
    }
   
    if(![anObj respondsTo: inputMethod])
    {
-      fprintf(stderr, "ERROR: ReddSuperImpFunc >>>> updateWith >>>> anObj does not respond to inputMethod\n");
+      fprintf(stderr, "ERROR: ReddSuperimpFunc >>>> updateWith >>>> anObj does not respond to inputMethod\n");
       fflush(0);
       exit(1);
    }
 
    if(messageProbe == nil)
    {
-      fprintf(stderr, "ERROR: ReddSuperImpFunc >>>> updateWith: >>>> messageProbe is nil\n");
+      fprintf(stderr, "ERROR: ReddSuperimpFunc >>>> updateWith: >>>> messageProbe is nil\n");
       fflush(0);
       exit(1);
    } 
@@ -107,7 +107,7 @@ Boston, MA 02111-1307, USA.
 
         if(aRandGen == nil)
         {
-           fprintf(stderr, "ERROR: ReddSuperImpFunc >>>> the random generator is nil\n");
+           fprintf(stderr, "ERROR: ReddSuperimpFunc >>>> the random generator is nil\n");
            fflush(0);
            exit(1);
         }
