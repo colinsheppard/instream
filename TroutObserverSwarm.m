@@ -401,19 +401,20 @@ Boston, MA 02111-1307, USA.
 
   [depthColormap setColor: POLYBOUNDARYCOLOR ToName: "black"];
   [depthColormap setColor: POLYINTERIORCOLOR ToName: "blue"];
-  [depthColormap setColor: TAG_CELL_COLOR ToName: "LightCyan"];
-  [depthColormap setColor: TAG_FISH_COLOR ToName: "green"];
+  [depthColormap setColor: TAG_CELL_COLOR ToName: tagCellColor];
+  [depthColormap setColor: DRY_CELL_COLOR ToName: dryCellColor];
+  [depthColormap setColor: TAG_FISH_COLOR ToName: tagFishColor];
   //[depthColormap setColor: DAYTIMERASTER ToName: "LightBlue1"];
   //[depthColormap setColor: NIGHTTIMERASTER ToName: "MidnightBlue"];
 
   [velocityColormap setColor: POLYBOUNDARYCOLOR ToName: "black"];
   [velocityColormap setColor: POLYINTERIORCOLOR ToName: "yellow"];
-  [velocityColormap setColor: TAG_CELL_COLOR ToName: "LightCyan"];
-  [velocityColormap setColor: TAG_FISH_COLOR ToName: "green"];
+  [velocityColormap setColor: TAG_CELL_COLOR ToName: tagCellColor];
+  [velocityColormap setColor: DRY_CELL_COLOR ToName: dryCellColor];
+  [velocityColormap setColor: TAG_FISH_COLOR ToName: tagFishColor];
   //[velocityColormap setColor: DAYTIMERASTER ToName: "LightBlue1"];
   //[velocityColormap setColor: NIGHTTIMERASTER ToName: "MidnightBlue"];
   
-
    //build model Objects and set the fish color in the ModelSwarm
    //
    [troutModelSwarm setPolyRasterResolutionX:  rasterResolutionX
@@ -423,9 +424,7 @@ Boston, MA 02111-1307, USA.
    [troutModelSwarm buildObjectsWith: polyColorMaps
                              andWith: shadeColorMax];
 
-
   [self buildFishProbes];
-
 
   //
   // Build the rasters, display objects, etc from the 
@@ -928,7 +927,26 @@ Boston, MA 02111-1307, USA.
   return self;
 }
 
+/////////////////////////////////////////////
+// getTagCellColor
+////////////////////////////////////////////
+- (char *) getTagCellColor{
+  return tagCellColor;
+}
 
+/////////////////////////////////////////////
+// getDryCellColor
+////////////////////////////////////////////
+- (char *) getDryCellColor{
+  return dryCellColor;
+}
+
+/////////////////////////////////////////////
+// getTagFishColor
+////////////////////////////////////////////
+- (char *) getTagFishColor{
+   return tagFishColor;
+}
 
 - (BOOL) areYouFinishedYet 
 {

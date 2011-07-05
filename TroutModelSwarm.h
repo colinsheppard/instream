@@ -148,8 +148,6 @@ char* popInitDate;
 int          fileOutputFrequency;
 char*        movementRule;
 
-char* tagFishColor;
-
 //END VARIABLES INITIALIZED BY Model.Setup
 //END VARIABLES INITIALIZED BY Model.Setup
 //END VARIABLES INITIALIZED BY Model.Setup
