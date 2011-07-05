@@ -606,7 +606,7 @@ Boston, MA 02111-1307, USA.
 
    polyCellArea /= 2;
 
-   polyCellArea = 10000.0 * polyCellArea;
+   polyCellArea = polyCellArea;
 
    if(polyCellArea <= 0.0)
    {
