@@ -258,10 +258,6 @@ Boston, MA 02111-1307, USA.
 - (double) getHabDriftConc;
 - (double) getHabSearchProd;
 
-
-
-- (double) getCellVelocity;
-
 - setShadeColorMax: (double) aShadeColorMax;
 - toggleColorRep: (double) aShadeColorMax;
 - drawSelfOn: (id <Raster>) aRaster;

@@ -44,9 +44,6 @@ Boston, MA 02111-1307, USA.
   polyCell->numPolyCoords = 0;
   polyCell->numCornerCoords = 0;
 
-  polyCell->velocityInterpolator = nil;
-  polyCell->depthInterpolator = nil;
-
 
   polyCell->forSurePolyPoint = nil;
   polyCell->polyCellError = NO;
@@ -389,84 +386,6 @@ Boston, MA 02111-1307, USA.
 
 
 
-////////////////////////////////////////////////
-//
-// setVelocityInterpolator
-//
-////////////////////////////////////////////////
--  setVelocityInterpolator: (id <InterpolationTable>) aVelocityInterpolator
-{
-    velocityInterpolator = aVelocityInterpolator;
-    return self;
-}
-
-
-////////////////////////////////////////////////////
-//
-// getVelocityInterpolator
-//
-////////////////////////////////////////////////////
--  (id <InterpolationTable>) getVelocityInterpolator
-{
-   return velocityInterpolator;
-}
-
-
-/////////////////////////////////////////////
-//
-// checkVelocityInterpolator
-//
-////////////////////////////////////////////
-- checkVelocityInterpolator
-{
-  if(velocityInterpolator == nil)
-  {
-      fprintf(stdout, "PolyCell >>>> checkVelocityInterpolator >>>> velocityInterpolator is nil in polyCell = %d\n", polyCellNumber);
-      fflush(0);
-      exit(1);
-  }
-  return self;
-}
-
-////////////////////////////////////////////////
-//
-// setDepthInterpolator
-//
-////////////////////////////////////////////////
--  setDepthInterpolator: (id <InterpolationTable>) aDepthInterpolator
-{
-    depthInterpolator = aDepthInterpolator;
-    return self;
-}
-/////////////////////////////////////////////////////
-//
-// getDepthInterpolator
-//
-/////////////////////////////////////////////////////
--  (id <InterpolationTable>) getDepthInterpolator
-{
-    return depthInterpolator;
-}
-
-
-/////////////////////////////////////////////
-//
-// checkDepthInterpolator
-//
-////////////////////////////////////////////
-- checkDepthInterpolator
-{
-  if(depthInterpolator == nil)
-  {
-      fprintf(stdout, "PolyCell >>>> checkDepthInterpolator >>>> depthInterpolator is nil in polyCell = %d\n", polyCellNumber);
-      fflush(0);
-      exit(1);
-  }
-  return self;
-}
-
-
-
 /////////////////////////////////////
 //
 // createPolyCellPixels
@@ -605,8 +524,6 @@ Boston, MA 02111-1307, USA.
    }
 
    polyCellArea /= 2;
-
-   polyCellArea = polyCellArea;
 
    if(polyCellArea <= 0.0)
    {
@@ -775,78 +692,6 @@ Boston, MA 02111-1307, USA.
 }
 
 
-///////////////////////////////
-//
-// updatePolyCellDepth
-//
-///////////////////////////////
-- updatePolyCellDepthWith: (double) aFlow
-{
-   polyCellDepth = [depthInterpolator getValueFor: aFlow];
-
-   if(polyCellDepth < 0.0)
-   {
-        polyCellDepth = 0.0;
-   }
-
-   return self;
-}
-
-
-///////////////////////////////
-//
-// getPolyCellDepth
-//
-//////////////////////////////
-- (double) getPolyCellDepth
-{
-   if(polyCellDepth < 0.0)
-   {
-        polyCellDepth = 0.0;
-   }
-
-   return polyCellDepth;
-}
-
-
-//////////////////////////////
-//
-// updatePolyCellVelocity
-//
-//////////////////////////////
-- updatePolyCellVelocityWith: (double) aFlow
-{
-   polyCellVelocity = [velocityInterpolator getValueFor: aFlow];
-
-/*
-   if(polyCellVelocity < 0.0)
-   {
-         fprintf(stderr, "ERROR: PolyCell >>>> updatePolyCellVelocityWith >>>> polyCellVelocity is negative\n");
-         fflush(0);
-         exit(1);
-   }
-*/
-
-   return self;
-}
-
-
-////////////////////////////////////
-//
-// getPolyCellVelocity
-//
-////////////////////////////////////
-- (double) getPolyCellVelocity
-{
-   if(polyCellVelocity < 0.0)
-   {
-         fprintf(stderr, "ERROR: PolyCell >>>> getPolyCellVelocityWith >>>> polyCellVelocity is negative\n");
-         fflush(0);
-         exit(1);
-   }
-    return polyCellVelocity;
-}
-
 //////////////////////////////////////////////////////////////////////////////
 //
 // containsRasterX
@@ -962,148 +807,6 @@ Boston, MA 02111-1307, USA.
 
 
 
-//#define COLOR_MODIFIER 1.8679
-#define COLOR_MODIFIER 1.7
-/////////////////////////////////////////////////////////////////////
-//
-// drawSelfOn
-//
-/////////////////////////////////////////////////////////////////////
-- drawSelfOn: (id <Raster>) aRaster 
-{
-  double colorVariable = 0.0;
-  int i;
-
-  //fprintf(stdout, "PolyCell >>>> drawSelfOn >>>> BEGIN\n");
-  //fflush(0);
-
-  interiorColor = POLYINTERIORCOLOR; 
-  boundaryColor = POLYBOUNDARYCOLOR;
-
-
-  // first calculate color to use
-  // [0,100] use continous scale
-  // [101,1000] use bin values
-
-  if(strcmp("depth",rasterColorVariable) == 0) 
-  {
-       colorVariable = polyCellDepth; 
-  }
-  else if(strcmp("velocity",rasterColorVariable) == 0) 
-  {
-      colorVariable = polyCellVelocity; 
-  }
-  else 
-  {
-        fprintf(stderr, "ERROR: Unknown rasterColorVariable value = %s\n",rasterColorVariable);
-        fflush(0);
-        exit(1);
-  }
-
-  if(tagCell)
-  {
-     interiorColor = TAG_CELL_COLOR;
-  }
-  else
-  {
-      if ((0.0 <= colorVariable) && (colorVariable <= 100.0))
-        interiorColor = (int)(colorVariable/COLOR_MODIFIER + 0.5);
-      else if ((100.0 < colorVariable) && (colorVariable <= 150.0))
-        interiorColor = 55L;
-      else if ((150.0 < colorVariable) && (colorVariable <= 200.0))
-        interiorColor = 56L;
-      else if ((200.0 < colorVariable) && (colorVariable <= 250.0))
-        interiorColor = 57L;
-      else if ((250.0 < colorVariable) && (colorVariable <= 300.0))
-        interiorColor = 58L;
-      else if ((300.0 < colorVariable) && (colorVariable <= 350.0))
-        interiorColor = 59L;
-      else if ((350.0 < colorVariable) && (colorVariable <= 400.0))
-        interiorColor = 60L;
-      else if ((400.0 < colorVariable) && (colorVariable <= 450.0))
-        interiorColor = 61L;
-      else if ((450.0 < colorVariable) && (colorVariable <= 500.0))
-        interiorColor = 62L;
-      else if (500.0 < colorVariable)
-        interiorColor = 63L;
-      else
-        interiorColor = 0L;
-
-      // put a lower bound on the color
-      if (interiorColor <= 0)
-      {
-          interiorColor = 1L;
-      }
-
-  }
-
-  interiorColor = 35L;
-
-  if(polyCellNumber == 1)
-  {
-        interiorColor = 40L;
-  }
-  else if(polyCellNumber == 7)
-  {
-        interiorColor = 45L;
-  }
-  else if(polyCellNumber == 19)
-  {
-        interiorColor = 50L;
-  }
-  else if(polyCellNumber == 22)
-  {
-        interiorColor = 55L;
-  }
-  else if(polyCellNumber == 23)
-  {
-        interiorColor = 60L;
-  }
-
-
-
-  if(tagCell)
-  {
-     interiorColor = TAG_CELL_COLOR;
-  }
-
-  if(1)
-  {
-
-     /*
-     if(polyCellNumber == 483)
-     {
-         interiorColor = TAG_CELL_COLOR;
-     }
-     */
-            
-
-     for(i = 0;i < pixelCount; i++)
-     {
-         [aRaster drawPointX: polyCellPixels[i]->pixelX Y: polyCellPixels[i]->pixelY Color: interiorColor];
-     }
-  }
-
-  numberOfNodes = [polyPointList getCount];
-  //fprintf(stdout, "PolyCell >>>> drawSelfOn >>>> numberOfNodes = %d\n", numberOfNodes);
-  //fflush(0);
- 
-  for(i = 1; i < numberOfNodes; i++) 
-  { 
-      [aRaster lineX0: [[polyPointList atOffset: i - 1] getDisplayX]
-                   Y0: [[polyPointList atOffset: i - 1] getDisplayY]
-                   X1: [[polyPointList atOffset: i % numberOfNodes] getDisplayX]
-                   Y1: [[polyPointList atOffset: i % numberOfNodes] getDisplayY]
-                Width: 1
-                Color: boundaryColor];
-
-  }
-  
-  //fprintf(stdout, "PolyCell >>>> drawSelfOn >>>> END\n");
-  //fflush(0);
-
-  return self;
-}
 
 
 /////////////////////////////////////////

@@ -48,19 +48,6 @@ Boston, MA 02111-1307, USA.
   return fishCell;
 }
 
-
-
-////////////////////////////////////
-//
-// getCellVelocity
-//
-///////////////////////////////////
-- (double) getCellVelocity
-{
-    return [super getPolyCellVelocity];
-}
-
-
 ///////////////////////////////////////////
 //
 // setShadeColorMax
@@ -113,17 +100,15 @@ Boston, MA 02111-1307, USA.
 /////////////////////////////////////////////////////////////////////
 - drawSelfOn: (id <Raster>) aRaster 
 {
-  int maxIndex;
   double colorVariable = 0.0;
   double colorRatio;
   int i;
 
-  // new from Colin 2011-04-01
   id aRedd;
   int pixToUse;
   double numToDraw;
   double counter;
-  // endnew from Colin
+  double dryDepthThreshold = 0.1;
 
   //fprintf(stdout, "FishCell >>>> drawSelfOn >>>> BEGIN\n");
   //fflush(0);
@@ -132,50 +117,41 @@ Boston, MA 02111-1307, USA.
   // don't call super, do all of the work here 
   //
 
-   if(rasterColorVariable == NULL)
-   {
-       fprintf(stderr, "ERROR: FishCell >>>> drawSelfOn >>>> rasterColorVariable has not been set\n");
-       fflush(0);
-       exit(1);
-   }
-
-   if(strcmp("depth",rasterColorVariable) == 0) 
-   {
-        colorVariable = polyCellDepth; 
-   }
-   else if(strcmp("velocity",rasterColorVariable) == 0) 
-   {
-        colorVariable = polyCellVelocity; 
-   }
-   else 
-   {
-         fprintf(stderr, "ERROR: FishCell >>>> draswSelfOn >>>> Unknown rasterColorVariable value = %s\n",rasterColorVariable);
-         fflush(0);
-         exit(1);
-   }
-
-   if(fabs(shadeColorMax) <= 0.000000001)
-   {
-       fprintf(stderr, "ERROR: FishCell >>>> drawSelfOn >>>> shadeColorMax is 0.0\n");
-       fflush(0);
-       exit(1);
-   }
-   colorRatio = colorVariable/shadeColorMax; 
-
-//  New shading code 1/14/2011 SFR
-
-   if (colorRatio >= 1.0)
-    {
-      colorRatio = 0.99;  // so interiorColor truncates to CELL_COLOR_MAX - 1
+  // If cell is dry shade it accordingly, otherwise shade according to colormap
+  if(polyCellDepth < dryDepthThreshold){
+	  interiorColor = DRY_CELL_COLOR;
+  }else{
+    if(rasterColorVariable == NULL){
+        fprintf(stderr, "ERROR: FishCell >>>> drawSelfOn >>>> rasterColorVariable has not been set\n");
+        fflush(0);
+        exit(1);
     }
+    if(strcmp("depth",rasterColorVariable) == 0){
+ 	colorVariable = polyCellDepth; 
+    }else if(strcmp("velocity",rasterColorVariable) == 0){
+ 	colorVariable = polyCellVelocity; 
+    }else{
+ 	 fprintf(stderr, "ERROR: FishCell >>>> draswSelfOn >>>> Unknown rasterColorVariable value = %s\n",rasterColorVariable);
+ 	 fflush(0);
+ 	 exit(1);
+    }
+    if(fabs(shadeColorMax) <= 0.000000001){
+        fprintf(stderr, "ERROR: FishCell >>>> drawSelfOn >>>> shadeColorMax is 0.0\n");
+        fflush(0);
+        exit(1);
+    }
+    colorRatio = colorVariable/shadeColorMax; 
+ 
+ //  New shading code 1/14/2011 SFR
+ 
+    if (colorRatio >= 1.0)
+     {
+       colorRatio = 0.99;  // so interiorColor truncates to CELL_COLOR_MAX - 1
+     }
+ 
+    interiorColor = (int) ( ((double) CELL_COLOR_MAX) * colorRatio);
 
-   interiorColor = (int) ( ((double) CELL_COLOR_MAX) * colorRatio);
-
-   //fprintf(stdout, "FishCell >>>> drawSelfOn >>>> colorVariable = %f\n",colorVariable);
-   //fprintf(stdout, "FishCell >>>> drawSelfOn >>>> shadeColorMax = %f\n",shadeColorMax);
-   //fprintf(stdout, "FishCell >>>> drawSelfOn >>>> colorRatio = %f\n",colorRatio);
-   //fprintf(stdout, "FishCell >>>> drawSelfOn >>>> maxIndex = %d\n",maxIndex);
-   //fflush(0);
+  }
    
    if(tagCell)
    {

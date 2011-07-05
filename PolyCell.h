@@ -53,8 +53,6 @@ typedef struct PolyPixelCoordStruct PolyPixelCoord;
 
   int numberOfNodes;
 
-  int** cornerNodeArray;
-
   double** polyCornerCoords;
   int numCornerCoords;
   
@@ -83,8 +81,6 @@ typedef struct PolyPixelCoordStruct PolyPixelCoord;
    long int minXCoordinate;
    long int maxYCoordinate;
 
-   double polyCellDepth;
-   double polyCellVelocity;
    double polyCellArea;
    double polyCenterX;
    double polyCenterY;
@@ -116,10 +112,7 @@ typedef struct PolyPixelCoordStruct PolyPixelCoord;
   int boundaryColor; 
   int interiorColor; 
 
-  id <InterpolationTable> velocityInterpolator;
-  id <InterpolationTable> depthInterpolator;
-
-}
+ }
 
 + create: aZone;
 
@@ -133,7 +126,6 @@ typedef struct PolyPixelCoordStruct PolyPixelCoord;
 - setNumberOfNodes: (int) aNumberOfNodes;     // This may go away
 
 - (int) getNumberOfNodes;
-- (int **) getCornerNodeArray; 
 
 - createPolyCoordinateArray;
 - setPolyCoordsWith: (double) aPolyCoordX
@@ -156,12 +148,6 @@ typedef struct PolyPixelCoordStruct PolyPixelCoord;
 - setPolyRasterResolutionY: (int) aResolutionY;
 - (int) getPolyRasterResolutionX;
 - (int) getPolyRasterResolutionY;
--  setVelocityInterpolator: (id <InterpolationTable>) aVelocityInterpolator;
--  (id <InterpolationTable>) getVelocityInterpolator;
-- checkVelocityInterpolator;
--  setDepthInterpolator: (id <InterpolationTable>) aDepthInterpolator;
--  (id <InterpolationTable>) getDepthInterpolator;
-- checkDepthInterpolator;
 
 - createPolyCellPixels;
 - (double) getPolyCellArea;
@@ -172,15 +158,9 @@ typedef struct PolyPixelCoordStruct PolyPixelCoord;
 - createPolyAdjacentCellsFrom: (id <ListIndex>) habSpacePolyCellListNdx;
 - (id <List>) getListOfAdjacentCells;
 
-- updatePolyCellDepthWith: (double) aFlow;
-- (double) getPolyCellDepth;
-- updatePolyCellVelocityWith: (double) aFlow;
-- (double) getPolyCellVelocity;
-
 
 - (BOOL) containsRasterX: (long int) aRasterX andRasterY: (long int) aRasterY;
 - setRasterColorVariable: (char *) aColorVariable;
-- drawSelfOn: (id <Raster>) aRaster;
 
 
 - tagPolyCell;
