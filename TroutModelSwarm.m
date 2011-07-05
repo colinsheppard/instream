@@ -2056,9 +2056,7 @@ char **speciesColor;
   char * formatString = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n";
   char * fileMetaData;
 
-
   if(reddSummaryFilePtr == NULL) {
-
     if ((appendFiles == NO) && (scenario == 1) && (replicate == 1)){
       if((reddSummaryFilePtr = fopen(reddOutputFile,"w")) == NULL ){
             fprintf(stderr, "ERROR: TroutModelSwarm >>>> openReddSummaryFilePtr >>>> Cannot open %s for writing\n",reddOutputFile);
@@ -2129,7 +2127,6 @@ char **speciesColor;
      exit(1);
   }
   return self;
-
 }
 
 ///////////////////////////////////

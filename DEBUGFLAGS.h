@@ -29,6 +29,7 @@ Boston, MA 02111-1307, USA.
 // The following define flags are used
 // in Trout.m
 //
+//#define DEBUG_TROUT_FISHPARAMS
 //#define DEBUG_SPAWN
 //#define DEBUG_MOVE
 //#define DEBUG_GROW

@@ -924,7 +924,6 @@ Boston, MA 02111-1307, USA.
 /////////////////////////////////////
 - spawn 
 {
-
   // spawn is executed only by females
   // determine if ready to spawn 
   //    spawning criteria
@@ -951,46 +950,35 @@ Boston, MA 02111-1307, USA.
   //
   // If we're dead or male we can't spawn we can't spawn
   //
-  if(sex == Male) 
-  {
+  if(sex == Male) {
       return self;
   }
-
-  if(causeOfDeath) 
-  {
+  if(causeOfDeath) {
      return self;
   }
-
-
-  if(reach == nil) 
-  {
+  if(reach == nil) {
       fprintf(stderr, "ERROR: Trout >>>> spawn >>>> reach is nil\n");
       fflush(0);
       exit(1);
   }
-
-  if([self isFemaleReadyToSpawn] == NO)
-  {
+  //fprintf(stdout,"Trout >>>> spawn >>>> isFemaleReadyToSpawn = %d\n",[self isFemaleReadyToSpawn]);
+  if([self isFemaleReadyToSpawn] == NO){
       #ifdef READY_TO_SPAWN_RPT
           [self printReadyToSpawnRpt: NO];
       #endif
-
       return self;
   }
-
   #ifdef READY_TO_SPAWN_RPT
       [self printReadyToSpawnRpt: YES];
   #endif
 
-  if((spawnCell = [self findCellForNewRedd]) == nil) 
-  {
+  if((spawnCell = [self findCellForNewRedd]) == nil) {
      fprintf(stderr, "WARNING: Trout >>>> spawn >>>> No spawning habitat found, making Redd without moving");
      fflush(0);
      spawnCell = myCell;
   }
-
-     [spawnCell addFish: self]; 
-     [self _createAReddInCell_: spawnCell];
+  [spawnCell addFish: self]; 
+  [self _createAReddInCell_: spawnCell];
 
   //
   // reduce weight of spawners
@@ -1006,8 +994,7 @@ Boston, MA 02111-1307, USA.
   //
   fishList = [model getLiveFishList]; 
 
-  if(fishList == nil)
-  {
+  if(fishList == nil){
      fprintf(stderr, "ERROR: Trout >>>> spawn >>>> fishList is nil\n");
      fflush(0);
      exit(1);
@@ -1018,10 +1005,8 @@ Boston, MA 02111-1307, USA.
   // male, if there is one.
   //
   fishLstNdx = [fishList listBegin: scratchZone];
-  while(([fishLstNdx getLoc] != End) && ((anotherTrout = [fishLstNdx next]) != nil))
-  {
-       if([self shouldISpawnWith: anotherTrout])
-       {
+  while(([fishLstNdx getLoc] != End) && ((anotherTrout = [fishLstNdx next]) != nil)){
+       if([self shouldISpawnWith: anotherTrout]){
            [anotherTrout updateMaleSpawner];
            break;
        }
@@ -1053,7 +1038,6 @@ Boston, MA 02111-1307, USA.
    *    h) condition threshhold (fish) <calc>
    */
 
-
    #ifdef DEBUG_TROUT_FISHPARAMS
      #ifdef DEBUG_SPAWN
    
@@ -1064,7 +1048,7 @@ Boston, MA 02111-1307, USA.
        fprintf(stderr,"fishSpawnMinAge = %d \n", fishParams->fishSpawnMinAge);
        fprintf(stderr,"fishSpawnMinLength = %f \n", fishParams->fishSpawnMinLength);
        fprintf(stderr,"fishSpawnMinTemp = %f \n", fishParams->fishSpawnMinTemp);
-       fprintf(stderr,"fishSpawnMaxFlow = %f \n", fishParams->fishSpawnMaxFlow);
+       //fprintf(stderr,"fishSpawnMaxFlow = %f \n", fishParams->fishSpawnMaxFlow);
        fprintf(stderr,"fishSpawnMaxFlowChange = %f \n", fishParams->fishSpawnMaxFlowChange);
        fprintf(stderr,"fishSpawnMinCond = %f \n", fishParams->fishSpawnMinCond);
        fprintf(stderr,"fishSpawnProb = %f \n", fishParams->fishSpawnProb);
