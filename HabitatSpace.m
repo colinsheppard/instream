@@ -2339,224 +2339,71 @@ Boston, MA 02111-1307, USA.
       //HabitatSpace* downstreamReach;
       //HabitatSpace* upstreamReach;
 
-      if(aRange > [refCell getCellDistToDS])
-      {
-           if([habDownstreamLinksToDS getCount] > 0)
-           {
-               FishCell* dsFishCell = [[[habDownstreamLinksToDS atOffset: 0] getDownstreamCells] getFirst];
-               [listOfCellsWithinRange addLast: dsFishCell];
-           }
-           if([habDownstreamLinksToUS getCount] > 0)
-           {
-               FishCell* dsFishCell = [[[habDownstreamLinksToUS atOffset: 0] getDownstreamCells] getFirst];
-               [listOfCellsWithinRange addLast: dsFishCell];
-           }
-           //fprintf(stdout, "HabitatSpace >>>> getNeighborsWithin >>>> [refCell getCellDistToDS] = %f\n", [refCell getCellDistToDS]);
-           //fprintf(stdout, "HabitatSpace >>>> getNeighborsWithin >>>> aRange = %f\n", aRange);
-           //fflush(0);
-      }
-      if(aRange > [refCell getCellDistToUS])
-      {
-           if([habUpstreamLinksToUS getCount] > 0)
-           {
-               FishCell* usFishCell = [[[habUpstreamLinksToUS atOffset: 0] getUpstreamCells] getFirst];
-               [listOfCellsWithinRange addLast: usFishCell];
-           }
-           if([habUpstreamLinksToDS getCount] > 0)
-           {
-               FishCell* usFishCell = [[[habUpstreamLinksToDS atOffset: 0] getUpstreamCells] getFirst];
-               [listOfCellsWithinRange addLast: usFishCell];
-           }
-           //fprintf(stdout, "HabitatSpace >>>> getNeighborsWithin >>>> [refCell getCellDistToUS] = %f\n", [refCell getCellDistToUS]);
-           //fprintf(stdout, "HabitatSpace >>>> getNeighborsWithin >>>> aRange = %f\n", aRange);
-           //fflush(0);
-      }
-
-      /*
-      //
-      // ADJACENT REACHES
-      //
-      //
-      if(aRange > polyDistance)
-      {
-           int i;
-           FishCell* oRCell;
-           double oRRange = aRange - [midPoint getElement: XCOORDINATE];
-           double oRRange = 9.0;
- 
            // if there are reaches whose downstream ends are links to the current reach's
            // downstream end habDownstreamLinksToDS is not empty then a message is sent to each reach on
            // habDownstreamLinksToDS to obtain a list of cellswithin a specified distance 
-           // of its downstream end. This distance is equal to aRange - the X coordinate
-           // of refCell's midPoint.
-           // the cells are added to the end of listOfCellsWithinRange
+           // of its downstream end. 
+           // The cells are added to the end of listOfCellsWithinRange
+           // Likewise for habDownstreamLinksToUS (reaches with their upstream end linked to our downstream)
 
-           fprintf(stdout, "HabitatSpace >>>> getNeighborsWithin \n");
-           fprintf(stdout, "HabitatSpace >>>> habDownstreamLinksToDS\n");
-           xprint(habDownstreamLinksToDS);
-           fflush(0);
+      if(aRange > [refCell getCellDistToDS])
+      {
+           int i;
+           double fishDistToDSEnd = aRange - [refCell getCellDistToDS];
 
-            if(oRRange > 0.0)
-            {
-                unsigned int hDLTDSCount = [habDownstreamLinksToDS getCount];
-                for(i = 0; i < hDLTDSCount; i++)
+           unsigned int hDLTDSCount = [habDownstreamLinksToDS getCount];
+           for(i = 0; i < hDLTDSCount; i++)
                 {
-                    id <List> oRCellList;
-                    id <ListIndex> oRCellNdx;
                     id anotherReach = [habDownstreamLinksToDS atOffset: i];
+
+                    [anotherReach addDownstreamCellsWithin: fishDistToDSEnd toList: listOfCellsWithinRange]; 
  
-                    oRCellList = [anotherReach getDownstreamCellsWithinRange: oRRange];
-    
-
-                    xprint(oRCellList);
-
-                    if([oRCellList getCount] > 0)
-                    {
-                        oRCellNdx = [oRCellList listBegin: scratchZone];
-    
-                        while(([oRCellNdx getLoc] != End) && ((oRCell = [oRCellNdx next]) != nil))
-                        {
-                           [listOfCellsWithinRange addLast: oRCell];
-                        }
-           
-                        [oRCellNdx drop];
-                   }
                 } //for
 
+           unsigned int hDLTUSCount = [habDownstreamLinksToUS getCount];
+           for(i = 0; i < hDLTUSCount; i++)
+                {
+                    id anotherReach = [habDownstreamLinksToUS atOffset: i];
 
-
-                // If there area reaches whoes upstream ends are linked to the current reach's 
-                // downstream end (habDownstreamLinksToUS is not empty), then a message is
-                // sent to each reach on habDownstreamLinksToUS to obtain a list of cells
-                // within a distance of its upstream end. this distance is equal to aRange minus
-                // the X coordinate of refCell's midpoint. These cells are added to the end of
-                // listOfCellsWithinRange.
-                fprintf(stdout, "HabitatSpace >>>> getNeighborsWithin \n");
-                fprintf(stdout, "HabitatSpace >>>> habDownstreamLinksToUS\n");
-                xprint(habDownstreamLinksToUS);
-                fflush(0);
-
-                 for(i = 0; i < [habDownstreamLinksToUS getCount]; i++)
-                 {
-                     id <List> oRCellList;
-                     id <ListIndex> oRCellNdx;
-                     id anotherReach = [habDownstreamLinksToUS atOffset: i];
-    
-                     oRCellList = [anotherReach getUpstreamCellsWithinRange: oRRange];
-
-                     xprint(oRCellList);
-
-                     if([oRCellList getCount] > 0)
-                     {
-                         oRCellNdx = [oRCellList listBegin: scratchZone];
-    
-                         while(([oRCellNdx getLoc] != End) && ((oRCell = [oRCellNdx next])!= nil))
-                         {
-                            [listOfCellsWithinRange addLast: oRCell];
-                         }
-               
-                         [oRCellNdx drop];
-                     }
-
-                 }
+                    [anotherReach addUpstreamCellsWithin: fishDistToDSEnd toList: listOfCellsWithinRange]; 
  
-           }
+                } //for
+              
+        }  // if (aRange > [refCell getCellDistToDS])
 
 
-      }
-      if((aRange + [[refCell getMidPoint] getElement: XCOORDINATE]) > reachLength)
-      { 
+            // If there area reaches whose downstream ends are linked to the current reach's 
+            // upstream end (habUpstreamLinksToDS is not empty), then a message is
+            // sent to each reach on habUpstreamLinksToDS to obtain a list of cells
+            // within a distance of its upstream end.  These cells are added to the end of
+            // listOfCellsWithinRange.
+            // Likewise for habUpLinksToUS (reaches with their upstream end linked to our upstream)
+
+      if(aRange > [refCell getCellDistToUS])
+      {
            int i;
-           id oRCell;
-           double oRRange = (aRange + [midPoint getElement: XCOORDINATE]) - reachLength;
+           double fishDistToUSEnd = aRange - [refCell getCellDistToUS];
 
+           unsigned int hULTDSCount = [habUpstreamLinksToDS getCount];
+           for(i = 0; i < hULTDSCount; i++)
+                {
+                    id anotherReach = [habUpstreamLinksToDS atOffset: i];
 
-           // If there area reaches whose downstream end are linked to the current
-           // reach's upstream end ( habUpstreamLinksToDS is not empty), then a message
-           // sent to each reach on habStreamLinksToDS to obtain a list of cells within
-           // distance of its downtstream end. This distance is equal to aRange + refCell's
-           // midpoint, minus the current reaches length in the X dimension. The cells returned
-           // in response to this message are added to the end of listOfCellsWihinRange.
-
-           fprintf(stdout, "HabitatSpace >>>> getNeighborsWithin \n");
-           fprintf(stdout, "HabitatSpace >>>> habUpstreamLinksToDS\n");
-           xprint(habUpstreamLinksToDS);
-           fflush(0);
-         
-            if((oRRange > 0.0) && (oRRange < reachLength))
-            {
-	        for(i = 0; i < [habUpstreamLinksToDS getCount]; i++)
-	        {
-	            id <List> oRCellList;
-	            id <ListIndex> oRCellNdx;
-	            id anotherReach = [habUpstreamLinksToDS atOffset: i];
+                    [anotherReach addDownstreamCellsWithin: fishDistToUSEnd toList: listOfCellsWithinRange]; 
  
-                    oRCellList = [anotherReach getDownstreamCellsWithinRange: oRRange];
+                } //for
 
+           unsigned int hULTUSCount = [habUpstreamLinksToUS getCount];
+           for(i = 0; i < hULTUSCount; i++)
+                {
+                    id anotherReach = [habUpstreamLinksToUS atOffset: i];
 
-                    //xprint(oRCellList);
-    
-
-	            if([oRCellList getCount] > 0)
-	            {
-		        oRCellNdx = [oRCellList listBegin: scratchZone];
-    
-		        while(([oRCellNdx getLoc] != End) && ((oRCell = [oRCellNdx next]) != nil))
-		        {
-		           [listOfCellsWithinRange addLast: oRCell];
-		        }
-	       
-		        [oRCellNdx drop];
-
-	           }
-
-	        }
-
-
-
-  
+                    [anotherReach addUpstreamCellsWithin: fishDistToUSEnd toList: listOfCellsWithinRange]; 
  
-               // If there are reaches whose upstream ends are linked to the current reach's upstream
-               // end (habUpstreamLinksToUS is not empty), then a message is sent to each reach on 
-               // habUpstreamLinksToUS to obtain a list of cells within a Distance of its up stream
-               // end. This distance is equal to a aRange + refCell's midpoint, minus the current
-               // reach's total length in the X dimension. The returned cells are added to the end of 
-               // listOfCellsWithinRange.
+                } //for
 
-               fprintf(stdout, "HabitatSpace >>>> getNeighborsWithin \n");
-               fprintf(stdout, "HabitatSpace >>>> habUpstreamLinksToUS\n");
-               xprint(habUpstreamLinksToUS);
-               fflush(0);
-            
-	        for(i = 0; i < [habUpstreamLinksToUS getCount]; i++)
-	        {
-	            id <List> oRCellList;
-	            id <ListIndex> oRCellNdx;
-	            id anotherReach = [habUpstreamLinksToUS atOffset: i];
-     
-	            oRCellList = [anotherReach getUpstreamCellsWithinRange: oRRange];
+        }  // if (aRange > [refCell getCellDistToUS])
 
-                    xprint(oRCellList);
-
-	            if([oRCellList getCount] > 0)
-	            {
-		        oRCellNdx = [oRCellList listBegin: scratchZone];
-
-		        while(([oRCellNdx getLoc] != End) && ((oRCell = [oRCellNdx next]) != nil))
-		        {
-		           [listOfCellsWithinRange addLast: oRCell];
-		        }
-	   
-		        [oRCellNdx drop];
-
-	           }
-
-	        }
-  
-              }
-
-      }
-      */
   }
 
 
@@ -2569,6 +2416,176 @@ Boston, MA 02111-1307, USA.
   //fflush(0);
 
   return listOfCellsWithinRange;
+}
+
+////////////////////////////////////////////////////////////////////////
+//
+// getNeighborsInReachWithin
+//
+// Used by salmon spawners, which cannot move out of their reach
+//
+///////////////////////////////////////////////////////////////////////
+- (id <List>) getNeighborsInReachWithin: (double) aRange 
+                              of: refCell 
+                        withList: (id <List>) aCellList
+{
+  id <ListIndex> cellNdx;
+  id tempCell;
+  id <List> listOfCellsWithinRange = aCellList;
+  id <List> adjacentCells = [refCell getListOfAdjacentCells];
+  int adjacentCellCount;
+
+  double polyRefCenterX = [refCell getPolyCenterX];
+  double polyRefCenterY = [refCell getPolyCenterY];
+
+  double polyDistance = 0.0;
+
+  cellNdx = [polyCellList listBegin: scratchZone];
+
+  //fprintf(stdout, "HabitatSpace >>>> getNeigborsWithin >>>> BEGIN\n");
+  //fflush(0);
+
+  if(listOfCellsWithinRange == nil)
+  {
+      fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> listOfCellsWithinRange is nil\n");
+      fflush(0);
+      exit(1);
+  }
+  if([listOfCellsWithinRange getCount] != 0)
+  {
+      // 
+      // The list from the fish must be empty
+      //
+      fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> listOfCellsWithinRange is not empty\n");
+      fflush(0);
+      exit(1);
+  }
+
+  if(adjacentCells == nil)
+  {
+      fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> adjacentCells is nil\n");
+      fflush(0);
+      exit(1);
+  }
+
+  adjacentCellCount = [adjacentCells getCount];
+
+  if(adjacentCellCount == 0)
+  {
+      // 
+      // The list of adjacent cells shouldn't be empty
+      //
+      fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> adjacentCells is empty\n");
+      fflush(0);
+      exit(1);
+  }
+
+  while(([cellNdx getLoc] != End) && ((tempCell = [cellNdx next]) != nil)) 
+  {
+     double polyCenterX;
+     double polyCenterY;
+
+     double polyCenterDiffSquareX;
+     double polyCenterDiffSquareY;
+
+     
+     if(refCell == tempCell)
+     {
+         continue;
+     }
+
+     polyCenterX = [tempCell getPolyCenterX];
+     polyCenterY = [tempCell getPolyCenterY];
+
+     polyCenterDiffSquareX = (polyCenterX - polyRefCenterX);
+     polyCenterDiffSquareY = (polyCenterY - polyRefCenterY);
+
+     polyCenterDiffSquareX = polyCenterDiffSquareX * polyCenterDiffSquareX;
+     polyCenterDiffSquareY = polyCenterDiffSquareY * polyCenterDiffSquareY;
+
+     polyDistance = sqrt(polyCenterDiffSquareX + polyCenterDiffSquareY); 
+   
+     if(polyDistance <= aRange)
+     {
+        [listOfCellsWithinRange addLast: tempCell];
+     }
+
+  }
+        
+  //
+  // Now, ensure listOfCellsWithinRange contains refCell's
+  // adjacentCells
+  //
+  {
+     int i;
+     for(i = 0; i < adjacentCellCount; i++)
+     {
+         FishCell* adjacentCell = [adjacentCells atOffset: i]; 
+         if([listOfCellsWithinRange contains: adjacentCell] == NO)
+         {
+            [listOfCellsWithinRange addLast: adjacentCell];
+         }
+     } 
+  }
+
+
+  //
+  // Upstream and Downstream reaches are not considered!
+  //
+
+  [cellNdx drop];
+
+  //xprint(listOfCellsWithinRange);
+
+  //fprintf(stdout, "HabitatSpace >>>> getNeigborsWithin >>>> END\n");
+  //fflush(0);
+
+  return listOfCellsWithinRange;
+}
+
+
+
+- (id <List>) addDownstreamCellsWithin: (double) aRange 
+                                toList: (id <List>) aCellList // used by getNeighborsWithin
+{
+    id cell = nil;
+
+    [polyCellListNdx setLoc: Start];
+
+    while(([polyCellListNdx getLoc] != End) && ((cell = [polyCellListNdx next]) != nil))
+    { 
+        if([cell getCellDistToDS] < aRange)
+        {
+             [aCellList addLast: cell]; 	 
+        }
+    
+    }
+
+
+    return aCellList;
+
+}
+
+
+- (id <List>) addUpstreamCellsWithin: (double) aRange 
+                              toList: (id <List>) aCellList // used by getNeighborsWithin
+{
+    id cell = nil;
+
+    [polyCellListNdx setLoc: Start];
+
+    while(([polyCellListNdx getLoc] != End) && ((cell = [polyCellListNdx next]) != nil))
+    { 
+        if([cell getCellDistToUS] < aRange)
+        {
+             [aCellList addLast: cell]; 	 
+        }
+    
+    }
+
+
+    return aCellList;
+
 }
 
 
@@ -2584,135 +2601,6 @@ Boston, MA 02111-1307, USA.
 {
     return reachLength;
 }
-
-
-
-/*
-
-//////////////////////////////////////////////////////////
-//
-// getAdjacentCells
-//
-/////////////////////////////////////////////////////////
-- getAdjacentCells: refCell 
-{
-    double adjacentX,adjacentY;
-    id <List> listOfAdjacentCells = nil;
-    id cell;
-
-    //fprintf(stdout, "HabitatSpace >>>> getAdjacentCells >>>> BEGIN\n");
-    //fflush(0);
-
-    listOfAdjacentCells = [refCell getListOfAdjacentCells];
-
-    if(listOfAdjacentCells == nil)
-    {
-         fprintf(stderr, "ERROR: HabitatSpace >>>>> getAdjacentCells >>>> listOfAdjacentCells is nil\n");
-         fflush(0);
-         exit(1);
-    }
-
-    adjacentX = [[refCell getMidPoint] getElement: XCOORDINATE];
-    adjacentY = [[refCell getBoundary][0] getElement: YCOORDINATE] - 1;
-
-    if((cell = [self _getCellContainingFloatX: adjacentX floatY: adjacentY]) != nil) 
-    {
-        [listOfAdjacentCells addLast: cell];
-    }
-
-
-    adjacentX = [[refCell getMidPoint] getElement: XCOORDINATE];
-    adjacentY = [[refCell getBoundary][2] getElement: YCOORDINATE] + 1;
-
-    if((cell = [self _getCellContainingFloatX: adjacentX floatY: adjacentY]) != nil) 
-    {
-      [listOfAdjacentCells addLast: cell];
-    }
-    
-    adjacentX = [[refCell getBoundary][0] getElement: XCOORDINATE] - 1;
-    adjacentY = [[refCell getMidPoint] getElement: YCOORDINATE];
-
-    if((cell = [self _getCellContainingFloatX: adjacentX floatY: adjacentY]) != nil) 
-    {
-      [listOfAdjacentCells addLast: cell];
-    }
-
-
-    adjacentX = [[refCell getBoundary][1] getElement: XCOORDINATE] + 1;
-    adjacentY = [[refCell getMidPoint] getElement: YCOORDINATE];
-
-    if( (cell = [self _getCellContainingFloatX: adjacentX floatY: adjacentY]) != nil)
-    {
-      [listOfAdjacentCells addLast: cell];
-    }
-
-    //fprintf(stdout, "HabitatSpace >>>> getAdjacentCells >>>> END\n");
-    //fflush(0);
-
-    return listOfAdjacentCells;
-}
-
-*/
-
-/*
-/////////////////////////////////////////////////////////////////////////////
-//
-// getCellContainingFloatX
-//
-/////////////////////////////////////////////////////////////////////////////
-- _getCellContainingFloatX: (double) probedX floatY: (double) probedY 
-{
-  Cell* transectCell0=nil;
-  Cell* cellOnTransect=nil;
-  int xNdx=LARGEINT;
-  int yNdx=LARGEINT;
-  double thisProbedX = probedX;
-  double thisProbedY = probedY;
-
-  //
-  // Determine what cell covers that (x,y) point
-  // first find the right transect
-  //
-
-  //
-  // I modified this and the cell methods to include containsDoubleX containsDoubleY
-  // 2/5/04
-  //
-
-
-  xNdx = 0L;
-  while((xNdx < xsize) && 
-          (((transectCell0 = [self getObjectAtX: xNdx Y: 0L]) == nil) 
-            || ([transectCell0 containsDoubleX: (double) thisProbedX] == NO))) 
-  {
-
-      xNdx++;
-  }
-
-  if((transectCell0 == nil) || (xNdx >= xsize) || (xNdx == LARGEINT)) 
-  {
-      return nil;
-  }
-  
-  //
-  // Then find the right cell within the transect
-  //
-  yNdx = 0L;
-  while((yNdx < ysize) && 
-          (((cellOnTransect = [self getObjectAtX: xNdx Y: yNdx]) == nil) ||
-           ([cellOnTransect containsDoubleY: (double) thisProbedY] == NO))) 
-  {
-     yNdx++;
-  }
-
-  if((cellOnTransect == nil) || (yNdx >= ysize) || (yNdx == LARGEINT))
-  {
-      return nil;
-  }
-
-  return cellOnTransect;
-}
-*/
 
 
 

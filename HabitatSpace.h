@@ -312,8 +312,10 @@ long int maxYCoordinate;
 - (id <List>) getHabUpstreamLinksToDS;
 - (id <List>) getHabUpstreamLinksToUS;
 
-//- (id <List>) getDownstreamCellsWithinRange: (double) aRange;
-//- (id <List>) getUpstreamCellsWithinRange: (double) aRange;
+- (id <List>) addDownstreamCellsWithin: (double) aRange 
+                                toList: (id <List>) aCellList; // used by getNeighborsWithin
+- (id <List>) addUpstreamCellsWithin: (double) aRange 
+                              toList: (id <List>) aCellList; // used by getNeighborsWithin
 
 - (double) getReachLength;
 
@@ -327,6 +329,10 @@ long int maxYCoordinate;
 - (id <List>) getNeighborsWithin: (double) aRange 
                               of: refCell 
                         withList: (id <List>) aCellList; // used by fish
+
+- (id <List>) getNeighborsInReachWithin: (double) aRange 
+                              of: refCell 
+                        withList: (id <List>) aCellList; // used by spawners
 
 - readGeometry;
 - calcSpaceVariables;

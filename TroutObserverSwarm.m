@@ -154,6 +154,8 @@ Boston, MA 02111-1307, USA.
                       inClass: [PolyCell class]]];
    [probeMap addProbe: [probeLibrary getProbeForMessage: "unTagAdjacentCells"
                       inClass: [PolyCell class]]];
+   [probeMap addProbe: [probeLibrary getProbeForMessage: "tagCellsWithin:"
+                      inClass: [FishCell class]]];
 
    //
    // Finish adding FishCell's super class vars
@@ -627,8 +629,8 @@ Boston, MA 02111-1307, USA.
       }
   }
 
-  fprintf(stdout, "TroutObserverSwarm >>>> buildObjects >>>> shadeColorMax = %f\n", shadeColorMax);
-  fprintf(stdout, "TroutObserverSwarm >>>> buildObjects >>>> maxShadeVelocity = %f\n", (double) maxShadeVelocity);
+  //fprintf(stdout, "TroutObserverSwarm >>>> buildObjects >>>> shadeColorMax = %f\n", shadeColorMax);
+  //fprintf(stdout, "TroutObserverSwarm >>>> buildObjects >>>> maxShadeVelocity = %f\n", (double) maxShadeVelocity);
   //fprintf(stdout, "TroutObserverSwarm >>>> buildObjects >>>> maxShadeDepth = %f\n", (double) maxShadeDepth);
   //fprintf(stdout, "TroutObserverSwarm >>>> buildObjects >>>> END\n");
   fflush(0);
@@ -840,18 +842,14 @@ Boston, MA 02111-1307, USA.
 {
     id <ZoomRaster> habitatRaster = nil;
 
-   fprintf(stdout, "TroutObserverSwarm >>>> updateTkEvents >>>> BEGIN\n");
-   fflush(0); 
-
-
+   //fprintf(stdout, "TroutObserverSwarm >>>> updateTkEvents >>>> BEGIN\n");
+   //fflush(0); 
    if(experSwarm == nil)
    {
        fprintf(stderr, "ERROR: TroutObserverSwarm >>>> updateTkEvents >>>> experSwarm is nil\n");
        fflush(0);
        exit(1);
    }
-
-
    habitatRaster = [habitatRasterMap at: aHabitatSpace] ;
    [habitatRaster erase];
    [[habCellDisplayMap at: aHabitatSpace] display];
@@ -859,8 +857,8 @@ Boston, MA 02111-1307, USA.
 
    [experSwarm updateTkEvents];
 
-   fprintf(stdout, "TroutObserverSwarm >>>> updateTkEvents >>>> END\n");
-   fflush(0); 
+   //fprintf(stdout, "TroutObserverSwarm >>>> updateTkEvents >>>> END\n");
+   //fflush(0); 
 
    return self;
 }

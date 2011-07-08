@@ -165,6 +165,9 @@ Boston, MA 02111-1307, USA.
 - getNeighborsWithin: (double) aRange
             withList: (id <List>) aCellList;
 
+- getNeighborsInReachWithin: (double) aRange
+            withList: (id <List>) aCellList;
+
 - (int) getNumberOfFish;
 - (id <List>) getFishIContain;
 - (int)getNumberOfRedds;

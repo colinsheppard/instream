@@ -93,6 +93,87 @@ Boston, MA 02111-1307, USA.
    return self;
 }
 
+
+//////////////////////////////////////////////////
+//
+// tagPolyCell
+//
+//////////////////////////////////////////////////
+- tagPolyCell
+{
+     [super tagPolyCell];
+     [model updateTkEventsFor: space];
+     return self;
+}
+
+///////////////////////////////////////////////////
+//
+// unTagPolyCell
+//
+//////////////////////////////////////////////////
+- unTagPolyCell
+{
+     [super unTagPolyCell];
+     [model updateTkEventsFor: space];
+     return self;
+}
+
+////////////////////////////////////////
+//
+// tagAdjacentCells
+//
+///////////////////////////////////////
+- tagAdjacentCells
+{
+    [super tagAdjacentCells];
+    [model updateTkEventsFor: space];
+    return self;
+}
+
+////////////////////////////////////////
+//
+// unTagAdjacentCells
+//
+///////////////////////////////////////
+- unTagAdjacentCells
+{
+    [super unTagAdjacentCells];
+    [model updateTkEventsFor: space];
+    return self;
+}
+
+
+///////////////////////////////////////////////
+//
+// tagCellsWithin:
+//
+///////////////////////////////////////////////
+- tagCellsWithin: (double) aRange
+{
+   id <List> tempList;
+   id <ListIndex> cellNdx;
+   id nextCell=nil;
+
+   tempList = [List create: scratchZone];
+
+    [self getNeighborsWithin: aRange
+                      withList: tempList];
+
+    cellNdx = [tempList listBegin: scratchZone];
+
+    while(([cellNdx getLoc] != End) && ((nextCell = [cellNdx next]) != nil)) 
+    {
+         [nextCell tagPolyCell];
+    } 
+
+    [model updateTkEventsFor:reach];
+
+    [cellNdx drop];
+    [tempList drop];
+
+    return self;
+}
+
 /////////////////////////////////////////////////////////////////////
 //
 // drawSelfOn
@@ -792,129 +873,6 @@ Boston, MA 02111-1307, USA.
 
 
 
-/*
-- drawSelfOn: (id <Raster>) aRaster 
-{
-  double colorVariable=0.0;
-  int i, numfishincell;
-  int j, numReddsInCell;
-  id <ListIndex> numFishNdx;
-  id <ListIndex> numReddsNdx;
-  id fish;
-  id redd;
-
-  // first calculate color to use
-  // [0,100] use continous scale
-  // [101,1000] use bin values
-
-    if(strcmp("depth",rasterColorVariable) == 0) 
-    {
-      colorVariable = depth; 
-    }
-    else if(strcmp("velocity",rasterColorVariable) == 0) 
-    {
-    colorVariable = velocity; 
-    }
-    else 
-    {
-        fprintf(stderr, "ERROR: Unknown rasterColorVariable value = %s\n",rasterColorVariable);
-        fflush(0);
-        exit(1);
-    }
-
-  if ((0.0 <= colorVariable) && (colorVariable <= 100.0))
-    myColor = (int)(colorVariable/COLOR_MODIFIER + 0.5);
-  else if ((100.0 < colorVariable) && (colorVariable <= 150.0))
-    myColor = 55L;
-  else if ((150.0 < colorVariable) && (colorVariable <= 200.0))
-    myColor = 56L;
-  else if ((200.0 < colorVariable) && (colorVariable <= 250.0))
-    myColor = 57L;
-  else if ((250.0 < colorVariable) && (colorVariable <= 300.0))
-    myColor = 58L;
-  else if ((300.0 < colorVariable) && (colorVariable <= 350.0))
-    myColor = 59L;
-  else if ((350.0 < colorVariable) && (colorVariable <= 400.0))
-    myColor = 60L;
-  else if ((400.0 < colorVariable) && (colorVariable <= 450.0))
-    myColor = 61L;
-  else if ((450.0 < colorVariable) && (colorVariable <= 500.0))
-    myColor = 62L;
-  else if (500.0 < colorVariable)
-    myColor = 63L;
-  else
-    myColor = 0L;
-
-  // put a lower bound on the color
-  if (myColor <= 0)
-  {
-      myColor = 1L;
-  }
-
-  if(tagCell)
-  {
-      myColor = TAG_CELL_COLOR;
-  }
-
-  [aRaster fillRectangleX0: 
-               (int)([boundary[0] getElement: XCOORDINATE]/rasterResolutionX + 0.5)
-           Y0: (int)([boundary[0] getElement: YCOORDINATE]/rasterResolutionY + 0.5)
-           X1: (int)([boundary[3] getElement: XCOORDINATE]/rasterResolutionX + 0.5)
-           Y1: (int)([boundary[3] getElement: YCOORDINATE]/rasterResolutionY + 0.5)
-           Color: myColor ];
-
-  [aRaster rectangleX0: (int)([boundary[0] getElement: XCOORDINATE]/rasterResolutionX + 0.5)
-           Y0: (int)([boundary[0] getElement: YCOORDINATE]/rasterResolutionY + 0.5)
-           X1: (int)([boundary[3] getElement: XCOORDINATE]/rasterResolutionX + 0.5)
-           Y1: (int)([boundary[3] getElement: YCOORDINATE]/rasterResolutionY + 0.5)
-           Width: 1
-           Color: 0L ];
-
-
-
-
-
-
-  // draw my fish
-
-  numfishincell = [fishIContain getCount];
-  numFishNdx = [fishIContain listBegin: scratchZone];
-      if(numfishincell != 0) {
-             i=1;
-             while( ([numFishNdx getLoc] != End) && ((fish = [numFishNdx next]) != nil) ) {
-              [fish drawSelfOn: aRaster atPosition: i  of: numfishincell];
-              i++;
-             }
-      }
-  [numFishNdx drop];
-
-
-
-
-
-  // draw my Redds
-
-
-  numReddsInCell = [reddsIContain getCount];
-  numReddsNdx = [reddsIContain listBegin: scratchZone];
-      if(numReddsInCell != 0) 
-      {
-             j=1;
-
-             while( ([numReddsNdx getLoc] != End) && ((redd = [numReddsNdx next]) != nil) ) 
-             {
-                 [redd drawSelfOn: aRaster atPosition: j  of: numReddsInCell];
-                 j++;
-             }
-      }
-  [numReddsNdx drop];
-
-  tagCell = NO;
-
-  return self;
-}
-*/
-
 
 /////////////////////////////////
 //
@@ -944,6 +902,27 @@ Boston, MA 02111-1307, USA.
                    withList: aCellList];
 
   //fprintf(stdout, "FishCell >>>> getNeighborsWithin >>>> END\n");
+  //fflush(0);
+
+  return self;
+}
+
+///////////////////////////////////////////////
+//
+// getNeighborsInReachWithin
+//
+//////////////////////////////////////////////
+- getNeighborsInReachWithin: (double) aRange 
+            withList: (id <List>) aCellList
+{
+  //fprintf(stdout, "FishCell >>>> getNeighborsInReachWithin >>>> BEGIN\n");
+  //fflush(0);
+
+  [space getNeighborsInReachWithin: aRange 
+                         of: self
+                   withList: aCellList];
+
+  //fprintf(stdout, "FishCell >>>> getNeighborsInReachWithin >>>> END\n");
   //fflush(0);
 
   return self;

@@ -141,6 +141,7 @@ typedef struct PolyPixelCoordStruct PolyPixelCoord;
 - tagPolyCell;
 - unTagPolyCell;
 - tagAdjacentCells;
+- unTagAdjacentCells;
 
 
 
