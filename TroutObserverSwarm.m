@@ -461,6 +461,8 @@ Boston, MA 02111-1307, USA.
 
               [habitatRasterMap at: habitatSpace
                             insert: polyWorldRaster];
+              [habitatRasterList addLast: polyWorldRaster];
+
              if(strncmp(rasterColorVariable, "velocity", 8) == 0)
              {
                 strncpy(toggleColorVariable, "velocity", 9);
@@ -958,34 +960,13 @@ Boston, MA 02111-1307, USA.
 
 -(void) writeFrame 
 {
-  //char filename[256];
-  //id pixID;
-  //id raster = nil;
+  char filename[256];
+  id pixID;
+  id raster = nil;
 
   fprintf(stdout, "TroutObserverSwarm >>>> writeFrame >>>> BEGIN\n");
   fflush(0);
 
-  /*
-  if(polyWorldRaster != nil)
-  {
-      sprintf(filename, "Model%03d_Frame%03ld.png", modelNumber, getCurrentTime());
-
-      pixID =  [Pixmap createBegin: scratchZone];
-      //[pixID  setWidget: polyWorldRaster];
-      pixID = [pixID createEnd];
-      xprint(pixID);
-      [pixID save: filename];
-      [pixID drop];
-  }
-  else
-  {
-         fprintf(stderr, "ERROR: TroutModelSwarm >>>> writeFrame >>>> raster is nil\n");
-         fflush(0);
-         exit(1);
-  }
-  */
-
-  /*
   if([habitatRasterList getCount] > 0)
   {
       raster = [habitatRasterList getFirst];
@@ -1005,7 +986,6 @@ Boston, MA 02111-1307, USA.
       [pixID save: filename];
       [pixID drop];
   }
-  */
 
   fprintf(stdout, "TroutObserverSwarm >>>> writeFrame >>>> END\n");
   fflush(0);
