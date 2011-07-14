@@ -33,7 +33,7 @@ Boston, MA 02111-1307, USA.
 #include "DEBUGFLAGS.h"
 #import "globals.h"
 
-//#define MOVE_REPORT_ON
+#define MOVE_REPORT_ON
 //#define READY_TO_SPAWN_RPT
 //#define SPAWN_CELL_RPT
 
@@ -148,6 +148,8 @@ double netEnergyForCell;
 char *feedStrategy;
 char *inShelter;
 
+int fishID;
+
 double maxMoveDistance;
 
 
@@ -199,10 +201,12 @@ id toggledFishForHabSurvUpdate;
 
 - setTimeManager: (id <TimeManager>) aTimeManager;
 - setModel: (id <TroutModelSwarm>) aModel;
+- setRandGen: aRandGen;
 - setCMaxInterpolator: (id <InterpolationTable>) anInterpolator;
 - setSpawnDepthInterpolator: (id <InterpolationTable>) anInterpolator;
 - setSpawnVelocityInterpolator: (id <InterpolationTable>) anInterpolator;
 - setCaptureLogistic: (LogisticFunc *) aLogisticFunc;
+- setFishID: (int) anID;
 
 
 //- setMovementRule: (char *) aRule;

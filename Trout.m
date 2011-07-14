@@ -173,6 +173,16 @@ Boston, MA 02111-1307, USA.
     return self;
 }
 
+///////////////////////////////////////
+//
+// setRandGen
+//
+//////////////////////////////////////
+- setRandGen: aRandGen
+{
+  randGen = aRandGen;
+  return self;
+}
 
 
 ///////////////////////////////////////////////////////////////
@@ -588,6 +598,18 @@ Boston, MA 02111-1307, USA.
   return self;
 }
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// setFishID
+//
+////////////////////////////////////////////////////////////////////////////
+- setFishID: (int) anIDNum 
+{
+  fishID = anIDNum;
+
+  return self;
+}
 
 
 
@@ -2751,15 +2773,16 @@ Boston, MA 02111-1307, USA.
 // moveReport
 //
 //////////////////////////////////////////////////////////////
-- moveReport: (FishCell *) aCell 
-{
+- moveReport: (FishCell *) aCell {
   FILE *mvRptPtr=NULL;
-  const char *mvRptFName = "MoveTest.rpt";
-  static int mR=0;
+  const char *mvRptFName = "Move_Test_Out.csv";
+  static BOOL moveRptFirstTime=YES;     
   double velocity, depth, temp, turbidity, availableDrift, availableSearch;
   double distToHide;
   double piscivDensity;
   char *mySpecies;
+  char *fileMetaData;
+  char strDataFormat[150];
 
   velocity = [aCell getPolyCellVelocity];
   depth    = [aCell getPolyCellDepth];
@@ -2773,11 +2796,14 @@ Boston, MA 02111-1307, USA.
 
   mySpecies = (char *)[[self getSpecies] getName];
 
-  if(mR == 0) 
-  {
-     if((mvRptPtr = fopen(mvRptFName,"w+")) != NULL) 
-     {
-         fprintf(mvRptPtr,"%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s%-16s\n",
+  if(moveRptFirstTime == YES){
+     if((mvRptPtr = fopen(mvRptFName,"w+")) != NULL){
+       fileMetaData = [BreakoutReporter reportFileMetaData: scratchZone];
+       fprintf(mvRptPtr,"\n%s\n\n",fileMetaData);
+       [scratchZone free: fileMetaData];
+       fprintf(mvRptPtr,"%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,\n",
+                                                           "DATE",
+                                                           "FISH-ID",
 							   "SPECIES",
 							   "AGE",
                                                           "VELOCITY",
@@ -2805,25 +2831,23 @@ Boston, MA 02111-1307, USA.
                                                           "ntEnrgyFrBstCll",
                                                           "ERMForBestCell");
          fflush(mvRptPtr);
-         mR++;
+         moveRptFirstTime = NO;
          fclose(mvRptPtr);
-     }
-     else
-     {
+     }else{
          fprintf(stderr, "ERROR: Trout >>>> moveReport >>>> Cannot open %s for writing\n", mvRptFName);
          fflush(0);
          exit(1);
      }
   }
-
-  if((mvRptPtr = fopen(mvRptFName,"a")) == NULL) 
-  {
+  if((mvRptPtr = fopen(mvRptFName,"a")) == NULL){
       fprintf(stderr, "ERROR: Trout >>>> moveReport >>>> Cannot open %s for appending\n", mvRptFName);
       fflush(0);
       exit(1);
   }
 
-  fprintf(mvRptPtr, "%-16s%-16d%-16E%-16E%-16E%-16E%-16E%-16E%-16E%-16E%-16E%-16E%-16E%-16E%-16E%-16E%-16E%-16E%-16E%-16s%-16E%-16E%-16s%-16E%-16E%-16E\n",
+  strcpy(strDataFormat,"%s,%d,%s,%d,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%s,%E,%E,%s,%E,%E,%E\n");
+  fprintf(mvRptPtr, strDataFormat,[timeManager getDateWithTimeT: [self getCurrentTimeT]],
+                                  fishID,
 						   mySpecies,
 						   age,
                                                    velocity,
@@ -2855,7 +2879,6 @@ Boston, MA 02111-1307, USA.
   fflush(mvRptPtr);
   fclose(mvRptPtr);
   return self;
-
 }
 
 #endif
@@ -3041,7 +3064,7 @@ Boston, MA 02111-1307, USA.
      [destCellList drop];
      destCellList = nil; 
 
-     if(causeOfDeath != nil)
+     if(deathCausedBy != NULL)
      {
          [troutZone free: deathCausedBy];
          deathCausedBy = NULL;

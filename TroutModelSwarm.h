@@ -180,7 +180,7 @@ char*        movementRule;
    * for these because we're handling setup from a file.
    */
 
-  //  id randGen; // use the same generator for all random draws in the model
+    //id randGen; // use the same generator for all random draws in the model
 
   int numFish;   // number of live trout at any given time
 
@@ -225,6 +225,7 @@ char*        movementRule;
   int endYear;
   int numSimDays;
   int simCounter;
+  int fishCounter;
 
   BOOL firstTime;
 
