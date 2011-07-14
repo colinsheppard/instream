@@ -27,7 +27,7 @@ Boston, MA 02111-1307, USA.
 #import "HabitatSpace.h"
 #import "Trout.h"
 #import "Redd.h"
-
+#import "BreakoutReporter.h"
 #import "FishCell.h"
 
 @implementation FishCell
@@ -1193,7 +1193,7 @@ Boston, MA 02111-1307, USA.
 
   [self addFish: aFish];
 
-#ifdef FOODAVAILREPORT
+#ifdef FOOD_AVAIL_REPORT
   [self foodAvailAndConInCell: aFish];
 #endif
 
@@ -1898,31 +1898,37 @@ Boston, MA 02111-1307, USA.
 }
 
 
-#ifdef FOODAVAILREPORT
+#ifdef FOOD_AVAIL_REPORT
 
 - foodAvailAndConInCell: aFish 
 {
   FILE * foodReportPtr=NULL;
-  const char * foodReportFile = "FoodAvailability.rpt";
+  const char * foodReportFile = "Food_Availability_Out.csv";
+  char strDataFormat[100];
   char date[12];
+  double hourlySearchConRate;
+  double hourlyDriftConRate;
+  char * fileMetaData;
 
-  if([space getFoodReportFirstTime] == YES) 
-  {
-     if((foodReportPtr = fopen(foodReportFile,"w")) == NULL) 
-     {
+  if([space getFoodReportFirstTime] == YES){
+     if((foodReportPtr = fopen(foodReportFile,"w")) == NULL){
           fprintf(stderr, "ERROR: Cannot open %s for writing",foodReportFile);
           fflush(0);
           exit(1);
      }
+     fileMetaData = [BreakoutReporter reportFileMetaData: scratchZone];
+     fprintf(foodReportPtr,"\n%s\n\n",fileMetaData);
+     [scratchZone free: fileMetaData];
 
-     fprintf(foodReportPtr,"\n%-15s%-16s%-16s%-16s%-16s%-16s%-16s%-16s\n","Date",
-                                                                          "PolyCellNumber",
-                                                                          "SearchFoodProd",
-                                                                          "DriftFoodProd",
-                                                                          "SearchAvail",
-                                                                          "Driftavail",
-                                                                          "SearchConsumed",
-                                                                          "DriftConsumed");
+     fprintf(foodReportPtr,"%s,%s,%s,%s,%s,%s,%s,%s,%s\n","Date",
+                                                       "ReachName",
+                                                       "PolyCellNumber",
+                                                       "SearchFoodProd",
+                                                       "DriftFoodProd",
+                                                       "SearchAvail",
+                                                       "Driftavail",
+                                                       "SearchConsumed",
+                                                       "DriftConsumed");
      fflush(foodReportPtr);
 
   }
@@ -1936,16 +1942,39 @@ Boston, MA 02111-1307, USA.
           exit(1);
       }
 
-      strncpy(date, [timeManager getDateWithTimeT: [space getModelTime]],12);
+      hourlySearchConRate = [aFish getHourlySearchConRate];
+      hourlyDriftConRate = [aFish getHourlyDriftConRate];
 
-      fprintf(foodReportPtr,"%-15s%-16d%-16E%-16E%-16E%-16E%-16E%-16E\n", date,
-                                                                          polyCellNumber,
-                                                                          searchHourlyCellTotal,
-                                                                          driftHourlyCellTotal,
-                                                                          hourlyAvailSearchFood,
-                                                                          hourlyAvailDriftFood,
-                                                                          [aFish getHourlySearchConRate],
-                                                                          [aFish getHourlyDriftConRate]);
+      strncpy(date, [timeManager getDateWithTimeT: [space getModelTime]],12);
+      strcpy(strDataFormat,"%s,%s,%d,%E,%E,%E,%E,%E,%E\n");
+      // Use the following if you want the floating point data to be pretty
+      //strcpy(strDataFormat,"%s,%s,%d,");
+      //strcat(strDataFormat,[BreakoutReporter formatFloatOrExponential: searchHourlyCellTotal]);
+      //strcat(strDataFormat,",");
+      //strcat(strDataFormat,[BreakoutReporter formatFloatOrExponential: driftHourlyCellTotal]);
+      //strcat(strDataFormat,",");
+      //strcat(strDataFormat,[BreakoutReporter formatFloatOrExponential: hourlyAvailSearchFood]);
+      //strcat(strDataFormat,",");
+      //strcat(strDataFormat,[BreakoutReporter formatFloatOrExponential: hourlyAvailDriftFood]);
+      //strcat(strDataFormat,",");
+      //strcat(strDataFormat,[BreakoutReporter formatFloatOrExponential: hourlySearchConRate]);
+      //strcat(strDataFormat,",");
+      //strcat(strDataFormat,[BreakoutReporter formatFloatOrExponential: hourlyDriftConRate]);
+      //strcat(strDataFormat,"\n");
+
+      //fprintf(stdout, "FishCell >>>> foodAvailAndConInCell >>> format of line = %s \n", strDataFormat);
+      //fflush(0);
+      //exit(1);
+
+      fprintf(foodReportPtr,strDataFormat, date,
+					  [[self getSpace] getReachName],
+                                           polyCellNumber,
+                                           searchHourlyCellTotal,
+                                           driftHourlyCellTotal,
+                                           hourlyAvailSearchFood,
+                                           hourlyAvailDriftFood,
+                                           hourlySearchConRate,
+                                           hourlyDriftConRate);
 
      fflush(foodReportPtr);
   }
