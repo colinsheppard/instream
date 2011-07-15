@@ -81,7 +81,7 @@ Boston, MA 02111-1307, USA.
   numberOfEggsLostToScouring = 0;
   numberOfEggsLostToLowTemp = 0;
   numberOfEggsLostToHiTemp = 0;
-  numberOfEggsLostToSuperImp = 0;
+  numberOfEggsLostToSuperimp = 0;
 
   printList     = [List create: reddZone];
   survPrintList = [List create: reddZone];
@@ -285,7 +285,7 @@ Boston, MA 02111-1307, USA.
   int eggsLostToScouring=0;
   int eggsLostToLowTemp=0;
   int eggsLostToHiTemp=0;
-  int eggsLostToSuperImp=0;
+  int eggsLostToSuperimp=0;
 
   int totalEggsLost = 0;
 
@@ -308,7 +308,7 @@ Boston, MA 02111-1307, USA.
        double scour = (double) -LARGEINT;
        double loTemp = (double) -LARGEINT;
        double hiTemp = (double) -LARGEINT;
-       double superImp = (double) -LARGEINT;
+       double superimp = (double) -LARGEINT;
  
        [myCell updateReddSurvivalProbFor: self];
 
@@ -327,7 +327,7 @@ Boston, MA 02111-1307, USA.
            else if (scour == (double) -LARGEINT) scour = [aProb getSurvivalProb];
            else if (loTemp == (double) -LARGEINT) loTemp = [aProb getSurvivalProb];
            else if (hiTemp == (double) -LARGEINT) hiTemp = [aProb getSurvivalProb];
-           else if (superImp == (double) -LARGEINT) superImp = [aProb getSurvivalProb];
+           else if (superimp == (double) -LARGEINT) superimp = [aProb getSurvivalProb];
     
        }
 
@@ -337,7 +337,7 @@ Boston, MA 02111-1307, USA.
            || (scour == (double) -LARGEINT) 
            || (loTemp == (double) -LARGEINT)
            || (hiTemp == (double) -LARGEINT)
-           || (superImp == (double) -LARGEINT))
+           || (superimp == (double) -LARGEINT))
         {
              fprintf(stderr, "ERROR: Redd >>>> survive probability values not properly set\n");
              fflush(0);
@@ -377,9 +377,9 @@ Boston, MA 02111-1307, USA.
 
         if(numberOfEggs > 0)
         {
-            eggsLostToSuperImp = [reddBinomialDist getUnsignedSampleWithNumTrials: (unsigned) numberOfEggs
-                                                              withProbability: (1.0 - superImp)];
-            numberOfEggs -= eggsLostToSuperImp; 
+            eggsLostToSuperimp = [reddBinomialDist getUnsignedSampleWithNumTrials: (unsigned) numberOfEggs
+                                                              withProbability: (1.0 - superimp)];
+            numberOfEggs -= eggsLostToSuperimp; 
         }
 
         if(numberOfEggs < 0)
@@ -394,13 +394,13 @@ Boston, MA 02111-1307, USA.
         numberOfEggsLostToScouring += (int)eggsLostToScouring;
         numberOfEggsLostToLowTemp += (int)eggsLostToLowTemp;
         numberOfEggsLostToHiTemp += (int)eggsLostToHiTemp;
-        numberOfEggsLostToSuperImp += (int)eggsLostToSuperImp;
+        numberOfEggsLostToSuperimp += (int)eggsLostToSuperimp;
 
         totalEggsLost =  numberOfEggsLostToDewatering 
                          + numberOfEggsLostToScouring 
                          + numberOfEggsLostToLowTemp 
                          + numberOfEggsLostToHiTemp 
-                         + numberOfEggsLostToSuperImp;
+                         + numberOfEggsLostToSuperimp;
 
        if(totalEggsLost > initialNumberOfEggs)
        {
@@ -415,14 +415,14 @@ Boston, MA 02111-1307, USA.
                               : eggsLostToScouring
                               : eggsLostToLowTemp
                               : eggsLostToHiTemp
-                              : eggsLostToSuperImp
+                              : eggsLostToSuperimp
                               : [model getModelTime] ];
 
        [self createSurvPrintStringWithDewaterSF: dewater
                                     withScourSF: scour
                                    withLoTempSF: loTemp
                                    withHiTempSF: hiTemp
-                                 withSuperImpSF: superImp];
+                                 withSuperimpSF: superimp];
      
 
       }
@@ -655,7 +655,7 @@ Boston, MA 02111-1307, USA.
                                                                  "Scouring",
                                                                  "LowTemp",
                                                                  "HiTemp",
-                                                                 "SuperImposition");
+                                                                 "Superimposition");
 
   printNdx = [printList listBegin: [self getZone]];
 
@@ -672,7 +672,7 @@ Boston, MA 02111-1307, USA.
                                                               numberOfEggsLostToScouring,
                                                               numberOfEggsLostToLowTemp,
                                                               numberOfEggsLostToHiTemp,
-                                                              numberOfEggsLostToSuperImp);
+                                                              numberOfEggsLostToSuperimp);
 
   fprintf(printRptPtr,"\n\n%s %p\n","END REPORT for Redd", self);
 
@@ -693,7 +693,7 @@ Boston, MA 02111-1307, USA.
                    : (int) eggsLostToScouring
                    : (int) eggsLostToLowTemp
                    : (int) eggsLostToHiTemp
-                   : (int) eggsLostToSuperImp
+                   : (int) eggsLostToSuperimp
                    : (time_t) aModelTime_t 
 {
 
@@ -710,7 +710,7 @@ Boston, MA 02111-1307, USA.
                                             eggsLostToScouring,
                                             eggsLostToLowTemp,
                                             eggsLostToHiTemp,
-                                            eggsLostToSuperImp);
+                                            eggsLostToSuperimp);
 
 
   [printList addLast: printString];
@@ -726,12 +726,10 @@ Boston, MA 02111-1307, USA.
 //printReddSurvReport
 //
 /////////////////////////////////////////////////////
-- printReddSurvReport: (FILE *) printRptPtr 
-{
+- printReddSurvReport: (FILE *) printRptPtr {
   id <ListIndex> printNdx;
   id nextString;
   const char *formatString;
-
 
   fprintf(printRptPtr,"\n\n%s %p\n","BEGIN SURVIVAL REPORT for Redd", self);
 
@@ -740,8 +738,7 @@ Boston, MA 02111-1307, USA.
                                                                 cellNumber);
 
   fprintf(printRptPtr,"Redd: %p INITIAL NUMBER OF EGGS: %d\n", self, initialNumberOfEggs);
-
-  formatString = "\n%-12p%-12s%-12s%-12s%-12s%-12s%-12s%-12s%-12s%-12s\n";
+  formatString = "\n%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n";
 
   fprintf(printRptPtr,formatString, "Redd",
                                     "Species",
@@ -752,16 +749,13 @@ Boston, MA 02111-1307, USA.
                                     "Scouring",
                                     "LowTemp",
                                     "HiTemp",
-                                    "SuperImposition");
-
+                                    "Superimposition");
 
   printNdx = [survPrintList listBegin: [self getZone]];
 
   while( ([printNdx getLoc] != End) && ( (nextString = [printNdx next]) != nil) ) {
-
     fprintf(printRptPtr,"%s",(char *) nextString);
     [[self getZone] free: (void *) nextString];
-
   }
 
   fprintf(printRptPtr,"\n\n%s %p\n","END SURVIVAL REPORT for Redd", self);
@@ -781,27 +775,50 @@ return self;
                          withScourSF: (double) aScourSF
                         withLoTempSF: (double) aLoTempSF
                         withHiTempSF: (double) aHiTempSF
-                      withSuperImpSF: (double) aSuperImpSF
+                      withSuperimpSF: (double) aSuperimpSF
  {
 
   id printString;
-  const char* formatString;
+  char formatString[150];
+  double temp,flow,depth;
+  
+  temp = [myCell getTemperature];
+  flow = [myCell getRiverFlow];
+  depth = [myCell getPolyCellDepth];
 
   printString  = [[self getZone] alloc: 300*sizeof(char)];
 
-  formatString = "%-12p%-12s%-12f%-12f%-12f%-12f%-12f%-12f%-12f%-12f\n";
+  strcpy(formatString,"%p,%s,%E,%E,%E,%E,%E,%E,%E,%E\n");
+  //pretty print
+  //strcpy(formatString,"%p,%s,");
+  //strcat(formatString,[BreakoutReporter formatFloatOrExponential: temp]);
+  //strcat(formatString,",");
+  //strcat(formatString,[BreakoutReporter formatFloatOrExponential: flow]);
+  //strcat(formatString,",");
+  //strcat(formatString,[BreakoutReporter formatFloatOrExponential: depth]);
+  //strcat(formatString,",");
+  //strcat(formatString,[BreakoutReporter formatFloatOrExponential: aDewaterSF]);
+  //strcat(formatString,",");
+  //strcat(formatString,[BreakoutReporter formatFloatOrExponential: aScourSF]);
+  //strcat(formatString,",");
+  //strcat(formatString,[BreakoutReporter formatFloatOrExponential: aLoTempSF]);
+  //strcat(formatString,",");
+  //strcat(formatString,[BreakoutReporter formatFloatOrExponential: aHiTempSF]);
+  //strcat(formatString,",");
+  //strcat(formatString,[BreakoutReporter formatFloatOrExponential: aSuperimpSF]);
+  //strcat(formatString,"\n");
 
-  sprintf((char *)printString,formatString, self  , [species getName],
-                                                  [myCell getTemperature],
-                                                  [myCell getRiverFlow],
-                                                  [myCell getPolyCellDepth],
-                                                  aDewaterSF,
-                                                  aScourSF,
-                                                  aLoTempSF,
-                                                  aHiTempSF,
-                                                  aSuperImpSF);
+  sprintf((char *)printString,formatString,self,
+					    [species getName],
+                                            [myCell getTemperature],
+                                            [myCell getRiverFlow],
+                                            [myCell getPolyCellDepth],
+                                            aDewaterSF,
+                                            aScourSF,
+                                            aLoTempSF,
+                                            aHiTempSF,
+                                            aSuperimpSF);
   [survPrintList addLast: printString];
-
   return self;
 }
 
@@ -825,7 +842,7 @@ return self;
                                            + numberOfEggsLostToScouring
                                            + numberOfEggsLostToLowTemp
                                            + numberOfEggsLostToHiTemp
-                                           + numberOfEggsLostToSuperImp);
+                                           + numberOfEggsLostToSuperimp);
 
   if(summaryString == NULL){
       summaryString = (char *) [[self getZone] alloc: 300*sizeof(char)];
@@ -857,7 +874,7 @@ return self;
                                        numberOfEggsLostToScouring,
                                        numberOfEggsLostToLowTemp,
                                        numberOfEggsLostToHiTemp,
-                                       numberOfEggsLostToSuperImp,
+                                       numberOfEggsLostToSuperimp,
                                        fryEmerged);
   fprintf(stdout, "Redd >>>> createReddSummaryStr >>>> END\n");
   fflush(0);

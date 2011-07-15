@@ -46,7 +46,7 @@ Boston, MA 02111-1307, USA.
 
   // generic Redd properties.
 
-  int superImpCount;
+  int superimpCount;
 
   int    numberOfEggs;
   int    initialNumberOfEggs;
@@ -62,7 +62,7 @@ Boston, MA 02111-1307, USA.
   int numberOfEggsLostToScouring;
   int numberOfEggsLostToLowTemp;
   int numberOfEggsLostToHiTemp;
-  int numberOfEggsLostToSuperImp;
+  int numberOfEggsLostToSuperimp;
 
   id <NormalDist> reddNormalDist;
   id <BinomialDist> reddBinomialDist;
@@ -142,7 +142,7 @@ Boston, MA 02111-1307, USA.
                    : (int) eggsLostToScouring
                    : (int) eggsLostToLowTemp
                    : (int) eggsLostToHiTemp
-                   : (int) eggsLostToSuperImp
+                   : (int) eggsLostToSuperimp
                    : (time_t) aModelTime_t;
 
 - printReddSurvReport: (FILE *) printRptPtr;
@@ -150,7 +150,7 @@ Boston, MA 02111-1307, USA.
                          withScourSF: (double) aScourSF
                         withLoTempSF: (double) aLoTempSF
                         withHiTempSF: (double) aHiTempSF
-                      withSuperImpSF: (double) aSuperImpSF;
+                      withSuperimpSF: (double) aSuperimpSF;
 
 
 - createReddSummaryStr;
