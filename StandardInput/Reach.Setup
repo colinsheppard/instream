@@ -5,36 +5,36 @@ Reach name, parameter file name, junction numbers, and input file names.
 
 REACHBEGIN
 reachName                         ExampleSiteA
-habParamFile                      ExampleHab.Params
+habParamFile                      ExampleSiteA-Hab.Params
 
 habDownstreamJunctionNumber       2
 habUpstreamJunctionNumber         1
 
 
-cellGeomFile                      ExampleSiteAGeom.Data
-cellHydraulicFile                 ExampleSiteAHyd.Data
+cellGeomFile                      ExampleSiteA-Geom.Data
+cellHydraulicFile                 ExampleSiteA-Hyd.csv
 flowFile                          ExampleFlowInput.csv
-temperatureFile                   ExampleSiteTemp.Data
-turbidityFile                     ExampleSiteTurb.Data
-cellHabVarsFile                   ExampleSiteACell.Data
+temperatureFile                   ExampleSiteTemp.csv
+turbidityFile                     ExampleSiteTurb.csv
+cellHabVarsFile                   ExampleSiteA-Cell.Data
 
 REACHEND
 
 
 REACHBEGIN
 reachName                         ExampleSiteC
-habParamFile                      ExampleHab.Params
+habParamFile                      ExampleSiteC-Hab.Params
 
 habDownstreamJunctionNumber       3
 habUpstreamJunctionNumber         2
 
 
-cellGeomFile                      ExampleSiteCGeom.Data
-cellHydraulicFile                 ExampleSiteCHyd.Data
+cellGeomFile                      ExampleSiteC-Geom.Data
+cellHydraulicFile                 ExampleSiteC-Hyd.csv
 flowFile                          ExampleFlowInput.csv
-temperatureFile                   ExampleSiteTemp.Data
-turbidityFile                     ExampleSiteTurb.Data
-cellHabVarsFile                   ExampleSiteCCell.Data
+temperatureFile                   ExampleSiteTemp.csv
+turbidityFile                     ExampleSiteTurb.csv
+cellHabVarsFile                   ExampleSiteC-Cell.Data
 
 REACHEND
 
