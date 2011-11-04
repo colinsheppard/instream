@@ -826,18 +826,6 @@ Boston, MA 02111-1307, USA.
    return habShearParamB;
 }
 
-////////////////////////////////////////////////////
-//
-// setHabSheltSpeedFrac
-//
-////////////////////////////////////////////////////
-- setHabShelterSpeedFrac: (double) aShelterSpeedFrac
-{
-    habShelterSpeedFrac = aShelterSpeedFrac;
-    return self;
-}
-
-
 ///////////////////////////////////////////////
 //
 // getHabShelterSpeedFrac
@@ -845,7 +833,7 @@ Boston, MA 02111-1307, USA.
 ///////////////////////////////////////////////
 - (double) getHabShelterSpeedFrac
 {
-   return habShelterSpeedFrac;
+   return [space getHabShelterSpeedFrac];
 }
 
 
