@@ -707,9 +707,7 @@ Boston, MA 02111-1307, USA.
 // printDataToFileNamed
 //
 ///////////////////////////////////////////
-- printDataToFileNamed: (char *) aFileName
-{
-
+- printDataToFileNamed: (char *) aFileName{
     FILE* filePtr=NULL;
     int ndx=0;
     time_t aCurrentTime =0;
@@ -721,60 +719,40 @@ Boston, MA 02111-1307, USA.
 
     double data;    
 
-    if(filePtr==NULL)
-    {
-      if((filePtr = fopen(aFileName, "w")) == NULL)
-      {
+    if(filePtr==NULL){
+      if((filePtr = fopen(aFileName, "w")) == NULL){
            [InternalError raiseEvent: "ERROR opening file %s for writing\n", aFileName];
       }
-
     }
-
 
     aCurrentTime = [timeManager getCurrentTimeT]; 
 
-
-    for(ndx=0; ndx < numRecords; ndx++)
-    {
+    for(ndx=0; ndx < numRecords; ndx++){
          strncpy(date, [timeManager getDateWithTimeT: (time_t) inputRecord[ndx][0]],11);
          hour = [timeManager getHourWithTimeT: (time_t) inputRecord[ndx][0]];
          minute = [timeManager getMinuteWithTimeT: (time_t) inputRecord[ndx][0]];
          second = [timeManager getSecondWithTimeT: (time_t) inputRecord[ndx][0]];
          data = inputRecord[ndx][1];
 
-         if(log10OfValuesOn == YES)
-         {
+         if(log10OfValuesOn == YES){
              data = pow(10, data);
          } 
-          
-
-         if(inputDataType == DAILY)
-         {
+         if(inputDataType == DAILY){
              fprintf(filePtr, "%ld %s %f\n", (long) inputRecord[ndx][0], date, data);
              fflush(filePtr);
-         }
-         else if (inputDataType == HOURLY)
-         {
+         }else if (inputDataType == HOURLY){
              fprintf(filePtr, "%ld %s %d %f\n", (long) inputRecord[ndx][0], date, hour, data);
              fflush(filePtr);
-         }
-         else if(inputDataType == OTHER)
-         {
+         }else if(inputDataType == OTHER){
              fprintf(filePtr, "%ld %s %d %d %d %f\n", (long) inputRecord[ndx][0], date, hour, minute, second, data);
              fflush(filePtr);
-         }
-         else
-         {
+         }else{
              fprintf(stderr, "ERROR: TimeSeriesInputManager >>>> printDataToFileNamed >>>> unknown data type\n");
              fflush(0);
              exit(1);
          } 
-
-
-       
-    } 
-
-
+  } 
+  fclose(filePtr);
   return self;
 }
 
