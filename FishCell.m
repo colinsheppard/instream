@@ -2040,22 +2040,6 @@ Boston, MA 02111-1307, USA.
 }
 
 
-
-
-///////////////////////////////////////////////////////////
-//
-// isThereABarrierTo
-//
-/////////////////////////////////////////////////////////
-- (int) isThereABarrierTo: aCell 
-{
-   //
-   //returns -1, 0, 1 depending on whether the barrier is downstream 
-   //
-   return [space isThereABarrierTo: aCell from: self];
-}    
-
-
 - (double) getHabDriftConc
 {
     return [space getHabDriftConc];

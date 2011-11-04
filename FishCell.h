@@ -248,11 +248,6 @@ Boston, MA 02111-1307, USA.
 
 
 //
-// Barrier pass through to habitat space 
-//
-- (int) isThereABarrierTo: aCell;
-
-//
 // PRED DENSITY 
 //
 - (double) getPiscivorousFishDensity;

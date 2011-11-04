@@ -46,8 +46,6 @@ Boston, MA 02111-1307, USA.
   char turbidityFile[50];
   char cellHabVarsFile[50];
 
-  id <List> barrierXList;
-
   id <List> listOfPolyInputData;
 
 }
@@ -70,7 +68,6 @@ Boston, MA 02111-1307, USA.
 - setTemperatureFile: (char *) aTemperatureFile;
 - setTurbidityFile: (char *) aTemperatureFile;
 - setCellHabVarsFile: (char *) aCellDataFile;
-- setBarrierXWith: (char *) aBarrierX;
 
 
 - (char *) getReachName;
@@ -86,7 +83,6 @@ Boston, MA 02111-1307, USA.
 - (char *) getTemperatureFile;
 - (char *) getTurbidityFile;
 - (char *) getCellHabVarsFile;
-- (id <List>) getBarrierXList;
 
 - (id <List>) getListOfPolyInputData;
 

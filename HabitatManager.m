@@ -234,6 +234,11 @@ Boston, MA 02111-1307, USA.
     if(strcmp(reachVarName, "turbidityFile") == 0){
        [habitatSetup setTurbidityFile: reachVar];
     }
+    if(strcmp(reachVarName, "barrierX") == 0){
+       fprintf(stderr, "ERROR: HabitatManager >>>> readReachSetupFile >>>> Reach.Setup  Barriers are invalid in this version of instream, remove parameter 'barrierX' from Reach.Setup\n");
+       fflush(0);
+       exit(1);
+    }
     if(strcmp(reachVarName, "cellHabVarsFile") == 0){
        [habitatSetup setCellHabVarsFile: reachVar];
     }

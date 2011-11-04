@@ -30,7 +30,6 @@ Boston, MA 02111-1307, USA.
 #import "BreakoutReporter.h"
 #import "TimeManagerProtocol.h"
 #import "TimeSeriesInputManagerP.h"
-#import "Barrier.h"
 #import "math.h"
 #import "InterpolationTableP.h"
 #import "SolarManagerP.h"
@@ -133,11 +132,6 @@ long int maxYCoordinate;
   id <Array> flowArray;
   id <InterpolationTable> flowInterpolator;
 
-  // 
-  // BARRIERS
-  //
-  id <List> barrierList;
-  int barrierCount;
   double maxCellY;
   double minCellY;
 
@@ -459,24 +453,6 @@ long int maxYCoordinate;
 - setFoodReportFirstTime: (BOOL) aBool;
 - (BOOL) getDepthVelRptFirstTime;
 - setDepthVelRptFirstTime: (BOOL) aBool;
-
-//
-// BARRIERS
-//
-//- buildBarriersFromList: (id <List>) aBarrierXList;
-
-
-//- setBarrierRasterResolutionX: (int) aResolutionX 
-               //andResolutionY: (int) aResolutionY;
-
-
-//- (id <List>) getBarriers;
-//- (int) isThereABarrierTo: aDestCell from: myCell;
-//- (BOOL) hasBarrierBetweenDownstreamEndAnd: aCell;
-//- (BOOL) hasBarrierBetweenUpstreamEndAnd: aCell;
-
-- (int) isThereABarrierTo: aDestCell from: myCell;
-
 
 //
 //  PRED DENSITY

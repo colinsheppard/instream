@@ -45,8 +45,6 @@ Boston, MA 02111-1307, USA.
    strcpy(habitatSetup->turbidityFile,"NONAME");
    strcpy(habitatSetup->cellHabVarsFile,"NONAME");
 
-   habitatSetup->barrierXList = nil;
-
    //
    // aZone should be the habManagerZone from HabitatManager
    //
@@ -188,22 +186,6 @@ Boston, MA 02111-1307, USA.
 }
 
 
-- setBarrierXWith: (char *) aBarrierX
-{
-   double* barrierX = (double *) [[self getZone] alloc: sizeof(double)];
-
-   if(barrierXList == nil)
-   {
-      barrierXList = [List create: [self getZone]];
-   }
-
-   *barrierX = atof(aBarrierX);
-   [barrierXList addLast: (void *) barrierX];
-
-   return self;
-}
-
-
 - (int) getHabitatIndex
 {
    return habIndex;
@@ -272,12 +254,6 @@ Boston, MA 02111-1307, USA.
 }
 
 
-- (id <List>) getBarrierXList
-{
-   return barrierXList;
-}
-
-
 /////////////////////////////////////////
 //
 ////       Poly DATA
@@ -298,10 +274,6 @@ Boston, MA 02111-1307, USA.
 ///////////////////////////////////
 - (void) drop
 {
-
-    [barrierXList deleteAll];
-    [barrierXList drop];
-    barrierXList = nil;
 
 }
 
