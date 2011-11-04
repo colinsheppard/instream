@@ -20,8 +20,6 @@ OBJECTS=Trout.o \
         ExperBatchSwarm.o \
         TroutBatchSwarm.o \
 \
-	Barrier.o \
-\
         Cutthroat.o \
         Spawner.o \
         Steelhead.o \
@@ -87,8 +85,6 @@ TimeManager.o : TimeManager.[hm]
 #
 ExperBatchSwarm.o : ExperBatchSwarm.[hm]
 TroutBatchSwarm.o : TroutBatchSwarm.[hm]
-#
-Barrier.o : Barrier.[hm]
 #
 Cutthroat.o : Cutthroat.[hm] DEBUGFLAGS.h
 Spawner.o : Spawner.[hm] DEBUGFLAGS.h
