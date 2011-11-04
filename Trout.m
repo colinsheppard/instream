@@ -3049,7 +3049,7 @@ Boston, MA 02111-1307, USA.
     depthSuit	  = [self getSpawnDepthSuitFor: [aCell getPolyCellDepth] ];
     velSuit	  = [self getSpawnVelSuitFor: [aCell getPolyCellVelocity]];
     spawnQuality  = [self getSpawnQuality: aCell];
-    strcpy(strDataFormat,"%p,%E,%E,%E,%E,%E,%E,%E\n");
+    strcpy(strDataFormat,"%d,%E,%E,%E,%E,%E,%E,%E\n");
     //pretty print
     //strcpy(strDataFormat,"%p,");
     //strcat(strDataFormat,[BreakoutReporter formatFloatOrExponential: cellDepth]);
@@ -3066,7 +3066,7 @@ Boston, MA 02111-1307, USA.
     //strcat(strDataFormat,",");
     //strcat(strDataFormat,[BreakoutReporter formatFloatOrExponential: spawnQuality]);
     //strcat(strDataFormat,"\n");
-    fprintf(spawnCellRptPtr,strDataFormat,self,
+    fprintf(spawnCellRptPtr,strDataFormat,fishID,
 					  cellDepth, 
 					  cellVelocity, 
 					  cellArea, 
