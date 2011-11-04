@@ -92,8 +92,7 @@ Boston, MA 02111-1307, USA.
 
   testInput = [TestInput create: parameterZone];
 
-  if( (filePtr = fopen(file, "r")) == NULL ) 
-  {
+  if( (filePtr = fopen(file, "r")) == NULL ){
      fprintf(stderr, "ERROR: ParameterManager >>>> ExperSwarm.m >>>> initializeParameters >>>> Cannot open %s for reading\n", file);
      fflush(0);
      exit(1);
@@ -117,40 +116,30 @@ Boston, MA 02111-1307, USA.
   fgets(header,HCOMMENTLENGTH,filePtr); 
   fgets(header,HCOMMENTLENGTH,filePtr); 
 
-
   strcpy(className, "FOO" );
   strcpy(paramName, "FOO" );
   strcpy(valueType, "FOO" );
   strcpy(value, "FOO" );
 
-
-  while(EOF != fscanf(filePtr,"%s %s", record, varValue)) 
-  {
+  while(EOF != fscanf(filePtr,"%s %s", record, varValue)) {
 
        if(record[0] == '#' ) continue;
 
-       if(strcmp(record, "numberOfScenarios") == 0 ) 
-       {
+       if(strcmp(record, "numberOfScenarios") == 0 ){
            numberOfScenarios = atoi(varValue);
            [modelIterator setNumScenarios: numberOfScenarios]; 
            continue;
-       }
-       else if(strcmp(record, "numberOfReplicates") == 0 ) 
-       {
+       }else if(strcmp(record, "numberOfReplicates") == 0 ){
            numberOfReplicates = atoi(varValue);
            [modelIterator setNumReplicates: numberOfReplicates];
            continue;
        }
-       if((numberOfScenarios == 0) || (numberOfReplicates == 0))
-       {
+       if((numberOfScenarios == 0) || (numberOfReplicates == 0)){
           fprintf(stderr, "ERROR: ParameterManager >>>> initializeParameters >>>> numberOfScenarios or numberOfReplicates equals 0\n");
           fflush(0);
           exit(1);
        }
-
- 
-       if(strcmp(record, "sendScenarioCountToParam:") == 0) 
-       {
+       if(strcmp(record, "sendScenarioCountToParam:") == 0){
           char * aScenarioCounter;
 
           aScenarioCounter = (char *) [parameterZone alloc: (1 + strlen(varValue))*sizeof(char)];
@@ -162,8 +151,7 @@ Boston, MA 02111-1307, USA.
          
           fscanf(filePtr,"%s %s", record, varValue);
 
-          if(strcmp(record, "inClass:") != 0) 
-          {
+          if(strcmp(record, "inClass:") != 0){
              fprintf(stderr,"ERROR: ParameterManager >>>> initializeParameters >>>> Check sendScenarioCountToParam in %s\n", file);
              fflush(0);
              exit(1);
@@ -174,12 +162,8 @@ Boston, MA 02111-1307, USA.
           strncpy(record, "FOO", strlen("FOO"));
           strncpy(varValue, "FOO", strlen("FOO"));
           continue;
-
        }
-     
-  
-       if(strcmp(record, "sendReplicateCountToParam:") == 0) 
-       {
+       if(strcmp(record, "sendReplicateCountToParam:") == 0) {
           char * aReplicateCounter;
 
           aReplicateCounter = (char *) [parameterZone alloc: (1 + strlen(varValue))*sizeof(char)];
@@ -191,9 +175,7 @@ Boston, MA 02111-1307, USA.
          
           fscanf(filePtr,"%s %s", record, varValue);
 
-
-          if(strcmp(record, "inClass:") != 0) 
-          {
+          if(strcmp(record, "inClass:") != 0) {
               fprintf(stderr,"ERROR: ParameterManager >>>> initializeParameters >>>> Check sendReplicateCountToParam in %s\n", file);
               fflush(0);
               exit(1);
@@ -201,63 +183,44 @@ Boston, MA 02111-1307, USA.
 
           [modelIterator sendReplicateCountToParam: (const char *) aReplicateCounter
                                            inClass: objc_get_class(varValue)];
-          
-
            strncpy(record, "FOO", strlen("FOO"));
            strncpy(varValue, "FOO", strlen("FOO"));
            continue;
-
        }
-
-       if(!ERROR)
-       {
+       if(!ERROR){
            NOVARS = NO;
-           if(strcmp(record,"ClassName") == 0) 
-           {
+           if(strcmp(record,"ClassName") == 0) {
               strcpy(className,varValue);
-    
-              if((varValueCount != numberOfScenarios) && !firstClassName)
-              {
+              if((varValueCount != numberOfScenarios) && !firstClassName){
                  ERROR = YES;
               }
-              if(classNameCount > 0)
-              {
+              if(classNameCount > 0){
                  ERROR = YES;
               }
-
-       
               firstClassName = NO;
               ++classNameCount;
               instanceNameCount = 0;
               continue;
-          
            }
-           if((strcmp(record,"InstanceName") == 0) && (classNameCount == 1)) 
-           {
+           if((strcmp(record,"InstanceName") == 0) && (classNameCount == 1)) {
               fprintf(stdout, "ParameterManager >>>> instanceName = %s >>>> BEGIN\n", varValue);
               fflush(0);
 	      BOOL varValueIsNone = ( strncmp(varValue, "NONE", strlen("NONE")) == 0 ||
 				      strncmp(varValue, "None", strlen("NONE")) == 0 ||
 				      strncmp(varValue, "none", strlen("NONE")) == 0 );
-              if(!varValueIsNone)
-              {
+              if(!varValueIsNone){
                   id <Symbol> anInstanceName = nil;
                   BOOL instanceNameFound = NO;
-                  if([instanceNames getCount] == 0)
-                  {
+                  if([instanceNames getCount] == 0){
                      anInstanceName = [Symbol create: parameterZone setName: varValue];
                      [instanceNames addLast: anInstanceName];
                      instanceName = anInstanceName;
-                  }
-                  else
-                  { 
+                  }else{ 
                        id <ListIndex> ndx = [instanceNames listBegin: scratchZone];
                        char* aName = (char *) NULL;
-                       while(([ndx getLoc] != End) && ((anInstanceName = [ndx next]) != nil))
-                       {
+                       while(([ndx getLoc] != End) && ((anInstanceName = [ndx next]) != nil)){
                            aName = (char *)[anInstanceName getName];
-                           if(strncmp(aName, varValue, strlen(varValue)) == 0)
-                           { 
+                           if(strncmp(aName, varValue, strlen(varValue)) == 0){ 
                               instanceName = anInstanceName;
                               instanceNameFound = YES;
                               break;
@@ -265,22 +228,17 @@ Boston, MA 02111-1307, USA.
                        }
                        [ndx drop];
                        
-                       if(!instanceNameFound)
-                       {
+                       if(!instanceNameFound){
                          anInstanceName = [Symbol create: parameterZone setName: varValue];
                          [instanceNames addLast: anInstanceName];
                          instanceName = anInstanceName;
                        }           
-
                   }
-              }
-              else
-              { 
+              }else{ 
                  instanceName = NONE;
               }
 
-              if(instanceNameCount > 0)
-              {
+              if(instanceNameCount > 0){
                  ERROR = YES;
               }
 
@@ -289,12 +247,10 @@ Boston, MA 02111-1307, USA.
 
               continue;
            }
-           if((strcmp(record,"ParamName") == 0) && (classNameCount == 1)) 
-           {
+           if((strcmp(record,"ParamName") == 0) && (classNameCount == 1)) {
               strcpy(paramName,varValue);
               varValueCount = 0;
-              if(paramNameCount > 0)
-              {
+              if(paramNameCount > 0){
                  ERROR = YES;
               }
 
@@ -302,41 +258,32 @@ Boston, MA 02111-1307, USA.
               valueTypeCount = 0;
               continue;
            }
-           if((strcmp(record,"ValueType") == 0) && (paramNameCount == 1)) 
-           {
+           if((strcmp(record,"ValueType") == 0) && (paramNameCount == 1)) {
               strcpy(valueType,varValue);
-              if(valueTypeCount > 0)
-              {
+              if(valueTypeCount > 0){
                   ERROR = YES;
               }
 
               ++valueTypeCount;
               continue;
            }
-           if((strcmp(record,"Value") == 0) && (varValueCount <= numberOfScenarios) && (valueTypeCount == 1)) 
-           {
+           if((strcmp(record,"Value") == 0) && (varValueCount <= numberOfScenarios) && (valueTypeCount == 1)) {
               strcpy(value,varValue);
               strcpy(varValue, "");
                 
               ++varValueCount;
               classNameCount = 0;
-           }
-           else 
-           {
+           }else {
                ERROR = YES;
            }
-
        } //if !ERROR
 
-
-       if((varValueCount <= numberOfScenarios) && !ERROR)
-       {
+       if((varValueCount <= numberOfScenarios) && !ERROR){
 
            if(    (strcmp(className,"FOO") != 0)
               &&  (strcmp(paramName,"FOO") != 0)
               &&  (strcmp(valueType,"FOO") != 0) 
-              &&  (strcmp(value,"FOO") != 0)) 
-              {
+              &&  (strcmp(value,"FOO") != 0)) {
                    void * aValue=(void *) NULL;
 
                    [testInput  testInputWithDataType: valueType
@@ -346,112 +293,84 @@ Boston, MA 02111-1307, USA.
                    //
                    // Memory allocation takes place in the scenario iterator.
                    //
-                   if(strcmp(valueType, "filename") == 0) 
-                   {
+                   if(strcmp(valueType, "filename") == 0) {
                        aValue = (void *) value;   
                        paramType = _C_CHARPTR;
-                   }
-                   else if(strcmp(valueType, "day") == 0) 
-                   {
+                   }else if(strcmp(valueType, "day") == 0) {
                        aValue = (void *) value;   
                        paramType = _C_CHARPTR;
-                   }
-                   else if(strcmp(valueType, "date") == 0) 
-                   {
+                   }else if(strcmp(valueType, "date") == 0) {
                        aValue = (void *) value;   
                        paramType = _C_CHARPTR;
-                   }
-                   else if(strcmp(valueType, "int") == 0) 
-                   {
+                   }else if(strcmp(valueType, "int") == 0) {
                        int i;
                        i = atoi(value);
                        aValue = (void *) &i;   
                        paramType = _C_INT;
-                   }
-                   else if(strcmp(valueType, "BOOL") == 0) 
-                   {
+                   }else if(strcmp(valueType, "BOOL") == 0) {
                        int i;
                        if(strcmp(value, "NO") == 0) i = (BOOL) 0;
                        if(strcmp(value, "YES")  == 0) i = (BOOL) 1;
                        aValue = (void *) &i;   
                        paramType = _C_UCHR;
-                    }
-                    else if(strcmp(valueType, "float") == 0) 
-                    {
+                    }else if(strcmp(valueType, "float") == 0) {
                        float f;
                        f = atof(value);
                        aValue = (void *) &f;   
                        paramType = _C_FLT;
-                    }
-                    else if(strcmp(valueType, "double") == 0) 
-                    {
+                    }else if(strcmp(valueType, "double") == 0) {
                        double d;
                        d = atof(value);
                        aValue = (void *) &d;   
                        paramType = _C_DBL;
-                    }
-                    else 
-                    {
+                    }else {
                         fprintf(stderr, "ERROR: ParameterManager >>>> initializeParameters >>>> incorrect data type\n");
                         fprintf(stderr, "       check experiment set up file for parameter: %s\n", paramName);
                         fflush(0);
                         exit(1);
                     }
-    
-
-                    if(objc_lookup_class(className) == Nil)
-                    {
+                    if(objc_lookup_class(className) == Nil){
                         fprintf(stderr, "ERROR: ParameterManager >>>> initializeParameters >>>> cannot find class %s\n", className);
                         fprintf(stderr, "       Check the experiment setup file\n");
                         fflush(0);
                         exit(1);
                     }
-              
                     [modelIterator appendToIterSetParam: (const char *) paramName
                                           withParamType: paramType
 		                                ofClass: objc_get_class(className)
                                        withInstanceName: instanceName
                                              paramValue: (void *) aValue];
-
                     strcpy(value,"FOO");
 
-                    if([managedClasses contains: objc_get_class(className)] == NO) 
-                    {
+                    if([managedClasses contains: objc_get_class(className)] == NO) {
                         [managedClasses addLast: objc_get_class(className)];
                     } 
               }
-       } //if varValueCount
-       else
-       {
+       }else{ //if varValueCount
            ERROR = YES;
        }
-
  } //while
 
-
- if(NOVARS == NO)
- {
+ if(NOVARS == NO){
      //
      // For the last block of data in the experiment input file
      // 
-     if(varValueCount != numberOfScenarios)
-     {
+     if(varValueCount != numberOfScenarios){
         ERROR = YES;
      }
 
-     if(ERROR == YES)
-     {
+     if(ERROR == YES){
         fprintf(stderr, "ERROR: ParameterManager >>>> initializeParameters >>>> data input error check %s\n", file);
         fflush(0);
         exit(1);
      }
  }
-     modelIterator = [modelIterator createEnd];
+ modelIterator = [modelIterator createEnd];
     
-     fprintf(stderr, "ParameterManager >>>> initializeParameters >>>> END\n");
-     fflush(0);
+ fprintf(stderr, "ParameterManager >>>> initializeParameters >>>> END\n");
+ fflush(0);
 
-  return self;
+ return self;
 }
 
 
