@@ -3,7 +3,7 @@ SWARMHOME=/usr
 endif
 
 
-APPLICATION=instream-2d
+APPLICATION=instream
 OBJECTS=Trout.o \
 	HabitatSpace.o \
 	Redd.o \
