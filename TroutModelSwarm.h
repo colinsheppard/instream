@@ -154,8 +154,8 @@ char*        movementRule;
 
   time_t popInitTime;
 
-
   id fishColorMap;
+  int fishCounter;
 
   id <List> speciesSymbolList;  // List of symbols corresp to species studied
 

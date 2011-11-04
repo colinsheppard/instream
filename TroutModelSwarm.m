@@ -146,6 +146,8 @@ char **speciesColor;
 
   reachSymbolList = [List create: modelZone];
 
+  fishCounter = 0;
+
   fprintf(stdout, "TroutModelSwarm >>>> buildObjects >>> instantiateObjects >>>> BEFORE HabitatManager\n");
   fflush(0);
 
@@ -1757,6 +1759,9 @@ char **speciesColor;
   [newFish setSpawnDepthInterpolator: aSpawnDepthInterpolator];
   [newFish setSpawnVelocityInterpolator: aSpawnVelocityInterpolator];
   [newFish setCaptureLogistic: aCaptureLogistic];
+
+  fishCounter++;  // Give each fish a serial number ID
+  [newFish setFishID: fishCounter];
 
   newFish = [newFish createEnd];
 

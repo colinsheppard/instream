@@ -65,6 +65,17 @@ Boston, MA 02111-1307, USA.
   return self;
 }
 
+/////////////////////////////////////////////////////////////////////////////
+//
+// setFishID
+//
+////////////////////////////////////////////////////////////////////////////
+- setFishID: (int) anIDNum 
+{
+  fishID = anIDNum;
+
+  return self;
+}
 
 
 ///////////////////////////////////////////////
@@ -2786,9 +2797,9 @@ Boston, MA 02111-1307, USA.
        fileMetaData = [BreakoutReporter reportFileMetaData: scratchZone];
        fprintf(mvRptPtr,"\n%s\n\n",fileMetaData);
        [scratchZone free: fileMetaData];
-       fprintf(mvRptPtr,"%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,\n",
+       fprintf(mvRptPtr,"%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,\n",
                                                            "DATE",
-                                                           //"FISH-ID",
+							   "FISH-ID",
 							   "SPECIES",
 							   "AGE",
                                                           "VELOCITY",
@@ -2831,34 +2842,35 @@ Boston, MA 02111-1307, USA.
       exit(1);
   }
 
-  strcpy(strDataFormat,"%s,%s,%d,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%s,%E,%E,%s,%E,%E,%E\n");
+  strcpy(strDataFormat,"%s,%d,%s,%d,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%s,%E,%E,%s,%E,%E,%E\n");
   fprintf(mvRptPtr, strDataFormat,[timeManager getDateWithTimeT: [self getCurrentTimeT]],
-						   mySpecies,
-						   age,
-                                                   velocity,
-                                                   depth,
-                                                   temp,
-                                                   turbidity,
-                                                   distToHide,
-                                                   piscivDensity,
-                                                   availableDrift,
-                                                   availableSearch,
-                                                   fishLength,
-                                                   fishWeight,
-                                                   feedTimeForCell,
-                                                   captureSuccess,
-                                                   potentialHourlyDriftIntake,
-                                                   potentialHourlySearchIntake,
-                                                   cMax,
-                                                   standardResp,
-                                                   activeResp,
-                                                   inShelter,
-                                                   dailyDriftNetEnergy,
-                                                   dailySearchNetEnergy,
-                                                   feedStrategy,
-                                                   nonStarvSurvival,
-                                                   netEnergyForBestCell,
-                                                   expectedMaturity);
+                                fishID,
+				mySpecies,
+				age,
+                                velocity,
+                                depth,
+                                temp,
+                                turbidity,
+                                distToHide,
+                                piscivDensity,
+                                availableDrift,
+                                availableSearch,
+                                fishLength,
+                                fishWeight,
+                                feedTimeForCell,
+                                captureSuccess,
+                                potentialHourlyDriftIntake,
+                                potentialHourlySearchIntake,
+                                cMax,
+                                standardResp,
+                                activeResp,
+                                inShelter,
+                                dailyDriftNetEnergy,
+                                dailySearchNetEnergy,
+                                feedStrategy,
+                                nonStarvSurvival,
+                                netEnergyForBestCell,
+                                expectedMaturity);
 
 
   fflush(mvRptPtr);
