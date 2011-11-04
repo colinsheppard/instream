@@ -176,8 +176,7 @@ Boston, MA 02111-1307, USA.
   fflush(0);
   
 
-  if((reachFilePtr = fopen(aReachSetupFile, "r")) == NULL)
-  {
+  if((reachFilePtr = fopen(aReachSetupFile, "r")) == NULL){
       fprintf(stdout, "ERROR: HabitatManager >>>> readReachSetupFile >>>> fileName = %s \n", aReachSetupFile);
       fflush(0);
       exit(1);
@@ -187,132 +186,98 @@ Boston, MA 02111-1307, USA.
   fgets(header, 300, reachFilePtr);
   fgets(header, 300, reachFilePtr);
 
-      while(fscanf(reachFilePtr,"%s", reachVarName) != EOF)
-      {
-        if(strcmp(reachVarName, "REACHBEGIN") == 0)
-        {
-           //fprintf(stdout, "HABITATMANAGER >>>> if reach begin >>>>\n");
-           //fflush(0);
-           habitatSetup = [HabitatSetup createBegin: habManagerZone]; 
-           [habitatSetup setHabitatIndex: ++habIndex];
-           habitatSetup = [habitatSetup createEnd];
-           [habitatSetupList addLast: habitatSetup];
-           xprint(habitatSetup);
-           xprint(habitatSetupList);
-           continue;
-        }
+  while(fscanf(reachFilePtr,"%s", reachVarName) != EOF){
+    if(strcmp(reachVarName, "REACHBEGIN") == 0){
+       //fprintf(stdout, "HABITATMANAGER >>>> if reach begin >>>>\n");
+       //fflush(0);
+       habitatSetup = [HabitatSetup createBegin: habManagerZone]; 
+       [habitatSetup setHabitatIndex: ++habIndex];
+       habitatSetup = [habitatSetup createEnd];
+       [habitatSetupList addLast: habitatSetup];
+       xprint(habitatSetup);
+       xprint(habitatSetupList);
+       continue;
+    }
+    if(strcmp(reachVarName, "REACHEND") == 0){
+       continue;
+    }
+    if(fscanf(reachFilePtr,"%s", reachVar) == EOF){
+        fprintf(stderr, "ERROR: HabitatManager >>>> End of file >>>> Please check the Habitat Manager Setup file\n");
+        fflush(0);
+        exit(1);
+    }
+    if(strcmp(reachVarName, "reachName") == 0){
+       [habitatSetup setReachName: reachVar];
+       [habitatSetup setReachSymbol: [model getReachSymbolWithName: reachVar]];
+    }
+    if(strcmp(reachVarName, "habDownstreamJunctionNumber") == 0){
+       [habitatSetup setHabDStreamJNumber: atoi(reachVar)];
+    }
+    if(strcmp(reachVarName, "habUpstreamJunctionNumber") == 0){
+       [habitatSetup setHabUStreamJNumber: atoi(reachVar)];
+    }
+    if(strcmp(reachVarName, "habParamFile") == 0){
+       [habitatSetup setHabParamFile: reachVar];
+    }
+    if(strcmp(reachVarName, "cellGeomFile") == 0){
+       [habitatSetup setCellGeomFile: reachVar];
+    }
+    if(strcmp(reachVarName, "cellHydraulicFile") == 0){
+       [habitatSetup setHydraulicFile: reachVar];
+    }
+    if(strcmp(reachVarName, "flowFile") == 0){
+       [habitatSetup setFlowFile: reachVar];
+    }
+    if(strcmp(reachVarName, "temperatureFile") == 0){
+       [habitatSetup setTemperatureFile: reachVar];
+    }
+    if(strcmp(reachVarName, "turbidityFile") == 0){
+       [habitatSetup setTurbidityFile: reachVar];
+    }
+    if(strcmp(reachVarName, "cellHabVarsFile") == 0){
+       [habitatSetup setCellHabVarsFile: reachVar];
+    }
+    if(strcmp(reachVarName, "reachFlow") == 0){
+       PolyInputData* polyInputData = [PolyInputData create: habManagerZone];
 
-        if(strcmp(reachVarName, "REACHEND") == 0)
-        {
-           continue;
-        }
+       double reachFlow = atof(reachVar);
 
-        if(fscanf(reachFilePtr,"%s", reachVar) == EOF)
-        {
-            fprintf(stderr, "ERROR: HabitatManager >>>> End of file >>>> Please check the Habitat Manager Setup file\n");
-            fflush(0);
-            exit(1);
-        }
-    
-        if(strcmp(reachVarName, "reachName") == 0)
-        {
-           [habitatSetup setReachName: reachVar];
-           [habitatSetup setReachSymbol: [model getReachSymbolWithName: reachVar]];
-        }
-         
-        if(strcmp(reachVarName, "habDownstreamJunctionNumber") == 0)
-        {
-           [habitatSetup setHabDStreamJNumber: atoi(reachVar)];
-        }
-         
-        if(strcmp(reachVarName, "habUpstreamJunctionNumber") == 0)
-        {
-           [habitatSetup setHabUStreamJNumber: atoi(reachVar)];
-        }
+       [polyInputData setPolyFlow: reachFlow];
 
-        if(strcmp(reachVarName, "habParamFile") == 0)
-        {
-           [habitatSetup setHabParamFile: reachVar];
-        }
-         
-        if(strcmp(reachVarName, "cellGeomFile") == 0)
-        {
-           [habitatSetup setCellGeomFile: reachVar];
-        }
+       //
+       // Read another line of input
+       // Should be a velocity data file
+       fscanf(reachFilePtr,"%s %s", reachVarName, reachVar);
+       
+       if(strcmp(reachVarName, "reachVelocityFile") != 0){
+           fprintf(stderr, "ERROR: HabitatManager >>>> readReachSetupFile >>>> Reach.Setup velocity and depth files out of order\n");
+           fflush(0);
+           exit(1);
+       }
+       [polyInputData  setPolyVelocityDataFile: reachVar];;
 
-        if(strcmp(reachVarName, "cellHydraulicFile") == 0)
-        {
-           [habitatSetup setHydraulicFile: reachVar];
-        }
-         
-        if(strcmp(reachVarName, "flowFile") == 0)
-        {
-           [habitatSetup setFlowFile: reachVar];
-        }
-         
-        if(strcmp(reachVarName, "temperatureFile") == 0)
-        {
-           [habitatSetup setTemperatureFile: reachVar];
-        }
-         
-        if(strcmp(reachVarName, "turbidityFile") == 0)
-        {
-           [habitatSetup setTurbidityFile: reachVar];
-        }
-         
-        if(strcmp(reachVarName, "cellHabVarsFile") == 0)
-        {
-           [habitatSetup setCellHabVarsFile: reachVar];
-        }
-         
-        if(strcmp(reachVarName, "reachFlow") == 0)
-        {
-           PolyInputData* polyInputData = [PolyInputData create: habManagerZone];
+       //
+       // Read another line of input
+       // Should be a flow data file
+       //
+       fscanf(reachFilePtr,"%s %s", reachVarName, reachVar);
+       if(strcmp(reachVarName, "reachDepthFile") != 0){
+           fprintf(stderr, "ERROR: HabitatManager >>>> readReachSetupFile >>>> Reach.Setup velocity and depth files out of order\n");
+           fflush(0);
+           exit(1);
+       }
+       [polyInputData  setPolyDepthDataFile: reachVar];;
 
-           double reachFlow = atof(reachVar);
-
-           [polyInputData setPolyFlow: reachFlow];
-
-           //
-           // Read another line of input
-           // Should be a velocity data file
-           //
-           fscanf(reachFilePtr,"%s %s", reachVarName, reachVar);
-           
-           if(strcmp(reachVarName, "reachVelocityFile") != 0)
-           {
-               fprintf(stderr, "ERROR: HabitatManager >>>> readReachSetupFile >>>> Reach.Setup velocity and depth files out of order\n");
-               fflush(0);
-               exit(1);
-           }
-           [polyInputData  setPolyVelocityDataFile: reachVar];;
-
-           //
-           // Read another line of input
-           // Should be a flow data file
-           //
-           fscanf(reachFilePtr,"%s %s", reachVarName, reachVar);
-           if(strcmp(reachVarName, "reachDepthFile") != 0)
-           {
-               fprintf(stderr, "ERROR: HabitatManager >>>> readReachSetupFile >>>> Reach.Setup velocity and depth files out of order\n");
-               fflush(0);
-               exit(1);
-           }
-           [polyInputData  setPolyDepthDataFile: reachVar];;
-
-           //
-           // Now add this to the list of poly input data objects
-           //
-           [[habitatSetup getListOfPolyInputData] addLast: polyInputData];
-        }
-         
-        //fprintf(stdout,"reachVarName %s\n", reachVarName);
-        //fprintf(stdout,"reachVar %s\n", reachVar);
-        //xprint([habitatSetup getReachSymbol]);
-        //fflush(0);
-
-      }
-
+       //
+       // Now add this to the list of poly input data objects
+       //
+       [[habitatSetup getListOfPolyInputData] addLast: polyInputData];
+    }
+    //fprintf(stdout,"reachVarName %s\n", reachVarName);
+    //fprintf(stdout,"reachVar %s\n", reachVar);
+    //xprint([habitatSetup getReachSymbol]);
+    //fflush(0);
+  }
   fclose(reachFilePtr);
 
   numHabitatSpaces = [habitatSetupList getCount];
@@ -320,10 +285,7 @@ Boston, MA 02111-1307, USA.
   fprintf(stdout, "HabitatManager >>>> readReachSetupFile >>>> END\n");
   fflush(0);
  
-
   return self;
-  
-
 }
 
 
