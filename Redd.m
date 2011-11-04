@@ -289,8 +289,8 @@ Boston, MA 02111-1307, USA.
 
   int totalEggsLost = 0;
 
-  fprintf(stdout, "Redd >>>> survive >>>> BEGIN\n");
-  fflush(0);
+  //fprintf(stdout, "Redd >>>> survive >>>> BEGIN\n");
+  //fflush(0);
   //
   // Survival Manager Code
   //
