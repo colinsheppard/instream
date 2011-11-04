@@ -4,7 +4,6 @@
 @begin
 
 randGenSeed                  32461
-numberOfSpecies              1
 
 runStartDate                 10/1/2006
 runEndDate                   9/30/2007
