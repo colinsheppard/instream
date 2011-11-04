@@ -1723,10 +1723,14 @@ Boston, MA 02111-1307, USA.
 
    }
 
-//PRINT THE MOVE REPORT
-#ifdef MOVE_REPORT_ON
-[self moveReport: bestDest];
-#endif
+   // Update previous location
+   prevCell = myCell;
+   prevReach = reach;
+
+  //PRINT THE MOVE REPORT
+  #ifdef MOVE_REPORT_ON
+  [self moveReport: bestDest];
+  #endif
 
 
 
@@ -2797,11 +2801,15 @@ Boston, MA 02111-1307, USA.
        fileMetaData = [BreakoutReporter reportFileMetaData: scratchZone];
        fprintf(mvRptPtr,"\n%s\n\n",fileMetaData);
        [scratchZone free: fileMetaData];
-       fprintf(mvRptPtr,"%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,\n",
+       fprintf(mvRptPtr,"%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,\n",
                                                            "DATE",
 							   "FISH-ID",
 							   "SPECIES",
 							   "AGE",
+							   "PrevREACH",
+							   "REACH",
+							   "PrevCELL",
+							   "CELL",
                                                           "VELOCITY",
                                                           "DEPTH",
                                                           "TEMP",
@@ -2842,11 +2850,15 @@ Boston, MA 02111-1307, USA.
       exit(1);
   }
 
-  strcpy(strDataFormat,"%s,%d,%s,%d,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%s,%E,%E,%s,%E,%E,%E\n");
+  strcpy(strDataFormat,"%s,%d,%s,%d,%s,%s,%d,%d,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%s,%E,%E,%s,%E,%E,%E\n");
   fprintf(mvRptPtr, strDataFormat,[timeManager getDateWithTimeT: [self getCurrentTimeT]],
                                 fishID,
 				mySpecies,
 				age,
+				[prevReach getReachName],
+				[[aCell getReach] getReachName],
+				[prevCell getPolyCellNumber],
+				[aCell getPolyCellNumber],
                                 velocity,
                                 depth,
                                 temp,
