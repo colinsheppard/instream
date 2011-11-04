@@ -127,8 +127,7 @@ Boston, MA 02111-1307, USA.
          numberOfScenarios = atoi(varValue);
          [modelIterator setNumScenarios: numberOfScenarios]; 
          continue;
-     }
-     else if(strcmp(record, "numberOfReplicates") == 0 ) {
+     }else if(strcmp(record, "numberOfReplicates") == 0 ) {
          numberOfReplicates = atoi(varValue);
          [modelIterator setNumReplicates: numberOfReplicates];
          continue;
@@ -211,7 +210,10 @@ Boston, MA 02111-1307, USA.
            if((strcmp(record,"InstanceName") == 0) && (classNameCount == 1)) {
               fprintf(stdout, "ParameterManager >>>> instanceName = %s >>>> BEGIN\n", varValue);
               fflush(0);
-              if(strncmp(varValue, "NONE", strlen("NONE")) != 0){
+	      BOOL varValueIsNone = ( strncmp(varValue, "NONE", strlen("NONE")) == 0 ||
+				      strncmp(varValue, "None", strlen("NONE")) == 0 ||
+				      strncmp(varValue, "none", strlen("NONE")) == 0 );
+              if(!varValueIsNone){
                   id <Symbol> anInstanceName = nil;
                   BOOL instanceNameFound = NO;
                   if([instanceNames getCount] == 0){

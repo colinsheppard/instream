@@ -12,6 +12,7 @@ sendReplicateCountToParam: replicate
 inClass:                  TroutModelSwarm
 
 #ClassName    FishParams
+#InstanceName NONE
 #ParamName    fishSpawnProb
 #ValueType    double
 #Value        0.9
