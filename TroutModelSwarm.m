@@ -29,6 +29,7 @@ Boston, MA 02111-1307, USA.
 #import <random.h>
 #import "FishParams.h"
 #import "TroutModelSwarm.h"
+#import "TroutObserverSwarm.h"
 
 /*
 @protocol Observer 
@@ -195,6 +196,33 @@ char **speciesColor;
 {
     observerSwarm = anObserverSwarm;
     return self;
+}
+
+/////////////////////////////////////
+//
+// getObserverSwarm
+//
+////////////////////////////////////
+- getObserverSwarm{
+    return observerSwarm;
+}
+
+/////////////////////////////////////////////////////////////////
+//
+// setWriteFoodAvailabilityReport
+//
+//////////////////////////////////////////////////////////////
+- setWriteFoodAvailabilityReport: (char *) writeFoodAvail {
+  writeFoodAvailabilityReport = writeFoodAvail;
+  return self;
+}
+/////////////////////////////////////////////////////////////////
+//
+// getWriteFoodAvailabilityReport
+//
+//////////////////////////////////////////////////////////////
+- (char *) getWriteFoodAvailabilityReport {
+  return writeFoodAvailabilityReport;
 }
 
 //////////////////////////////////////////////////////////////////

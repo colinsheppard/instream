@@ -277,7 +277,7 @@ long int maxYCoordinate;
 - finishBuildObjects;
 
 - setModel: (id <TroutModelSwarm>) aModelSwarm;
-- getModel;
+- (id <TroutModelSwarm>) getModel;
 
 - setReachName: (char *) aReachName;
 - setInstanceName: (char *) anInstanceName;

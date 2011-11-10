@@ -70,6 +70,8 @@ Boston, MA 02111-1307, USA.
   char* tagCellColor;
   char* dryCellColor;
 
+  char* writeFoodAvailabilityReport;
+
 @public
   int modelNumber;
 
@@ -96,5 +98,4 @@ Boston, MA 02111-1307, USA.
 
 - (id <Swarm>) getModelSwarm;
 - (id <Zone>) getObsZone;
-
 @end

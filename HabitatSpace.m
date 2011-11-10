@@ -304,7 +304,7 @@ Boston, MA 02111-1307, USA.
 // getModel
 //
 ///////////////////////////////////////////////////////////
-- getModel 
+- (id <TroutModelSwarm>) getModel 
 {
   return modelSwarm;
 }

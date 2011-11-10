@@ -65,6 +65,8 @@ extern id <Symbol> Male, Female;
 
 id randGen; // use the same generator for all random draws in the model
 
+extern BOOL writeTest;
+
 //
 // Define the line length for
 // comment header lines in input files

@@ -87,20 +87,14 @@ Boston, MA 02111-1307, USA.
   return obj;
 }
 
-
-
 /////////////////////////////////////////////////////////////////
 //
 // getModel
 //
 //////////////////////////////////////////////////////////////
 - getModel {
-
   return troutModelSwarm;
-
 }
-
-
 
 //////////////////////////////////////////////////////
 //
@@ -121,6 +115,8 @@ Boston, MA 02111-1307, USA.
   //troutModelSwarm->rasterResolutionX = rasterResolutionX;
   //troutModelSwarm->rasterResolutionY = rasterResolutionY;
   //troutModelSwarm->rasterColorVariable = rasterColorVariable;
+  
+  [troutModelSwarm setWriteFoodAvailabilityReport: writeFoodAvailabilityReport];
 
   fprintf(stderr,"modelSetupFile = %s \n", modelSetupFile);
   fflush(stderr);

@@ -40,8 +40,6 @@ Boston, MA 02111-1307, USA.
 
 #import "PolyCell.h"
 
-//#define FOOD_AVAIL_REPORT
-
 
 @interface FishCell : PolyCell
 {
@@ -101,6 +99,8 @@ Boston, MA 02111-1307, USA.
   char reachEnd;
   double cellDistToUS;
   double cellDistToDS;
+
+  char * writeFoodAvailabilityReport;
 }
 + create: aZone;
 - buildObjects;
@@ -213,6 +213,7 @@ Boston, MA 02111-1307, USA.
 
 - (double) getPolyCellDepth;
 - (BOOL) isDepthGreaterThan0;
+- setWriteFoodAvailabilityReport: (char *) writeFoodAvail;
 
 
 // mortality risk mods
@@ -238,9 +239,7 @@ Boston, MA 02111-1307, USA.
 - (void) updateDSCellHourlyTotal;
 - (void) resetAvailHourlyTotal;
 
-#ifdef FOOD_AVAIL_REPORT
 - foodAvailAndConInCell: aFish;
-#endif
 
 - depthVelReport: (FILE *) depthVelPtr;
 

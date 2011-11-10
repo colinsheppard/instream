@@ -26,9 +26,11 @@ Boston, MA 02111-1307, USA.
 
 #import "HabitatSpace.h"
 #import "Trout.h"
+#import "TroutModelSwarm.h"
 #import "Redd.h"
 #import "BreakoutReporter.h"
 #import "FishCell.h"
+#import "globals.h"
 
 @implementation FishCell
 
@@ -1181,9 +1183,11 @@ Boston, MA 02111-1307, USA.
 
   [self addFish: aFish];
 
-#ifdef FOOD_AVAIL_REPORT
-  [self foodAvailAndConInCell: aFish];
-#endif
+  if(strcmp([[space getModel] getWriteFoodAvailabilityReport],"YES")==0){
+    //fprintf(stdout, "FishCell >>>> eatHere >>>> writeFoodAvailReport: %s \n",[[space getModel] getWriteFoodAvailabilityReport]);
+    //fflush(0);
+    [self foodAvailAndConInCell: aFish];
+  }
 
   return self;
 }
@@ -1886,8 +1890,6 @@ Boston, MA 02111-1307, USA.
 }
 
 
-#ifdef FOOD_AVAIL_REPORT
-
 - foodAvailAndConInCell: aFish 
 {
   FILE * foodReportPtr=NULL;
@@ -1977,8 +1979,6 @@ Boston, MA 02111-1307, USA.
   return self;
 }
 
-#endif
-
 
 
 /////////////////////////////////////////
@@ -2049,6 +2049,16 @@ Boston, MA 02111-1307, USA.
 - setCellDataSet: (BOOL) aBool
 {
    cellDataSet = aBool;
+   return self;
+}
+
+///////////////////////////////////
+//
+// setWriteFoodAvailabilityReport
+//
+//////////////////////////////////
+- setWriteFoodAvailabilityReport: (char *) writeFoodAvail{
+   writeFoodAvailabilityReport = writeFoodAvail;
    return self;
 }
 

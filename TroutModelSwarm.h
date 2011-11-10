@@ -41,6 +41,7 @@ Boston, MA 02111-1307, USA.
 #import "HabitatManager.h"
 #import "BreakoutReporter.h"
 #import "TroutMortalityCount.h"
+#import "TroutObserverSwarm.h"
 #import "InterpolationTableP.h"
 #import "LogisticFunc.h"
 #import "YearShufflerP.h"
@@ -87,6 +88,7 @@ typedef struct FishSetupStruct TroutInitializationRecord;
   int    polyRasterResolutionY;
   char   polyRasterColorVariable[35];
   double shadeColorMax;
+  char*  writeFoodAvailabilityReport;
 
 
 @protected
@@ -273,7 +275,9 @@ char*        movementRule;
 
 - instantiateObjects;
 - setObserverSwarm: anObserverSwarm;
-
+- getObserverSwarm;
+- setWriteFoodAvailabilityReport: (char *) writeFoodAvail;
+- (char *) getWriteFoodAvailabilityReport;
 
 
 - buildObjectsWith: theColormaps

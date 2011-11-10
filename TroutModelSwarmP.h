@@ -67,6 +67,7 @@ Boston, MA 02111-1307, USA.
 
 - switchColorRepFor: aHabitatSpace;
 
+- (char *) getWriteFoodAvailabilityReport;
 @end
 
 @class TroutModelSwarm;
