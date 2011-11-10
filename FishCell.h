@@ -99,8 +99,6 @@ Boston, MA 02111-1307, USA.
   char reachEnd;
   double cellDistToUS;
   double cellDistToDS;
-
-  char * writeFoodAvailabilityReport;
 }
 + create: aZone;
 - buildObjects;
@@ -213,8 +211,6 @@ Boston, MA 02111-1307, USA.
 
 - (double) getPolyCellDepth;
 - (BOOL) isDepthGreaterThan0;
-- setWriteFoodAvailabilityReport: (char *) writeFoodAvail;
-
 
 // mortality risk mods
 

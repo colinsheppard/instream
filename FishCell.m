@@ -2052,16 +2052,6 @@ Boston, MA 02111-1307, USA.
    return self;
 }
 
-///////////////////////////////////
-//
-// setWriteFoodAvailabilityReport
-//
-//////////////////////////////////
-- setWriteFoodAvailabilityReport: (char *) writeFoodAvail{
-   writeFoodAvailabilityReport = writeFoodAvail;
-   return self;
-}
-
 //////////////////////////////////
 //
 // checkCellDataSet

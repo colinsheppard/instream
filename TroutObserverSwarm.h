@@ -146,8 +146,6 @@ Boston, MA 02111-1307, USA.
   int maxShadeDepth;
   int maxShadeVelocity;
 
-  /*char* writeFoodAvailabilityReport;*/
-
 @public
   int modelNumber;
 }
