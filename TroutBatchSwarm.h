@@ -74,6 +74,9 @@ Boston, MA 02111-1307, USA.
   char* writeDepthReport;
   char* writeVelocityReport;
   char* writeDepthVelocityReport;
+  char* writeMoveReport;
+  char* writeReadyToSpawnReport;
+  char* writeSpawnCellReport;
 
 @public
   int modelNumber;

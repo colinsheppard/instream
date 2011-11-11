@@ -963,15 +963,14 @@ Boston, MA 02111-1307, USA.
   }
   //fprintf(stdout,"Trout >>>> spawn >>>> isFemaleReadyToSpawn = %d\n",[self isFemaleReadyToSpawn]);
   if([self isFemaleReadyToSpawn] == NO){
-      #ifdef READY_TO_SPAWN_RPT
-          [self printReadyToSpawnRpt: NO];
-      #endif
-      return self;
+    if(strcmp([model getWriteReadyToSpawnReport],"YES")==0){
+      [self printReadyToSpawnRpt: NO];
+    }
+    return self;
   }
-  #ifdef READY_TO_SPAWN_RPT
+  if(strcmp([model getWriteReadyToSpawnReport],"YES")==0){
       [self printReadyToSpawnRpt: YES];
-  #endif
-
+  }
   if((spawnCell = [self findCellForNewRedd]) == nil) {
      fprintf(stderr, "WARNING: Trout >>>> spawn >>>> No spawning habitat found, making Redd without moving");
      fflush(0);
@@ -1243,9 +1242,9 @@ Boston, MA 02111-1307, USA.
 
   [potentialReddCells addFirst: myCell];
 
-  #ifdef SPAWN_CELL_RPT
+  if(strcmp([model getWriteSpawnCellReport],"YES")==0){
      [self printSpawnCellRpt: potentialReddCells];
-  #endif
+  }
 
   cellNdx = [potentialReddCells listBegin: scratchZone];
   while(([cellNdx getLoc] != End) && ((nextCell = [cellNdx next]) != nil)) 
@@ -1728,11 +1727,9 @@ Boston, MA 02111-1307, USA.
    prevReach = reach;
 
   //PRINT THE MOVE REPORT
-  #ifdef MOVE_REPORT_ON
-  [self moveReport: bestDest];
-  #endif
-
-
+  if(strcmp([model getWriteMoveReport],"YES")==0){
+    [self moveReport: bestDest];
+  }
 
    //
    // Now, we move...
@@ -2766,8 +2763,6 @@ Boston, MA 02111-1307, USA.
 }
 
 
-#ifdef MOVE_REPORT_ON
-
 ///////////////////////////////////////////////////////////////
 //
 // moveReport
@@ -2890,11 +2885,7 @@ Boston, MA 02111-1307, USA.
   return self;
 }
 
-#endif
 
-
-
-#ifdef READY_TO_SPAWN_RPT
 ///////////////////////////////////////////////////////////
 //
 // printReadyToSpawnRpt
@@ -2991,10 +2982,8 @@ Boston, MA 02111-1307, USA.
    fclose(spawnReportPtr);
    return self;
 } 
-#endif
 
 
-#ifdef SPAWN_CELL_RPT
 /////////////////////////////////////////////////
 //
 // printSpawnCellRpt
@@ -3083,7 +3072,6 @@ Boston, MA 02111-1307, USA.
   spawnCellFirstTime = NO;
   return self;
 }
-#endif
 
 - (void) drop {
      [spawnDist drop]; 

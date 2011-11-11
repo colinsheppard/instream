@@ -33,10 +33,6 @@ Boston, MA 02111-1307, USA.
 #include "DEBUGFLAGS.h"
 #import "globals.h"
 
-#define MOVE_REPORT_ON
-//#define READY_TO_SPAWN_RPT
-//#define SPAWN_CELL_RPT
-
 @interface Trout: SwarmObject
 {
 
@@ -389,19 +385,11 @@ id toggledFishForHabSurvUpdate;
 
 
 //REPORTS
-#ifdef MOVE_REPORT_ON
 - moveReport: (FishCell *)  aCell;
-#endif
 
-
-#ifdef READY_TO_SPAWN_RPT
 - printReadyToSpawnRpt: (BOOL) readyToSpawn;
-#endif
 
-#ifdef SPAWN_CELL_RPT
 - printSpawnCellRpt: (id <List>) spawnCellList;
-#endif
-
 
 - (void) drop;
 

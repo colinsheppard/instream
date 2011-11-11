@@ -92,6 +92,9 @@ typedef struct FishSetupStruct TroutInitializationRecord;
   char*  writeDepthReport;
   char*  writeVelocityReport;
   char*  writeDepthVelocityReport;
+  char*  writeMoveReport;
+  char*  writeReadyToSpawnReport;
+  char*  writeSpawnCellReport;
 
 
 @protected
@@ -287,6 +290,12 @@ char*        movementRule;
 - (char *) getWriteVelocityReport;
 - setWriteDepthVelocityReport: (char *) writeDepthVel;
 - (char *) getWriteDepthVelocityReport;
+- setWriteMoveReport: (char *) writeMove;
+- (char *) getWriteMoveReport;
+- setWriteReadyToSpawnReport: (char *) writeReadyToSpawn;
+- (char *) getWriteReadyToSpawnReport;
+- setWriteSpawnCellReport: (char *) writeSpawnCell;
+- (char *) getWriteSpawnCellReport;
 
 
 - buildObjectsWith: theColormaps
