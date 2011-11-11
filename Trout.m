@@ -1229,8 +1229,8 @@ Boston, MA 02111-1307, USA.
   double bestSpawnQuality=0.0;
   double spawnQuality=-LARGEINT;
 
-  fprintf(stdout, "Trout >>>> findCellForNewRedd >>>> BEGIN\n");
-  fflush(0);
+  //fprintf(stdout, "Trout >>>> findCellForNewRedd >>>> BEGIN\n");
+  //fflush(0);
 
   if(potentialReddCells == nil)
   {

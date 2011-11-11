@@ -83,8 +83,12 @@ Boston, MA 02111-1307, USA.
   numberOfEggsLostToHiTemp = 0;
   numberOfEggsLostToSuperimp = 0;
 
-  printList     = [List create: reddZone];
-  survPrintList = [List create: reddZone];
+  if(strcmp([model getWriteReddMortReport],"YES")==0){
+    printList     = [List create: reddZone];
+  }
+  if(strcmp([model getWriteReddSurvReport],"YES")==0){
+    survPrintList = [List create: reddZone];
+  }
 
   
   reddNormalDist = [NormalDist create: reddZone 
@@ -279,8 +283,7 @@ Boston, MA 02111-1307, USA.
 // survive
 //
 //////////////////////////////////////////////////////////////
-- survive 
-{
+- survive {
   int eggsLostToDewatering=0;
   int eggsLostToScouring=0;
   int eggsLostToLowTemp=0;
@@ -295,7 +298,6 @@ Boston, MA 02111-1307, USA.
   // Survival Manager Code
   //
   {
-
     //
     // Begin code for the survival manager 
     //
@@ -315,20 +317,16 @@ Boston, MA 02111-1307, USA.
        listOfSurvProbs = [myCell getReddListOfSurvProbsFor: self];
 
        lstNdx = [listOfSurvProbs listBegin: scratchZone];
-       while(([lstNdx getLoc] != End) && ((aProb = [lstNdx next]) != nil))
-       {
-         
+       while(([lstNdx getLoc] != End) && ((aProb = [lstNdx next]) != nil)){
            //
            // Caution: the order of these MUST match the survival probs in the
            // cell.
            //
-
            if(dewater == (double) -LARGEINT) dewater = [aProb getSurvivalProb];
            else if (scour == (double) -LARGEINT) scour = [aProb getSurvivalProb];
            else if (loTemp == (double) -LARGEINT) loTemp = [aProb getSurvivalProb];
            else if (hiTemp == (double) -LARGEINT) hiTemp = [aProb getSurvivalProb];
            else if (superimp == (double) -LARGEINT) superimp = [aProb getSurvivalProb];
-    
        }
 
        [lstNdx drop];  
@@ -337,59 +335,41 @@ Boston, MA 02111-1307, USA.
            || (scour == (double) -LARGEINT) 
            || (loTemp == (double) -LARGEINT)
            || (hiTemp == (double) -LARGEINT)
-           || (superimp == (double) -LARGEINT))
-        {
+           || (superimp == (double) -LARGEINT)){
              fprintf(stderr, "ERROR: Redd >>>> survive probability values not properly set\n");
              fflush(0);
              exit(1);
         }
-
-        if(numberOfEggs > 0)
-        {
+        if(numberOfEggs > 0){
             eggsLostToDewatering = [reddBinomialDist getUnsignedSampleWithNumTrials: (unsigned) numberOfEggs
                                                                     withProbability: (1.0 - dewater)];
             numberOfEggs -= eggsLostToDewatering; 
         }
-
-
-        if(numberOfEggs > 0)
-        {
+        if(numberOfEggs > 0){
             eggsLostToScouring = [reddBinomialDist getUnsignedSampleWithNumTrials: (unsigned) numberOfEggs
                                                               withProbability: (1.0 - scour)];
             numberOfEggs -= eggsLostToScouring; 
         }
-           
-
-        if(numberOfEggs > 0)
-        {
+        if(numberOfEggs > 0){
             eggsLostToLowTemp = [reddBinomialDist getUnsignedSampleWithNumTrials: (unsigned) numberOfEggs
                                                              withProbability: (1.0 - loTemp)];
             numberOfEggs -= eggsLostToLowTemp; 
         }
-
-        
-        if(numberOfEggs > 0)
-        {
+        if(numberOfEggs > 0){
             eggsLostToHiTemp = [reddBinomialDist getUnsignedSampleWithNumTrials: (unsigned) numberOfEggs
                                                             withProbability: (1.0 - hiTemp)];
             numberOfEggs -= eggsLostToHiTemp; 
         }
-
-        if(numberOfEggs > 0)
-        {
+        if(numberOfEggs > 0){
             eggsLostToSuperimp = [reddBinomialDist getUnsignedSampleWithNumTrials: (unsigned) numberOfEggs
                                                               withProbability: (1.0 - superimp)];
             numberOfEggs -= eggsLostToSuperimp; 
         }
-
-        if(numberOfEggs < 0)
-        {
+        if(numberOfEggs < 0){
             fprintf(stderr, "ERROR: Redd >>>> survive >>>> numberOfEggs is less than 0\n");
             fflush(0);
             exit(1);
         }
-
-
         numberOfEggsLostToDewatering += (int)eggsLostToDewatering;
         numberOfEggsLostToScouring += (int)eggsLostToScouring;
         numberOfEggsLostToLowTemp += (int)eggsLostToLowTemp;
@@ -402,51 +382,48 @@ Boston, MA 02111-1307, USA.
                          + numberOfEggsLostToHiTemp 
                          + numberOfEggsLostToSuperimp;
 
-       if(totalEggsLost > initialNumberOfEggs)
-       {
+      if(totalEggsLost > initialNumberOfEggs){
            fprintf(stderr, "ERROR: Redd >>>> survive >>>> totalEggsLost is greater than the initialNumberOfEggs\n");
            fprintf(stderr, "ERROR: Redd >>>> survive >>>> totalEggsLost %d\n", totalEggsLost);
            fprintf(stderr, "ERROR: Redd >>>> survive >>>> initialNumberOfEggs %d\n", initialNumberOfEggs);
            fflush(0);
            exit(1);
-       }
+      }
 
-       [self createPrintString: eggsLostToDewatering
+      if(strcmp([model getWriteReddMortReport],"YES")==0){
+	[self createPrintString: eggsLostToDewatering
                               : eggsLostToScouring
                               : eggsLostToLowTemp
                               : eggsLostToHiTemp
                               : eggsLostToSuperimp
                               : [model getModelTime] ];
+      }
 
-       [self createSurvPrintStringWithDewaterSF: dewater
+      if(strcmp([model getWriteReddSurvReport],"YES")==0){
+        [self createSurvPrintStringWithDewaterSF: dewater
                                     withScourSF: scour
                                    withLoTempSF: loTemp
                                    withHiTempSF: hiTemp
                                  withSuperimpSF: superimp];
+      }
      
 
-      }
+    }
   }
-
-  if(numberOfEggs < 0)
-  {
+  if(numberOfEggs < 0){
      fprintf(stderr, "ERROR: Redd >>>> survive >>>> numberOfEggs is less than zero\n");
      fflush(0);
      exit(1);
   }
-
-
   if(numberOfEggs == 0 ) 
   {
-     [self printReport];
+    if(strcmp([model getWriteReddMortReport],"YES")==0){
+      [self printReport];
+    }
      //[self createReddSummaryStr];
      //[self printReddSummary];  
-
      [self removeWhenEmpty];
   }
-  
-
-
   return self;
 }
 
@@ -545,9 +522,10 @@ Boston, MA 02111-1307, USA.
      }
 
      // determine if Redd empty - if so, remove redd
-     if (numberOfEggs <= 0)
-     {
-        [self printReport]; // Added 2/28/04 skj
+     if (numberOfEggs <= 0){
+       if(strcmp([model getWriteReddMortReport],"YES")==0){
+         [self printReport]; // Added 2/28/04 skj
+       }
         [self removeWhenEmpty];
      }
   }
@@ -562,8 +540,8 @@ Boston, MA 02111-1307, USA.
 /////////////////////////////////////////////////////////////
 - removeWhenEmpty 
 {  
-  fprintf(stdout, "Redd >>>> removeWhenEmpty >>>> BEGIN\n");
-  fflush(0);
+  //fprintf(stdout, "Redd >>>> removeWhenEmpty >>>> BEGIN\n");
+  //fflush(0);
   [self createReddSummaryStr];
   [self printReddSummary];  
 
@@ -876,8 +854,8 @@ return self;
                                        numberOfEggsLostToHiTemp,
                                        numberOfEggsLostToSuperimp,
                                        fryEmerged);
-  fprintf(stdout, "Redd >>>> createReddSummaryStr >>>> END\n");
-  fflush(0);
+  //fprintf(stdout, "Redd >>>> createReddSummaryStr >>>> END\n");
+  //fflush(0);
   return self;
 }
 

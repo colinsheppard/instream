@@ -126,6 +126,7 @@ Boston, MA 02111-1307, USA.
   [troutModelSwarm setWriteSpawnCellReport: writeSpawnCellReport];
   [troutModelSwarm setWriteReddSurvReport: writeReddSurvReport];
   [troutModelSwarm setWriteCellFishReport: writeCellFishReport];
+  [troutModelSwarm setWriteReddMortReport: writeReddMortReport];
 
   fprintf(stderr,"modelSetupFile = %s \n", modelSetupFile);
   fflush(stderr);

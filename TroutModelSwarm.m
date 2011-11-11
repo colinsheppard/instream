@@ -377,6 +377,23 @@ char **speciesColor;
 - (char *) getWriteCellFishReport {
   return writeCellFishReport;
 }
+/////////////////////////////////////////////////////////////////
+//
+// setWriteReddMortReport
+//
+//////////////////////////////////////////////////////////////
+- setWriteReddMortReport: (char *) writeReddMort {
+  writeReddMortReport = writeReddMort;
+  return self;
+}
+/////////////////////////////////////////////////////////////////
+//
+// getWriteReddMortReport
+//
+//////////////////////////////////////////////////////////////
+- (char *) getWriteReddMortReport {
+  return writeReddMortReport;
+}
 
 //////////////////////////////////////////////////////////////////
 //
@@ -577,7 +594,9 @@ char **speciesColor;
   reddBinomialDist = [BinomialDist create: modelZone setGenerator: randGen];
 
   [self openReddSummaryFilePtr];
-  [self openReddReportFilePtr];
+  if(strcmp(writeReddMortReport,"YES")==0){
+    [self openReddReportFilePtr];
+  }
 
   [self createBreakoutReporters];
 

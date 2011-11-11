@@ -1268,8 +1268,8 @@ Boston, MA 02111-1307, USA.
 
   [reddPixelDist drop];
 
-  fprintf(stdout, "FishCell >>>> addRedd >>>> END\n");
-  fflush(0);
+  //fprintf(stdout, "FishCell >>>> addRedd >>>> END\n");
+  //fflush(0);
 
   return self;
 }

@@ -24,6 +24,7 @@ writeMoveReport		      NO
 writeReadyToSpawnReport	      NO
 writeSpawnCellReport	      NO
 writeReddSurvReport	      NO
+writeReddMortReport	      NO
 writeCellFishReport	      NO
 
 @end
