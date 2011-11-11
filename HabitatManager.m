@@ -428,9 +428,9 @@ Boston, MA 02111-1307, USA.
         [self printCellVelocityReport];
       }
 
-      #ifdef HABITAT_REPORT_ON
+      if(strcmp([model getWriteHabitatReport],"YES")==0){
         [self printHabitatReport];
-      #endif
+      }
 
       if(strcmp([model getWriteDepthVelocityReport],"YES")==0){
         [self printCellAreaDepthVelocityRpt];
@@ -798,15 +798,10 @@ Boston, MA 02111-1307, USA.
    return self;
 }
 
-#ifdef HABITAT_REPORT_ON
-- printHabitatReport
-{
-
+- printHabitatReport{
    [habitatSpaceList forEach: M(printHabitatReport)]; 
-
    return self;
 }
-#endif
 
 - printCellAreaDepthVelocityRpt{
    [habitatSpaceList forEach: M(printCellAreaDepthVelocityRpt)]; 

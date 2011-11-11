@@ -119,6 +119,7 @@ Boston, MA 02111-1307, USA.
   [troutModelSwarm setWriteFoodAvailabilityReport: writeFoodAvailabilityReport];
   [troutModelSwarm setWriteDepthReport: writeDepthReport];
   [troutModelSwarm setWriteVelocityReport: writeVelocityReport];
+  [troutModelSwarm setWriteHabitatReport: writeHabitatReport];
   [troutModelSwarm setWriteDepthVelocityReport: writeDepthVelocityReport];
   [troutModelSwarm setWriteMoveReport: writeMoveReport];
   [troutModelSwarm setWriteReadyToSpawnReport: writeReadyToSpawnReport];

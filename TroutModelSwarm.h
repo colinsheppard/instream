@@ -49,9 +49,6 @@ Boston, MA 02111-1307, USA.
 
 #import "DEBUGFLAGS.h"
 
-#define REDD_SURV_REPORT
-//#define PRINT_CELL_FISH_REPORT
-
 struct FishSetupStruct
        {
            int speciesNdx;
@@ -92,6 +89,7 @@ typedef struct FishSetupStruct TroutInitializationRecord;
   char*  writeDepthReport;
   char*  writeVelocityReport;
   char*  writeDepthVelocityReport;
+  char*  writeHabitatReport;
   char*  writeMoveReport;
   char*  writeReadyToSpawnReport;
   char*  writeSpawnCellReport;
@@ -292,6 +290,8 @@ char*        movementRule;
 - (char *) getWriteVelocityReport;
 - setWriteDepthVelocityReport: (char *) writeDepthVel;
 - (char *) getWriteDepthVelocityReport;
+- setWriteHabitatReport: (char *) writeHab;
+- (char *) getWriteHabitatReport;
 - setWriteMoveReport: (char *) writeMove;
 - (char *) getWriteMoveReport;
 - setWriteReadyToSpawnReport: (char *) writeReadyToSpawn;
@@ -406,14 +406,7 @@ char*        movementRule;
 // REDD OUTPUT
 //
 
-
-#ifdef REDD_REPORT
-- printReddReport;
-#endif
-
-#ifdef REDD_SURV_REPORT
 - printReddSurvReport;
-#endif
 
 - openReddSummaryFilePtr;
 - (FILE *) getReddSummaryFilePtr;

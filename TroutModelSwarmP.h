@@ -71,6 +71,7 @@ Boston, MA 02111-1307, USA.
 - (char *) getWriteDepthReport;
 - (char *) getWriteVelocityReport;
 - (char *) getWriteDepthVelocityReport;
+- (char *) getWriteHabitatReport;
 - (char *) getWriteMoveReport;
 - (char *) getWriteReadyToSpawnReport;
 - (char *) getWriteSpawnCellReport;

@@ -74,6 +74,7 @@ Boston, MA 02111-1307, USA.
   char* writeDepthReport;
   char* writeVelocityReport;
   char* writeDepthVelocityReport;
+  char* writeHabitatReport;
   char* writeMoveReport;
   char* writeReadyToSpawnReport;
   char* writeSpawnCellReport;

@@ -33,14 +33,6 @@ Boston, MA 02111-1307, USA.
 #import "globals.h"
 #import "PolyInputData.h"
 
-
-//
-// HABITAT_REPORT is the only output on daily flow etc. in each reach
-//
-//#define HABITAT_REPORT_ON
-
-
-
 @interface HabitatManager: SwarmObject
 {
 
@@ -141,9 +133,7 @@ double shadeColorMax;
 
 - printCellVelocityReport;
 
-#ifdef HABITAT_REPORT_ON
 - printHabitatReport;
-#endif
 
 - printCellAreaDepthVelocityRpt;
 
