@@ -106,21 +106,20 @@ Boston, MA 02111-1307, USA.
 ////////////////////////////////////////////
 - createEnd {
 
-  fprintf(stdout, "HabitatSpace >>>> createEnd >>>> before [super createEnd]\n");
-  fflush(0);
+  //fprintf(stdout, "HabitatSpace >>>> createEnd >>>> before [super createEnd]\n");
+  //fflush(0);
 
   //[super createEnd];
 
   temperature = LARGEINT;
 
-
-  fprintf(stdout, "HabitatSpace >>>> createEnd >>>> before checkHabitatParams\n");
-  fflush(0);
+  //fprintf(stdout, "HabitatSpace >>>> createEnd >>>> before checkHabitatParams\n");
+  //fflush(0);
 
   [self checkHabitatParams];
 
-  fprintf(stdout, "HabitatSpace >>>> createEnd >>>> after checkHabitatParams\n");
-  fflush(0);
+  //fprintf(stdout, "HabitatSpace >>>> createEnd >>>> after checkHabitatParams\n");
+  //fflush(0);
 
   return self;
 }
@@ -547,8 +546,8 @@ Boston, MA 02111-1307, USA.
 {
     strncpy(polyCellGeomFile, aFile, (size_t) 50);
 
-    fprintf(stdout, "HabitatSpace >>>> setPolyCellGeomFile >>>> %s\n", aFile);
-    fprintf(stdout, "HabitatSpace >>>> setPolyCellGeomFile >>>> %s\n", polyCellGeomFile);
+    //fprintf(stdout, "HabitatSpace >>>> setPolyCellGeomFile >>>> %s\n", aFile);
+    //fprintf(stdout, "HabitatSpace >>>> setPolyCellGeomFile >>>> %s\n", polyCellGeomFile);
     fflush(0);
 
     return self;
@@ -777,8 +776,8 @@ Boston, MA 02111-1307, USA.
 /////////////////////////////////////////////
 - buildPolyCells
 {
-    fprintf(stdout, "HabitatSpace >>>> buildPolyCells >>>> BEGIN\n");
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> buildPolyCells >>>> BEGIN\n");
+    //fflush(0);
 
     polyCellList = [List create: habitatZone];
    
@@ -795,8 +794,8 @@ Boston, MA 02111-1307, USA.
     //[self outputCellCorners];
 
   
-    fprintf(stdout, "HabitatSpace >>>> buildPolyCells >>>> END\n");
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> buildPolyCells >>>> END\n");
+    //fflush(0);
 
     return self;
 }
@@ -809,8 +808,8 @@ Boston, MA 02111-1307, USA.
 /////////////////////////////////////////////
 - checkAdjacentReaches
 {
-    fprintf(stdout, "HabitatSpace >>>> checkAdjacentReaches >>>> BEGIN\n");
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> checkAdjacentReaches >>>> BEGIN\n");
+    //fflush(0);
 
     xprint(habDownstreamLinksToDS);
     xprint(habDownstreamLinksToUS);
@@ -818,12 +817,12 @@ Boston, MA 02111-1307, USA.
     xprint(habUpstreamLinksToDS);
     xprint(habUpstreamLinksToUS);
 
-    fprintf(stdout, "HabitatSpace >>>> checkAdjacentReaches >>>> habDownstreamJunctionNumber %d\n", habDownstreamJunctionNumber);
-    fprintf(stdout, "HabitatSpace >>>> checkAdjacentReaches >>>> habDownstreamJunctionNumber %d\n", habUpstreamJunctionNumber);
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> checkAdjacentReaches >>>> habDownstreamJunctionNumber %d\n", habDownstreamJunctionNumber);
+    //fprintf(stdout, "HabitatSpace >>>> checkAdjacentReaches >>>> habDownstreamJunctionNumber %d\n", habUpstreamJunctionNumber);
+    //fflush(0);
 
-    fprintf(stdout, "HabitatSpace >>>> checkAdjacentReaches >>>> END\n");
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> checkAdjacentReaches >>>> END\n");
+    //fflush(0);
 
     return self;
 }
@@ -845,8 +844,8 @@ Boston, MA 02111-1307, USA.
     id <ListIndex> polyCellNdx = nil;
     PolyCell* polyCell = (PolyCell *) nil;
 
-    fprintf(stdout, "HabitatSpace >>>> read2DGeometryFile >>>> BEGIN\n");
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> read2DGeometryFile >>>> BEGIN\n");
+    //fflush(0);
 
     if((dataFPTR = fopen(polyCellGeomFile, "r")) == NULL)
     {
@@ -1164,8 +1163,8 @@ Boston, MA 02111-1307, USA.
 
 
     fclose(dataFPTR);
-    fprintf(stdout, "HabitatSpace >>>> read2DGeometry >>>> END\n");
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> read2DGeometry >>>> END\n");
+    //fflush(0);
     //exit(0);
 
     return self;
@@ -1238,8 +1237,8 @@ Boston, MA 02111-1307, USA.
   id <InterpolationTable> depthInterpolator = nil,velocityInterpolator = nil;
   FishCell* polyCell = nil;
   
-  fprintf(stdout, "HabitatSpace >>>> createPolyInterpolationTables >>>> BEGIN\n");
-  fflush(0);
+  //fprintf(stdout, "HabitatSpace >>>> createPolyInterpolationTables >>>> BEGIN\n");
+  //fflush(0);
   if((dataPtr = fopen(hydraulicFile, "r")) == NULL){
     fprintf(stderr, "ERROR: HabitatSpace >>>> createPolyInterpolationTables >>>> unable to open %s for reading\n", hydraulicFile);
     fflush(0);
@@ -1367,8 +1366,8 @@ Boston, MA 02111-1307, USA.
   [polyCellList forEach: M(checkVelocityInterpolator)];
   [polyCellList forEach: M(checkDepthInterpolator)];
 
-  fprintf(stdout, "HabitatSpace >>>> createPolyInterpolationTables >>>> END\n");
-  fflush(0);
+  //fprintf(stdout, "HabitatSpace >>>> createPolyInterpolationTables >>>> END\n");
+  //fflush(0);
   fclose(dataPtr);
 
   return self;
@@ -1473,13 +1472,13 @@ Boston, MA 02111-1307, USA.
 ////////////////////////////////
 - calcPolyCellCentroids
 {
-    fprintf(stdout, "HabitatSpace >>>> calcPolyCellCentroids >>>> BEGIN\n");
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> calcPolyCellCentroids >>>> BEGIN\n");
+    //fflush(0);
 
     [polyCellList forEach: M(calcPolyCellCentroid)];
 
-    fprintf(stdout, "HabitatSpace >>>> calcPolyCellCentroids >>>> END\n");
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> calcPolyCellCentroids >>>> END\n");
+    //fflush(0);
 
     return self;
 }
@@ -1492,15 +1491,15 @@ Boston, MA 02111-1307, USA.
 //////////////////////////////////////
 - createPolyAdjacentCells
 {
-    fprintf(stdout, "HabitatSpace >>>> createPolyAdjacentCells >>>> BEGIN\n");
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> createPolyAdjacentCells >>>> BEGIN\n");
+    //fflush(0);
 
     id <ListIndex> ndx = [polyCellList listBegin: scratchZone];
 
     [polyCellList forEach: M(createPolyAdjacentCellsFrom:) :ndx];
 
-    fprintf(stdout, "HabitatSpace >>>> createPolyAdjacentCells >>>> END\n");
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> createPolyAdjacentCells >>>> END\n");
+    //fflush(0);
 
     [ndx drop];
 
@@ -1525,8 +1524,8 @@ Boston, MA 02111-1307, USA.
     BOOL csvFormat = FALSE;
 
     FILE* polyDataFPTR = NULL;
-    fprintf(stdout, "HabitatSpace >>>> readPolyCellDataFile >>>> BEGIN\n");
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> readPolyCellDataFile >>>> BEGIN\n");
+    //fflush(0);
 
     if((polyDataFPTR = fopen(cellHabVarsFile, "r")) == NULL){
          fprintf(stderr, "ERROR: HabitatSpace >>>> readPolyCellDataFile >>>> unable to open %s for reading\n", cellHabVarsFile);
@@ -1629,8 +1628,8 @@ Boston, MA 02111-1307, USA.
     // Do not drop polyCellListNdx
     //
 
-    fprintf(stdout, "HabitatSpace >>>> readPolyCellDataFile >>>> END\n");
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> readPolyCellDataFile >>>> END\n");
+    //fflush(0);
 
     return self;
 }
@@ -1754,8 +1753,8 @@ Boston, MA 02111-1307, USA.
 
     }
     */
-    fprintf(stdout, "HabitatSpace >>>> outputCellCentroidRpt >>>> END\n");
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> outputCellCentroidRpt >>>> END\n");
+    //fflush(0);
     return self;
 }
 
@@ -1849,10 +1848,10 @@ Boston, MA 02111-1307, USA.
   id <ListIndex> lstNdx = nil;
   id polyCell=nil;
 
-  fprintf(stdout, "HabitatSpace >>>> probePolyCellAtX:Y >>>> BEGIN\n");
-  fprintf(stdout, "HabitatSpace >>>> probePolyCellAtX:Y >>>> probedX = %d\n", probedX);
-  fprintf(stdout, "HabitatSpace >>>> probePolyCellAtX:Y >>>> probedY = %d\n", probedY);
-  fflush(0);
+  //fprintf(stdout, "HabitatSpace >>>> probePolyCellAtX:Y >>>> BEGIN\n");
+  //fprintf(stdout, "HabitatSpace >>>> probePolyCellAtX:Y >>>> probedX = %d\n", probedX);
+  //fprintf(stdout, "HabitatSpace >>>> probePolyCellAtX:Y >>>> probedY = %d\n", probedY);
+  //fflush(0);
 
 
   lstNdx = [polyCellList listBegin: scratchZone];
@@ -1883,8 +1882,8 @@ Boston, MA 02111-1307, USA.
       fprintf(stdout, "HabitatSpace >>>> probePolyCellAtX:Y >>>> polyCell = %p\n", polyCell);
       fflush(0);
   }
-  fprintf(stdout, "HabitatSpace >>>> probePolyCellAtX:Y >>>> END\n");
-  fflush(0);
+  //fprintf(stdout, "HabitatSpace >>>> probePolyCellAtX:Y >>>> END\n");
+  //fflush(0);
 
   return self;
 }
@@ -2647,14 +2646,14 @@ Boston, MA 02111-1307, USA.
      FishCell* fishCell = nil;
      id <ListIndex> ndx = nil;
 
-     fprintf(stdout, "HabitatSpace >>>> getFCellWithCellNumber >>>> BEGIN\n");
-     fflush(0);
-     xprint(polyCellList);
+     //fprintf(stdout, "HabitatSpace >>>> getFCellWithCellNumber >>>> BEGIN\n");
+     //fflush(0);
+     //xprint(polyCellList);
 
      ndx = [polyCellList listBegin: scratchZone];
 
-     fprintf(stdout, "HabitatSpace >>>> getFCellWithCellNumber >>>> aCellNumber = %d\n", aCellNumber);
-     fflush(0);
+     //fprintf(stdout, "HabitatSpace >>>> getFCellWithCellNumber >>>> aCellNumber = %d\n", aCellNumber);
+     //fflush(0);
 
      while([ndx getLoc] != End && ((fishCell = [ndx next]) != nil))
      {
@@ -2666,15 +2665,15 @@ Boston, MA 02111-1307, USA.
 
      if(fishCell == nil)
      {
-           fprintf(stdout, "ERROR: HabitatSpace >>>> getFCellWithCellNumber >>>> fishCell is nil\n");
+           fprintf(stderr, "ERROR: HabitatSpace >>>> getFCellWithCellNumber >>>> fishCell is nil\n");
            fflush(0);
            exit(1);
      }
 
      [ndx drop];
 
-     fprintf(stdout, "HabitatSpace >>>> getFCellWithCellNumber >>>> END\n");
-     fflush(0);
+     //fprintf(stdout, "HabitatSpace >>>> getFCellWithCellNumber >>>> END\n");
+     //fflush(0);
 
      return fishCell;
 }
@@ -2831,13 +2830,13 @@ Boston, MA 02111-1307, USA.
 ////////////////////////////////////////////
 - switchColorRep
 {
-    fprintf(stdout, "HabitatSpace >>>> switchColorRep >>>> BEGIN\n");
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> switchColorRep >>>> BEGIN\n");
+    //fflush(0);
 
     [modelSwarm switchColorRepFor: self];
 
-    fprintf(stdout, "HabitatSpace >>>> switchColorRep >>>> END\n");
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> switchColorRep >>>> END\n");
+    //fflush(0);
 
     return self;
 }
@@ -2852,9 +2851,9 @@ Boston, MA 02111-1307, USA.
     id <ListIndex> lstNdx = [polyCellList listBegin: scratchZone];
     FishCell* fishCell = nil;
 
-    fprintf(stdout, "HabitatSpace >>>> toggleCellsColorRep >>>> BEGIN\n");
-    fprintf(stdout, "HabitatSpace >>>> toggleCellsColorRep >>>> shadeColorMax = %d\n", (int) (shadeColorMax + 0.5));
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> toggleCellsColorRep >>>> BEGIN\n");
+    //fprintf(stdout, "HabitatSpace >>>> toggleCellsColorRep >>>> shadeColorMax = %d\n", (int) (shadeColorMax + 0.5));
+    //fflush(0);
 
     while(([lstNdx getLoc] != End) && ((fishCell = [lstNdx next]) != nil))
     {
@@ -2863,8 +2862,8 @@ Boston, MA 02111-1307, USA.
 
     [lstNdx drop];
 
-    fprintf(stdout, "HabitatSpace >>>> toggleCellsColorRep >>>> END\n");
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> toggleCellsColorRep >>>> END\n");
+    //fflush(0);
 
     return self;
 }

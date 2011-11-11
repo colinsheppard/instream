@@ -1056,8 +1056,8 @@ Boston, MA 02111-1307, USA.
               }
 
     
-              fprintf(stdout, "TimeSeriesInputManager >>>>> readInputRecords >>>> number data records created = %d\n", inputNdx);
-              fflush(0);
+              //fprintf(stdout, "TimeSeriesInputManager >>>>> readInputRecords >>>> number data records created = %d\n", inputNdx);
+              //fflush(0);
     
           }
           else //numRecords == 0
@@ -1591,7 +1591,7 @@ Boston, MA 02111-1307, USA.
 
          if(ERROR)
          {
-             fprintf(stdout, "%s", outString);
+             fprintf(stderr, "%s", outString);
              fflush(0);
              WASERROR = ERROR;
              ERROR = FALSE;

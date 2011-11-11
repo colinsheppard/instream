@@ -140,8 +140,8 @@ char **speciesColor;
 
   fishCounter = 0;
 
-  fprintf(stdout, "TroutModelSwarm >>>> buildObjects >>> instantiateObjects >>>> BEFORE HabitatManager\n");
-  fflush(0);
+  //fprintf(stdout, "TroutModelSwarm >>>> buildObjects >>> instantiateObjects >>>> BEFORE HabitatManager\n");
+  //fflush(0);
 
   habitatManager = [HabitatManager createBegin: modelZone];
   [habitatManager instantiateObjects];
@@ -163,8 +163,8 @@ char **speciesColor;
   [habitatManager setFishParamsMap: fishParamsMap];
   [habitatManager instantiateHabitatSpacesInZone: modelZone];
 
-  fprintf(stdout, "TroutModelSwarm >>>> instantiateObjects >>>> AFTER HabitatManager\n");
-  fflush(0);
+  //fprintf(stdout, "TroutModelSwarm >>>> instantiateObjects >>>> AFTER HabitatManager\n");
+  //fflush(0);
 
   return self;
 
@@ -601,11 +601,11 @@ char **speciesColor;
   [self createBreakoutReporters];
 
 
-  fprintf(stdout, "TroutModelSwarm >>> buildObjects >>>> runStartTime = %ld\n", (long) runStartTime);
-  fprintf(stdout, "TroutModelSwarm >>> buildObjects >>>> runStartDate = %s\n", [timeManager getDateWithTimeT: runStartTime]);
-  fprintf(stdout, "TroutModelSwarm >>> buildObjects >>>> modelTime = %ld\n", (long) modelTime);
-  fprintf(stdout, "TroutModelSwarm >>> buildObjects >>>> modelTime = %s\n", [timeManager getDateWithTimeT: modelTime]);
-  fflush(0);
+  //fprintf(stdout, "TroutModelSwarm >>> buildObjects >>>> runStartTime = %ld\n", (long) runStartTime);
+  //fprintf(stdout, "TroutModelSwarm >>> buildObjects >>>> runStartDate = %s\n", [timeManager getDateWithTimeT: runStartTime]);
+  //fprintf(stdout, "TroutModelSwarm >>> buildObjects >>>> modelTime = %ld\n", (long) modelTime);
+  //fprintf(stdout, "TroutModelSwarm >>> buildObjects >>>> modelTime = %s\n", [timeManager getDateWithTimeT: modelTime]);
+  //fflush(0);
 
   if(printFishParams)
   {
@@ -677,9 +677,9 @@ char **speciesColor;
   int speciesNdx;
   FishParams* fishParams = nil;
 
-  fprintf(stdout, "TroutModelSwarm >>>> findMinSpeciesPiscLength >>>> BEGIN\n");
-  fprintf(stdout, "TroutModelSwarm >>>> findMinSpeciesPiscLength >>>> numberOfSpecies = %d\n", numberOfSpecies);
-  fflush(0);
+  //fprintf(stdout, "TroutModelSwarm >>>> findMinSpeciesPiscLength >>>> BEGIN\n");
+  //fprintf(stdout, "TroutModelSwarm >>>> findMinSpeciesPiscLength >>>> numberOfSpecies = %d\n", numberOfSpecies);
+  //fflush(0);
 
   if(numberOfSpecies > 1)
   {
@@ -698,11 +698,11 @@ char **speciesColor;
   }
 
 
-  fprintf(stdout, "TroutModelSwarm >>>> minSpeciesMinPiscLength = %f\n", minSpeciesMinPiscLength);
-  fflush(0);
+  //fprintf(stdout, "TroutModelSwarm >>>> minSpeciesMinPiscLength = %f\n", minSpeciesMinPiscLength);
+  //fflush(0);
 
-  fprintf(stdout, "TroutModelSwarm >>>> findMinSpeciesPiscLength >>>> END\n");
-  fflush(0);
+  //fprintf(stdout, "TroutModelSwarm >>>> findMinSpeciesPiscLength >>>> END\n");
+  //fflush(0);
 
   return self;
 }
@@ -932,8 +932,8 @@ char **speciesColor;
 
    BOOL INIT_DATE_FOUND = NO;
 
-   fprintf(stdout,"TroutModelSwarm >>>> createInitialFish >>>> BEGIN\n");
-   fflush(0);
+   //fprintf(stdout,"TroutModelSwarm >>>> createInitialFish >>>> BEGIN\n");
+   //fflush(0);
 
    //
    // Read the population files for each species
@@ -1168,7 +1168,7 @@ char **speciesColor;
   //randCellDist = nil;
 
   fprintf(stdout,"TroutModelSwarm >>>> createInitialFish >>>> [liveFish getCount] = %d\n", [liveFish getCount]);
-  fprintf(stdout,"TroutModelSwarm >>>> createInitialFish >>>> END\n");
+  //fprintf(stdout,"TroutModelSwarm >>>> createInitialFish >>>> END\n");
   fflush(0);
 
   return self;
@@ -1251,18 +1251,18 @@ char **speciesColor;
            fishRecord->stdDevLength = stdDevLength;
            strcpy(fishRecord->reach, reach);
            
-           fprintf(stdout, "TroutModelSwarm >>>> checking fish records >>>>>\n");
-           fprintf(stdout, "speciesNdx = %d speciesName = %s date = %s initTime = %ld age = %d number = %d meanLength = %f stdDevLength = %f reach = %s\n",
-                                           fishRecord->speciesNdx,
-                                           [fishRecord->mySpecies getName],
-                                           fishRecord->date,
-                                           (long) fishRecord->initTime,
-                                           fishRecord->age,
-                                           fishRecord->number,
-                                           fishRecord->meanLength,
-                                           fishRecord->stdDevLength,
-                                           fishRecord->reach);
-           fflush(0);
+           //fprintf(stdout, "TroutModelSwarm >>>> checking fish records >>>>>\n");
+           //fprintf(stdout, "speciesNdx = %d speciesName = %s date = %s initTime = %ld age = %d number = %d meanLength = %f stdDevLength = %f reach = %s\n",
+                                           //fishRecord->speciesNdx,
+                                           //[fishRecord->mySpecies getName],
+                                           //fishRecord->date,
+                                           //(long) fishRecord->initTime,
+                                           //fishRecord->age,
+                                           //fishRecord->number,
+                                           //fishRecord->meanLength,
+                                           //fishRecord->stdDevLength,
+                                           //fishRecord->reach);
+           //fflush(0);
 
 
           if(strcmp(prevReach, reach) == 0)
@@ -1346,17 +1346,17 @@ char **speciesColor;
 
        }
 
-       fprintf(stdout, "speciesNdx = %d speciesName = %s date = %s initTime = %ld age = %d number = %d meanLength = %f stdDevLength = %f reach = %s\n",
-                                       fishRecord->speciesNdx,
-                                       [fishRecord->mySpecies getName],
-                                       fishRecord->date,
-                                       (long) fishRecord->initTime,
-                                       fishRecord->age,
-                                       fishRecord->number,
-                                       fishRecord->meanLength,
-                                       fishRecord->stdDevLength,
-                                       fishRecord->reach);
-       fflush(0);
+       //fprintf(stdout, "speciesNdx = %d speciesName = %s date = %s initTime = %ld age = %d number = %d meanLength = %f stdDevLength = %f reach = %s\n",
+                                       //fishRecord->speciesNdx,
+                                       //[fishRecord->mySpecies getName],
+                                       //fishRecord->date,
+                                       //(long) fishRecord->initTime,
+                                       //fishRecord->age,
+                                       //fishRecord->number,
+                                       //fishRecord->meanLength,
+                                       //fishRecord->stdDevLength,
+                                       //fishRecord->reach);
+       //fflush(0);
 
    }
            

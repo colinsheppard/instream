@@ -116,7 +116,7 @@ Boston, MA 02111-1307, USA.
                   break;
 
             default:
-                  fprintf(stdout, "ERROR: FishParams >>>> createBegin >>>> cannot preset variable = %s\n", [aProbe getProbedVariable]);
+                  fprintf(stderr, "ERROR: FishParams >>>> createBegin >>>> cannot preset variable = %s\n", [aProbe getProbedVariable]);
                   fflush(0);
                   exit(1);
                   break;
@@ -146,8 +146,8 @@ Boston, MA 02111-1307, USA.
   BOOL ERROR = FALSE;
   char buffer[300];
 
-  fprintf(stderr, "FishParams >>>> createEnd >>>> BEGIN\n");
-  fflush(0);
+  //fprintf(stdout, "FishParams >>>> createEnd >>>> BEGIN\n");
+  //fflush(0);
 
 
   mapNdx = [(id <Map>) probeMap begin: scratchZone];
@@ -232,9 +232,8 @@ Boston, MA 02111-1307, USA.
      exit(1);
   }
 
-  fprintf(stderr, "FishParams >>>> createEnd >>>> EXIT\n");
-  fflush(0);
- 
+  //fprintf(stdout, "FishParams >>>> createEnd >>>> EXIT\n");
+  //fflush(0);
 
   return [super createEnd];
 }
@@ -293,8 +292,8 @@ Boston, MA 02111-1307, USA.
   FILE* filePtr = NULL;
 
 
-  fprintf(stderr, "FishParams >>>> printSelf >>>> BEGIN\n");
-  fflush(0);
+  //fprintf(stdout, "FishParams >>>> printSelf >>>> BEGIN\n");
+  //fflush(0);
  
   sprintf(outputFileName, "Species%sParamCheck.out", [fishSpecies getName]);
 
@@ -377,8 +376,8 @@ Boston, MA 02111-1307, USA.
   [mapNdx drop];
 
 
-  fprintf(stderr, "FishParams >>>> printSelf >>>> EXIT\n");
-  fflush(0);
+  //fprintf(stdout, "FishParams >>>> printSelf >>>> EXIT\n");
+  //fflush(0);
 
   return self;
 

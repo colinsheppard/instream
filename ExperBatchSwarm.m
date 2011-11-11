@@ -583,8 +583,8 @@ Boston, MA 02111-1307, USA.
   //
   [subSwarm objectSetup];
 
-  fprintf(stdout, "ExperBatchSwarm >>>> setupModel >>>> before modelZone\n");
-  fflush(0);
+  //fprintf(stdout, "ExperBatchSwarm >>>> setupModel >>>> before modelZone\n");
+  //fflush(0);
   //
   // get the modelSwarm and its zone;
   //
