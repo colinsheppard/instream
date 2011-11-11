@@ -15,7 +15,10 @@ tagFishColor                 tomato
 tagCellColor                 DeepPink1
 dryCellColor                 white
 
-writeFoodAvailabilityReport   YES
+writeFoodAvailabilityReport   NO
+writeDepthReport	      NO 
+writeVelocityReport	      NO
+writeDepthVelocityReport      NO
 
 @end
 

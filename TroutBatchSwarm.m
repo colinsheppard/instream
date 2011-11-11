@@ -117,6 +117,9 @@ Boston, MA 02111-1307, USA.
   //troutModelSwarm->rasterColorVariable = rasterColorVariable;
   
   [troutModelSwarm setWriteFoodAvailabilityReport: writeFoodAvailabilityReport];
+  [troutModelSwarm setWriteDepthReport: writeDepthReport];
+  [troutModelSwarm setWriteVelocityReport: writeVelocityReport];
+  [troutModelSwarm setWriteDepthVelocityReport: writeDepthVelocityReport];
 
   fprintf(stderr,"modelSetupFile = %s \n", modelSetupFile);
   fflush(stderr);

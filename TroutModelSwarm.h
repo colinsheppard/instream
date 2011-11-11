@@ -89,6 +89,9 @@ typedef struct FishSetupStruct TroutInitializationRecord;
   char   polyRasterColorVariable[35];
   double shadeColorMax;
   char*  writeFoodAvailabilityReport;
+  char*  writeDepthReport;
+  char*  writeVelocityReport;
+  char*  writeDepthVelocityReport;
 
 
 @protected
@@ -278,6 +281,12 @@ char*        movementRule;
 - getObserverSwarm;
 - setWriteFoodAvailabilityReport: (char *) writeFoodAvail;
 - (char *) getWriteFoodAvailabilityReport;
+- setWriteDepthReport: (char *) writeDepth;
+- (char *) getWriteDepthReport;
+- setWriteVelocityReport: (char *) writeVel;
+- (char *) getWriteVelocityReport;
+- setWriteDepthVelocityReport: (char *) writeDepthVel;
+- (char *) getWriteDepthVelocityReport;
 
 
 - buildObjectsWith: theColormaps

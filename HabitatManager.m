@@ -420,21 +420,21 @@ Boston, MA 02111-1307, USA.
 
    if(aStartFlag == NO)
    {
-      #ifdef DEPTH_REPORT_ON
+      if(strcmp([model getWriteDepthReport],"YES")==0){
         [self printCellDepthReport];
-      #endif 
+      }
 
-      #ifdef VELOCITY_REPORT_ON
+      if(strcmp([model getWriteVelocityReport],"YES")==0){
         [self printCellVelocityReport];
-      #endif
+      }
 
       #ifdef HABITAT_REPORT_ON
         [self printHabitatReport];
       #endif
 
-      #ifdef DEPTH_VEL_RPT
+      if(strcmp([model getWriteDepthVelocityReport],"YES")==0){
         [self printCellAreaDepthVelocityRpt];
-      #endif
+      }
 
    }
 
@@ -788,31 +788,15 @@ Boston, MA 02111-1307, USA.
 }
    
 
-
-
-#ifdef DEPTH_REPORT_ON
-- printCellDepthReport
-{
-
+- printCellDepthReport{
    [habitatSpaceList forEach: M(printCellDepthReport)]; 
-
    return self;
-
 }
     
-#endif
-
-#ifdef VELOCITY_REPORT_ON
-- printCellVelocityReport
-{
-
+- printCellVelocityReport{
    [habitatSpaceList forEach: M(printCellVelocityReport)]; 
-
    return self;
 }
-
-#endif
-
 
 #ifdef HABITAT_REPORT_ON
 - printHabitatReport
@@ -824,15 +808,10 @@ Boston, MA 02111-1307, USA.
 }
 #endif
 
-#ifdef DEPTH_VEL_RPT
-- printCellAreaDepthVelocityRpt
-{
-
+- printCellAreaDepthVelocityRpt{
    [habitatSpaceList forEach: M(printCellAreaDepthVelocityRpt)]; 
-
    return self;
 }
-#endif
 
 
 /////////////////////////////////

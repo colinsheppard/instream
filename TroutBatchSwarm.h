@@ -71,6 +71,9 @@ Boston, MA 02111-1307, USA.
   char* dryCellColor;
 
   char* writeFoodAvailabilityReport;
+  char* writeDepthReport;
+  char* writeVelocityReport;
+  char* writeDepthVelocityReport;
 
 @public
   int modelNumber;

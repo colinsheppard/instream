@@ -3454,7 +3454,7 @@ Boston, MA 02111-1307, USA.
 - printCellAreaDepthVelocityRpt{
 
  FILE *depthVelPtr=NULL;
- char openFmt[1];
+ char openFmt[2];
  char * fileMetaData;
 
  if(depthVelRptFirstTime == YES){
@@ -3462,6 +3462,7 @@ Boston, MA 02111-1307, USA.
  }else{
    openFmt[0] = 'a';
  }
+ openFmt[1] = '\0';
  if( (depthVelPtr = fopen(cellAreaDepthVelReportFile, openFmt)) == NULL){
      fprintf(stderr, "ERROR: Cell >>>> printCellAreaDepthVelocityRpt >>>> Cannot open %s for writing, open format=%s\n", cellAreaDepthVelReportFile,openFmt);
      fflush(0);
