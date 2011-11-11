@@ -326,6 +326,40 @@ char **speciesColor;
 - (char *) getWriteSpawnCellReport {
   return writeSpawnCellReport;
 }
+/////////////////////////////////////////////////////////////////
+//
+// setWriteReddSurvReport
+//
+//////////////////////////////////////////////////////////////
+- setWriteReddSurvReport: (char *) writeReddSurv {
+  writeReddSurvReport = writeReddSurv;
+  return self;
+}
+/////////////////////////////////////////////////////////////////
+//
+// getWriteReddSurvReport
+//
+//////////////////////////////////////////////////////////////
+- (char *) getWriteReddSurvReport {
+  return writeReddSurvReport;
+}
+/////////////////////////////////////////////////////////////////
+//
+// setWriteCellFishReport
+//
+//////////////////////////////////////////////////////////////
+- setWriteCellFishReport: (char *) writeCellFish {
+  writeCellFishReport = writeCellFish;
+  return self;
+}
+/////////////////////////////////////////////////////////////////
+//
+// getWriteCellFishReport
+//
+//////////////////////////////////////////////////////////////
+- (char *) getWriteCellFishReport {
+  return writeCellFishReport;
+}
 
 //////////////////////////////////////////////////////////////////
 //
@@ -467,9 +501,9 @@ char **speciesColor;
 
   [habitatManager buildObjects];
   
-  #ifdef PRINT_CELL_FISH_REPORT
+  if(strcmp(writeCellFishReport,"YES")==0){
       [habitatManager buildHabSpaceCellFishInfoReporter];
-  #endif
+  }
 
   [habitatManager updateHabitatManagerWithTime: modelTime
                          andWithModelStartFlag: initialDay];
@@ -1326,10 +1360,10 @@ char **speciesColor;
   reddActions = [ActionGroup createBegin: modelZone];
   reddActions = [reddActions createEnd];
 
-  #ifdef PRINT_CELL_FISH_REPORT
+  if(strcmp(writeCellFishReport,"YES")==0){
       printCellFishAction = [ActionGroup createBegin: modelZone];
       printCellFishAction = [printCellFishAction createEnd];
-  #endif
+  }
   modelActions = [ActionGroup createBegin: modelZone];
   modelActions = [modelActions createEnd];
 
@@ -1377,16 +1411,12 @@ char **speciesColor;
                message: M(emerge)];
 
 
-  #ifdef PRINT_CELL_FISH_REPORT
+  if(strcmp(writeCellFishReport,"YES")==0){
       [printCellFishAction createActionTo: habitatManager message: M(outputCellFishInfoReport)];
-  #endif
+  }
 
   [modelActions createAction: fishActions];
   [modelActions createAction: reddActions];
-
-  //#ifdef PRINT_CELL_FISH_REPORT
-     //[modelActions createAction: printCellFishAction];
-  //#endif
 
   // designate the OVERHEAD ACTIONS
   [overheadActions createActionTo: self message: M(processEmptyReddList)];
@@ -1410,9 +1440,9 @@ char **speciesColor;
   [printSchedule setRepeatInterval: fileOutputFrequency];
   printSchedule = [printSchedule createEnd];
   [printSchedule createActionTo: self message: M(outputBreakoutReports)];
-  #ifdef PRINT_CELL_FISH_REPORT
+  if(strcmp(writeCellFishReport,"YES")==0){
      [printSchedule createAction: printCellFishAction];
-  #endif
+  }
 
   //
   // Put the Actions in the schedule
@@ -1569,9 +1599,9 @@ char **speciesColor;
    {
        STOP = YES;
 
-       #ifdef REDD_SURV_REPORT
+       if(strcmp(writeReddSurvReport,"YES")==0){
           [self printReddSurvReport];
-       #endif
+       }
 
        fprintf(stdout,"TroutModelSwarm >>>> whenToStop >>>> STOPPING\n");
        fflush(0);
@@ -2140,10 +2170,6 @@ char **speciesColor;
    return reddRptFilePtr;
 }
 
-
-
-#ifdef REDD_SURV_REPORT
-
 //////////////////////////////////////////////////////////
 //
 // printReddSurvReport
@@ -2172,10 +2198,6 @@ char **speciesColor;
    fclose(printRptPtr);
    return self;
 }
-
-#endif
-
-
 
 ///////////////////////////////////////////////////
 //
@@ -3061,10 +3083,11 @@ char **speciesColor;
      modelActions = nil;
      [overheadActions drop];
      overheadActions = nil;
-  #ifdef PRINT_CELL_FISH_REPORT
-     [printCellFishAction drop];
-     printCellFishAction = nil;
-  #endif
+
+    if(strcmp(writeCellFishReport,"YES")==0){
+       [printCellFishAction drop];
+       printCellFishAction = nil;
+    }
 
      [modelSchedule drop];
      modelSchedule = nil;

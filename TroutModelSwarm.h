@@ -95,6 +95,8 @@ typedef struct FishSetupStruct TroutInitializationRecord;
   char*  writeMoveReport;
   char*  writeReadyToSpawnReport;
   char*  writeSpawnCellReport;
+  char*  writeReddSurvReport;
+  char*  writeCellFishReport;
 
 
 @protected
@@ -296,6 +298,10 @@ char*        movementRule;
 - (char *) getWriteReadyToSpawnReport;
 - setWriteSpawnCellReport: (char *) writeSpawnCell;
 - (char *) getWriteSpawnCellReport;
+- setWriteReddSurvReport: (char *) writeReddSurv;
+- (char *) getWriteReddSurvReport;
+- setWriteCellFishReport: (char *) writeCellFish;
+- (char *) getWriteCellFishReport;
 
 
 - buildObjectsWith: theColormaps

@@ -77,6 +77,8 @@ Boston, MA 02111-1307, USA.
   char* writeMoveReport;
   char* writeReadyToSpawnReport;
   char* writeSpawnCellReport;
+  char* writeReddSurvReport;
+  char* writeCellFishReport;
 
 @public
   int modelNumber;

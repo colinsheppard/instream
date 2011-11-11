@@ -22,6 +22,8 @@ writeDepthVelocityReport      NO
 writeMoveReport		      NO
 writeReadyToSpawnReport	      NO
 writeSpawnCellReport	      NO
+writeReddSurvReport	      NO
+writeCellFishReport	      NO
 
 @end
 

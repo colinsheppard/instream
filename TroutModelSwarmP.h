@@ -74,6 +74,8 @@ Boston, MA 02111-1307, USA.
 - (char *) getWriteMoveReport;
 - (char *) getWriteReadyToSpawnReport;
 - (char *) getWriteSpawnCellReport;
+- (char *) getWriteReddSurvReport;
+- (char *) getWriteCellFishReport;
 @end
 
 @class TroutModelSwarm;
