@@ -2232,8 +2232,7 @@ Boston, MA 02111-1307, USA.
 ///////////////////////////////////////////////////////////////////////
 - (id <List>) getNeighborsWithin: (double) aRange 
                               of: refCell 
-                        withList: (id <List>) aCellList
-{
+                        withList: (id <List>) aCellList{
   id <ListIndex> cellNdx;
   id tempCell;
   id <List> listOfCellsWithinRange = aCellList;
@@ -2250,14 +2249,12 @@ Boston, MA 02111-1307, USA.
   //fprintf(stdout, "HabitatSpace >>>> getNeigborsWithin >>>> BEGIN\n");
   //fflush(0);
 
-  if(listOfCellsWithinRange == nil)
-  {
+  if(listOfCellsWithinRange == nil){
       fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> listOfCellsWithinRange is nil\n");
       fflush(0);
       exit(1);
   }
-  if([listOfCellsWithinRange getCount] != 0)
-  {
+  if([listOfCellsWithinRange getCount] != 0){
       // 
       // The list from the fish must be empty
       //
@@ -2265,9 +2262,7 @@ Boston, MA 02111-1307, USA.
       fflush(0);
       exit(1);
   }
-
-  if(adjacentCells == nil)
-  {
+  if(adjacentCells == nil){
       fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> adjacentCells is nil\n");
       fflush(0);
       exit(1);
@@ -2275,8 +2270,7 @@ Boston, MA 02111-1307, USA.
 
   adjacentCellCount = [adjacentCells getCount];
 
-  if(adjacentCellCount == 0)
-  {
+  if(adjacentCellCount == 0){
       // 
       // The list of adjacent cells shouldn't be empty
       //
@@ -2285,17 +2279,13 @@ Boston, MA 02111-1307, USA.
       exit(1);
   }
 
-  while(([cellNdx getLoc] != End) && ((tempCell = [cellNdx next]) != nil)) 
-  {
+  while(([cellNdx getLoc] != End) && ((tempCell = [cellNdx next]) != nil)) {
      double polyCenterX;
      double polyCenterY;
-
      double polyCenterDiffSquareX;
      double polyCenterDiffSquareY;
 
-     
-     if(refCell == tempCell)
-     {
+     if(refCell == tempCell){
          continue;
      }
 
@@ -2310,114 +2300,80 @@ Boston, MA 02111-1307, USA.
 
      polyDistance = sqrt(polyCenterDiffSquareX + polyCenterDiffSquareY); 
    
-     if(polyDistance <= aRange)
-     {
+     if(polyDistance <= aRange){
         [listOfCellsWithinRange addLast: tempCell];
      }
-
   }
-        
-  //
   // Now, ensure listOfCellsWithinRange contains refCell's
   // adjacentCells
-  //
-  {
-     int i;
-     for(i = 0; i < adjacentCellCount; i++)
-     {
-         FishCell* adjacentCell = [adjacentCells atOffset: i]; 
-         if([listOfCellsWithinRange contains: adjacentCell] == NO)
-         {
-            [listOfCellsWithinRange addLast: adjacentCell];
-         }
-     } 
-  }
+  int i;
+  for(i = 0; i < adjacentCellCount; i++){
+      FishCell* adjacentCell = [adjacentCells atOffset: i]; 
+      if([listOfCellsWithinRange contains: adjacentCell] == NO){
+         [listOfCellsWithinRange addLast: adjacentCell];
+      }
+  } 
 
-
-  //
   // Upstream and Downstream reaches.
-  //
-  if(1)
-  {
-      //int habDownstreamJunctionNumber;
-      //int habUpstreamJunctionNumber;
+  
+  //int habDownstreamJunctionNumber;
+  //int habUpstreamJunctionNumber;
 
-      //HabitatSpace* downstreamReach;
-      //HabitatSpace* upstreamReach;
+  //HabitatSpace* downstreamReach;
+  //HabitatSpace* upstreamReach;
 
-           // if there are reaches whose downstream ends are links to the current reach's
-           // downstream end habDownstreamLinksToDS is not empty then a message is sent to each reach on
-           // habDownstreamLinksToDS to obtain a list of cellswithin a specified distance 
-           // of its downstream end. 
-           // The cells are added to the end of listOfCellsWithinRange
-           // Likewise for habDownstreamLinksToUS (reaches with their upstream end linked to our downstream)
+  // if there are reaches whose downstream ends are links to the current reach's
+  // downstream end habDownstreamLinksToDS is not empty then a message is sent to each reach on
+  // habDownstreamLinksToDS to obtain a list of cellswithin a specified distance 
+  // of its downstream end. 
+  // The cells are added to the end of listOfCellsWithinRange
+  // Likewise for habDownstreamLinksToUS (reaches with their upstream end linked to our downstream)
 
-      if(aRange > [refCell getCellDistToDS])
-      {
-           int i;
-           double fishDistToDSEnd = aRange - [refCell getCellDistToDS];
+  if(aRange > [refCell getCellDistToDS]){
+    int i;
+    double fishDistToDSEnd = aRange - [refCell getCellDistToDS];
 
-           unsigned int hDLTDSCount = [habDownstreamLinksToDS getCount];
-           for(i = 0; i < hDLTDSCount; i++)
-                {
-                    id anotherReach = [habDownstreamLinksToDS atOffset: i];
+    unsigned int hDLTDSCount = [habDownstreamLinksToDS getCount];
+    for(i = 0; i < hDLTDSCount; i++){
+       id anotherReach = [habDownstreamLinksToDS atOffset: i];
 
-                    [anotherReach addDownstreamCellsWithin: fishDistToDSEnd toList: listOfCellsWithinRange]; 
- 
-                } //for
+       [anotherReach addDownstreamCellsWithin: fishDistToDSEnd toList: listOfCellsWithinRange]; 
+    } //for
 
-           unsigned int hDLTUSCount = [habDownstreamLinksToUS getCount];
-           for(i = 0; i < hDLTUSCount; i++)
-                {
-                    id anotherReach = [habDownstreamLinksToUS atOffset: i];
+    unsigned int hDLTUSCount = [habDownstreamLinksToUS getCount];
+    for(i = 0; i < hDLTUSCount; i++){
+      id anotherReach = [habDownstreamLinksToUS atOffset: i];
+      [anotherReach addDownstreamCellsWithin: fishDistToDSEnd toList: listOfCellsWithinRange]; 
+    } //for
+  }  // if (aRange > [refCell getCellDistToDS])
 
-                    [anotherReach addDownstreamCellsWithin: fishDistToDSEnd toList: listOfCellsWithinRange]; 
- 
-                } //for
-              
-        }  // if (aRange > [refCell getCellDistToDS])
+  // If there area reaches whose downstream ends are linked to the current reach's 
+  // upstream end (habUpstreamLinksToDS is not empty), then a message is
+  // sent to each reach on habUpstreamLinksToDS to obtain a list of cells
+  // within a distance of its upstream end.  These cells are added to the end of
+  // listOfCellsWithinRange.
+  // Likewise for habUpLinksToUS (reaches with their upstream end linked to our upstream)
 
+  if(aRange > [refCell getCellDistToUS]){
+    int i;
+    double fishDistToUSEnd = aRange - [refCell getCellDistToUS];
 
-            // If there area reaches whose downstream ends are linked to the current reach's 
-            // upstream end (habUpstreamLinksToDS is not empty), then a message is
-            // sent to each reach on habUpstreamLinksToDS to obtain a list of cells
-            // within a distance of its upstream end.  These cells are added to the end of
-            // listOfCellsWithinRange.
-            // Likewise for habUpLinksToUS (reaches with their upstream end linked to our upstream)
+    unsigned int hULTDSCount = [habUpstreamLinksToDS getCount];
+    for(i = 0; i < hULTDSCount; i++){
+             id anotherReach = [habUpstreamLinksToDS atOffset: i];
+             [anotherReach addDownstreamCellsWithin: fishDistToUSEnd toList: listOfCellsWithinRange]; 
+    } //for
 
-      if(aRange > [refCell getCellDistToUS])
-      {
-           int i;
-           double fishDistToUSEnd = aRange - [refCell getCellDistToUS];
+    unsigned int hULTUSCount = [habUpstreamLinksToUS getCount];
+    for(i = 0; i < hULTUSCount; i++){
+             id anotherReach = [habUpstreamLinksToUS atOffset: i];
+             [anotherReach addUpstreamCellsWithin: fishDistToUSEnd toList: listOfCellsWithinRange]; 
+    } //for
 
-           unsigned int hULTDSCount = [habUpstreamLinksToDS getCount];
-           for(i = 0; i < hULTDSCount; i++)
-                {
-                    id anotherReach = [habUpstreamLinksToDS atOffset: i];
-
-                    [anotherReach addDownstreamCellsWithin: fishDistToUSEnd toList: listOfCellsWithinRange]; 
- 
-                } //for
-
-           unsigned int hULTUSCount = [habUpstreamLinksToUS getCount];
-           for(i = 0; i < hULTUSCount; i++)
-                {
-                    id anotherReach = [habUpstreamLinksToUS atOffset: i];
-
-                    [anotherReach addUpstreamCellsWithin: fishDistToUSEnd toList: listOfCellsWithinRange]; 
- 
-                } //for
-
-        }  // if (aRange > [refCell getCellDistToUS])
-
-  }
-
-
+  }  // if (aRange > [refCell getCellDistToUS])
 
   [cellNdx drop];
-
   //xprint(listOfCellsWithinRange);
-
   //fprintf(stdout, "HabitatSpace >>>> getNeigborsWithin >>>> END\n");
   //fflush(0);
 
