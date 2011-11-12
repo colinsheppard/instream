@@ -1200,7 +1200,7 @@ char **speciesColor;
 
   BOOL POPINITDATEOK = NO;
 
-  fprintf(stderr,"TroutModelSwarm >>>> readFishInitializationFiles >>>> BEGIN\n");
+  fprintf(stdout,"TroutModelSwarm >>>> readFishInitializationFiles >>>> BEGIN\n");
   fflush(0);
 
   for(numSpeciesNdx=0; numSpeciesNdx<numberOfSpecies; numSpeciesNdx++)
@@ -1361,7 +1361,7 @@ char **speciesColor;
    }
            
 
-  fprintf(stderr,"TroutModelSwarm >>>> readFishInitializationFiles >>>> END\n");
+  fprintf(stdout,"TroutModelSwarm >>>> readFishInitializationFiles >>>> END\n");
   fflush(0);
 
   return self;
@@ -1524,7 +1524,7 @@ char **speciesColor;
   [modelSchedule activateIn: self];
   [printSchedule activateIn: self];
 
-  fprintf(stderr, "TROUT MODEL SWARM >>>> activateIn\n");
+  fprintf(stdout, "TROUT MODEL SWARM >>>> activateIn\n");
   fflush(0);
 
   return [self getActivity];

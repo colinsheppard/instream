@@ -31,6 +31,8 @@ Boston, MA 02111-1307, USA.
 #import <math.h>
 #import <random.h>
 #import <simtoolsgui.h>
+#include <sys/time.h>
+
 
 #import "globals.h"
 #import "Trout.h"
@@ -2221,8 +2223,6 @@ Boston, MA 02111-1307, USA.
    return pixelsY;
 }
 
-
-
 ////////////////////////////////////////////////////////////////////////
 //
 // getNeighborsWithin
@@ -2244,10 +2244,15 @@ Boston, MA 02111-1307, USA.
 
   double polyDistance = 0.0;
 
-  cellNdx = [polyCellList listBegin: scratchZone];
+  struct timeval begTV, endTV;
+  gettimeofday(&begTV,NULL);
+  //tv.tv_usec // microseconds
 
   //fprintf(stdout, "HabitatSpace >>>> getNeigborsWithin >>>> BEGIN\n");
   //fflush(0);
+
+  cellNdx = [polyCellList listBegin: scratchZone];
+
 
   if(listOfCellsWithinRange == nil){
       fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> listOfCellsWithinRange is nil\n");
@@ -2374,8 +2379,10 @@ Boston, MA 02111-1307, USA.
 
   [cellNdx drop];
   //xprint(listOfCellsWithinRange);
+  gettimeofday(&endTV,NULL);
+  fprintf(stdout, "HabitatSpace >>>> getNeigborsWithin >>>> Time (micro s): %ld \n",(endTV.tv_usec-begTV.tv_usec));
   //fprintf(stdout, "HabitatSpace >>>> getNeigborsWithin >>>> END\n");
-  //fflush(0);
+  fflush(0);
 
   return listOfCellsWithinRange;
 }

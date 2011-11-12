@@ -55,8 +55,8 @@ main (int argc, const char **argv)
       [theTopLevelSwarm go];
     }
   else {
-      (void) fprintf(stderr, "In Batchmode \n");
-       fflush(stderr);
+      (void) fprintf(stdout, "In Batchmode \n");
+       fflush(stdout);
       batchSwarm = [ExperBatchSwarm createBegin: globalZone];
       batchSwarm = [batchSwarm createEnd];
       [batchSwarm buildObjects];
