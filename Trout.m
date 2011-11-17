@@ -963,12 +963,12 @@ Boston, MA 02111-1307, USA.
   }
   //fprintf(stdout,"Trout >>>> spawn >>>> isFemaleReadyToSpawn = %d\n",[self isFemaleReadyToSpawn]);
   if([self isFemaleReadyToSpawn] == NO){
-    if(strcmp([model getWriteReadyToSpawnReport],"YES")==0){
+    if([model getWriteReadyToSpawnReport]){
       [self printReadyToSpawnRpt: NO];
     }
     return self;
   }
-  if(strcmp([model getWriteReadyToSpawnReport],"YES")==0){
+  if([model getWriteReadyToSpawnReport]){
       [self printReadyToSpawnRpt: YES];
   }
   if((spawnCell = [self findCellForNewRedd]) == nil) {
@@ -1242,7 +1242,7 @@ Boston, MA 02111-1307, USA.
 
   [potentialReddCells addFirst: myCell];
 
-  if(strcmp([model getWriteSpawnCellReport],"YES")==0){
+  if([model getWriteSpawnCellReport]){
      [self printSpawnCellRpt: potentialReddCells];
   }
 
@@ -1727,7 +1727,7 @@ Boston, MA 02111-1307, USA.
    prevReach = reach;
 
   //PRINT THE MOVE REPORT
-  if(strcmp([model getWriteMoveReport],"YES")==0){
+  if([model getWriteMoveReport]){
     [self moveReport: bestDest];
   }
 
