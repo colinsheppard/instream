@@ -62,7 +62,9 @@ OBJECTS=Trout.o \
 	PolyInputData.o \
 	PolyCell.o \
 	PolyPoint.o \
-	FishCell.o
+	FishCell.o \
+\
+	KDTree.o
 
 
 OTHERCLEAN= instream-2d.exe.core instream-2d.exe unhappiness.output
@@ -133,3 +135,5 @@ PolyInputData.o : PolyInputData.[hm]
 PolyCell.o : PolyCell.[hm]
 PolyPoint.o : PolyCell.[hm]
 FishCell.o : FishCell.[hm]
+#
+KDTree.o : KDTree.[hm]

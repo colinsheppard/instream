@@ -719,6 +719,16 @@ Boston, MA 02111-1307, USA.
     return self;
 }
 
+//////////////////////////////////////////////
+//
+// calcCellDistToCells
+//
+///////////////////////////////////////////////
+//- calcCellDistToCells{
+    //fprintf(stdout, "FishCell >>>> calcCellDistToCells >>>> cellNumber = %d >>>>> cellDistToDS = %f\n", polyCellNumber);
+    //fflush(0);
+
+//}
 
 
 /////////////////////////////////

@@ -38,6 +38,7 @@ Boston, MA 02111-1307, USA.
 #import "Trout.h"
 #import "Redd.h"
 #import "HabitatSpace.h"
+#import "KDTree.h"
 
 
 @implementation HabitatSpace
@@ -790,7 +791,34 @@ Boston, MA 02111-1307, USA.
     [self setCellShadeColorMax];
     [self readPolyCellDataFile];
     [self calcPolyCellsDistFromRE];
+    //[self calcPolyCellsDistFromCells];
+    //
+	int i, vcount = 100;
+	void *kd, *set;
+	
+	fprintf(stdout,"inserting %d random vectors... ", vcount);
+	fflush(0);
 
+	kd = kd_create(2);
+
+	for(i=0; i<vcount; i++) {
+		float x, y, z;
+		x = ((float)rand() / RAND_MAX) * 200.0 - 100.0;
+		y = ((float)rand() / RAND_MAX) * 200.0 - 100.0;
+		z = 0.0;
+
+		if(kd_insert3(kd, x, y, z, 0) != 0){
+		  fprintf(stderr,"Error attempting kd_insert3 with values x = %f, y = %f, z = %f \n", x, y, z);
+		  fflush(0);
+		  exit(1);
+		}
+	}
+	set = kd_nearest_range3(kd, 0, 0, 0, 40);
+	fprintf(stdout,"range query returned %d items \n", kd_res_size(set));
+	fflush(0);
+	kd_res_free(set);
+	kd_free(kd);
+		  exit(1);
 
     //[self outputCellCentroidRpt];
     //[self outputCellCorners];
@@ -1651,6 +1679,15 @@ Boston, MA 02111-1307, USA.
     return self;
 }
 
+/////////////////////////////////////////////
+//
+// calcPolyCellsDistFromCells
+//
+/////////////////////////////////////////////
+//- calcPolyCellsDistFromCells{
+    //[polyCellList  forEach: M(calcCellDistToCells)];
+    //return self;
+//}
 
 
 ///////////////////////////////////////////////
