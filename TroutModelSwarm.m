@@ -213,7 +213,7 @@ char **speciesColor;
 //
 //////////////////////////////////////////////////////////////
 - setWriteFoodAvailabilityReport: (char *) writeFoodAvail {
-  writeFoodAvailabilityReport = writeFoodAvail;
+  writeFoodAvailabilityReport = (strcmp(writeFoodAvail,"YES")==0);
   return self;
 }
 /////////////////////////////////////////////////////////////////
@@ -221,7 +221,7 @@ char **speciesColor;
 // getWriteFoodAvailabilityReport
 //
 //////////////////////////////////////////////////////////////
-- (char *) getWriteFoodAvailabilityReport {
+- (BOOL) getWriteFoodAvailabilityReport {
   return writeFoodAvailabilityReport;
 }
 /////////////////////////////////////////////////////////////////
@@ -230,7 +230,7 @@ char **speciesColor;
 //
 //////////////////////////////////////////////////////////////
 - setWriteDepthReport: (char *) writeDepth {
-  writeDepthReport = writeDepth;
+  writeDepthReport = (strcmp(writeDepth,"YES")==0);
   return self;
 }
 /////////////////////////////////////////////////////////////////
@@ -238,7 +238,7 @@ char **speciesColor;
 // getWriteDepthReport
 //
 //////////////////////////////////////////////////////////////
-- (char *) getWriteDepthReport {
+- (BOOL) getWriteDepthReport {
   return writeDepthReport;
 }
 /////////////////////////////////////////////////////////////////
@@ -247,7 +247,7 @@ char **speciesColor;
 //
 //////////////////////////////////////////////////////////////
 - setWriteVelocityReport: (char *) writeVel {
-  writeVelocityReport = writeVel;
+  writeVelocityReport = (strcmp(writeVel,"YES")==0);
   return self;
 }
 /////////////////////////////////////////////////////////////////
@@ -255,7 +255,7 @@ char **speciesColor;
 // getWriteVelocityReport
 //
 //////////////////////////////////////////////////////////////
-- (char *) getWriteVelocityReport {
+- (BOOL) getWriteVelocityReport {
   return writeVelocityReport;
 }
 /////////////////////////////////////////////////////////////////
@@ -264,7 +264,7 @@ char **speciesColor;
 //
 //////////////////////////////////////////////////////////////
 - setWriteDepthVelocityReport: (char *) writeDepthVel {
-  writeDepthVelocityReport = writeDepthVel;
+  writeDepthVelocityReport = (strcmp(writeDepthVel,"YES")==0);
   return self;
 }
 /////////////////////////////////////////////////////////////////
@@ -272,7 +272,7 @@ char **speciesColor;
 // getWriteDepthVelocityReport
 //
 //////////////////////////////////////////////////////////////
-- (char *) getWriteDepthVelocityReport {
+- (BOOL) getWriteDepthVelocityReport {
   return writeDepthVelocityReport;
 }
 /////////////////////////////////////////////////////////////////
@@ -281,7 +281,7 @@ char **speciesColor;
 //
 //////////////////////////////////////////////////////////////
 - setWriteHabitatReport: (char *) writeHab {
-  writeHabitatReport = writeHab;
+  writeHabitatReport = (strcmp(writeHab,"YES")==0);
   return self;
 }
 /////////////////////////////////////////////////////////////////
@@ -289,7 +289,7 @@ char **speciesColor;
 // getWriteHabitatReport
 //
 //////////////////////////////////////////////////////////////
-- (char *) getWriteHabitatReport {
+- (BOOL) getWriteHabitatReport {
   return writeHabitatReport;
 }
 /////////////////////////////////////////////////////////////////
@@ -298,7 +298,7 @@ char **speciesColor;
 //
 //////////////////////////////////////////////////////////////
 - setWriteMoveReport: (char *) writeMove {
-  writeMoveReport = writeMove;
+  writeMoveReport = (strcmp(writeMove,"YES")==0);
   return self;
 }
 /////////////////////////////////////////////////////////////////
@@ -306,7 +306,7 @@ char **speciesColor;
 // getWriteMoveReport
 //
 //////////////////////////////////////////////////////////////
-- (char *) getWriteMoveReport {
+- (BOOL) getWriteMoveReport {
   return writeMoveReport;
 }
 /////////////////////////////////////////////////////////////////
@@ -315,7 +315,7 @@ char **speciesColor;
 //
 //////////////////////////////////////////////////////////////
 - setWriteReadyToSpawnReport: (char *) writeReadyToSpawn {
-  writeReadyToSpawnReport = writeReadyToSpawn;
+  writeReadyToSpawnReport = (strcmp(writeReadyToSpawn,"YES")==0);
   return self;
 }
 /////////////////////////////////////////////////////////////////
@@ -323,7 +323,7 @@ char **speciesColor;
 // getWriteReadyToSpawnReport
 //
 //////////////////////////////////////////////////////////////
-- (char *) getWriteReadyToSpawnReport {
+- (BOOL) getWriteReadyToSpawnReport {
   return writeReadyToSpawnReport;
 }
 /////////////////////////////////////////////////////////////////
@@ -332,7 +332,7 @@ char **speciesColor;
 //
 //////////////////////////////////////////////////////////////
 - setWriteSpawnCellReport: (char *) writeSpawnCell {
-  writeSpawnCellReport = writeSpawnCell;
+  writeSpawnCellReport = (strcmp(writeSpawnCell,"YES")==0);
   return self;
 }
 /////////////////////////////////////////////////////////////////
@@ -340,7 +340,7 @@ char **speciesColor;
 // getWriteSpawnCellReport
 //
 //////////////////////////////////////////////////////////////
-- (char *) getWriteSpawnCellReport {
+- (BOOL) getWriteSpawnCellReport {
   return writeSpawnCellReport;
 }
 /////////////////////////////////////////////////////////////////
@@ -349,7 +349,7 @@ char **speciesColor;
 //
 //////////////////////////////////////////////////////////////
 - setWriteReddSurvReport: (char *) writeReddSurv {
-  writeReddSurvReport = writeReddSurv;
+  writeReddSurvReport = (strcmp(writeReddSurv,"YES")==0);
   return self;
 }
 /////////////////////////////////////////////////////////////////
@@ -357,7 +357,7 @@ char **speciesColor;
 // getWriteReddSurvReport
 //
 //////////////////////////////////////////////////////////////
-- (char *) getWriteReddSurvReport {
+- (BOOL) getWriteReddSurvReport {
   return writeReddSurvReport;
 }
 /////////////////////////////////////////////////////////////////
@@ -366,7 +366,7 @@ char **speciesColor;
 //
 //////////////////////////////////////////////////////////////
 - setWriteCellFishReport: (char *) writeCellFish {
-  writeCellFishReport = writeCellFish;
+  writeCellFishReport = (strcmp(writeCellFish,"YES")==0);
   return self;
 }
 /////////////////////////////////////////////////////////////////
@@ -374,7 +374,7 @@ char **speciesColor;
 // getWriteCellFishReport
 //
 //////////////////////////////////////////////////////////////
-- (char *) getWriteCellFishReport {
+- (BOOL) getWriteCellFishReport {
   return writeCellFishReport;
 }
 /////////////////////////////////////////////////////////////////
@@ -383,7 +383,7 @@ char **speciesColor;
 //
 //////////////////////////////////////////////////////////////
 - setWriteReddMortReport: (char *) writeReddMort {
-  writeReddMortReport = writeReddMort;
+  writeReddMortReport = (strcmp(writeReddMort,"YES")==0);
   return self;
 }
 /////////////////////////////////////////////////////////////////
@@ -391,7 +391,7 @@ char **speciesColor;
 // getWriteReddMortReport
 //
 //////////////////////////////////////////////////////////////
-- (char *) getWriteReddMortReport {
+- (BOOL) getWriteReddMortReport {
   return writeReddMortReport;
 }
 
@@ -535,7 +535,7 @@ char **speciesColor;
 
   [habitatManager buildObjects];
   
-  if(strcmp(writeCellFishReport,"YES")==0){
+  if(writeCellFishReport){
       [habitatManager buildHabSpaceCellFishInfoReporter];
   }
 
@@ -594,7 +594,7 @@ char **speciesColor;
   reddBinomialDist = [BinomialDist create: modelZone setGenerator: randGen];
 
   [self openReddSummaryFilePtr];
-  if(strcmp(writeReddMortReport,"YES")==0){
+  if(writeReddMortReport){
     [self openReddReportFilePtr];
   }
 
@@ -1396,7 +1396,7 @@ char **speciesColor;
   reddActions = [ActionGroup createBegin: modelZone];
   reddActions = [reddActions createEnd];
 
-  if(strcmp(writeCellFishReport,"YES")==0){
+  if(writeCellFishReport){
       printCellFishAction = [ActionGroup createBegin: modelZone];
       printCellFishAction = [printCellFishAction createEnd];
   }
@@ -1447,7 +1447,7 @@ char **speciesColor;
                message: M(emerge)];
 
 
-  if(strcmp(writeCellFishReport,"YES")==0){
+  if(writeCellFishReport){
       [printCellFishAction createActionTo: habitatManager message: M(outputCellFishInfoReport)];
   }
 
@@ -1476,7 +1476,7 @@ char **speciesColor;
   [printSchedule setRepeatInterval: fileOutputFrequency];
   printSchedule = [printSchedule createEnd];
   [printSchedule createActionTo: self message: M(outputBreakoutReports)];
-  if(strcmp(writeCellFishReport,"YES")==0){
+  if(writeCellFishReport){
      [printSchedule createAction: printCellFishAction];
   }
 
@@ -1635,7 +1635,7 @@ char **speciesColor;
    {
        STOP = YES;
 
-       if(strcmp(writeReddSurvReport,"YES")==0){
+       if(writeReddSurvReport){
           [self printReddSurvReport];
        }
 
@@ -3120,7 +3120,7 @@ char **speciesColor;
      [overheadActions drop];
      overheadActions = nil;
 
-    if(strcmp(writeCellFishReport,"YES")==0){
+    if(writeCellFishReport){
        [printCellFishAction drop];
        printCellFishAction = nil;
     }

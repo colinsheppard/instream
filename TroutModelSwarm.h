@@ -85,17 +85,17 @@ typedef struct FishSetupStruct TroutInitializationRecord;
   int    polyRasterResolutionY;
   char   polyRasterColorVariable[35];
   double shadeColorMax;
-  char*  writeFoodAvailabilityReport;
-  char*  writeDepthReport;
-  char*  writeVelocityReport;
-  char*  writeDepthVelocityReport;
-  char*  writeHabitatReport;
-  char*  writeMoveReport;
-  char*  writeReadyToSpawnReport;
-  char*  writeSpawnCellReport;
-  char*  writeReddSurvReport;
-  char*  writeCellFishReport;
-  char*  writeReddMortReport;
+  BOOL  writeFoodAvailabilityReport;
+  BOOL  writeDepthReport;
+  BOOL  writeVelocityReport;
+  BOOL  writeDepthVelocityReport;
+  BOOL  writeHabitatReport;
+  BOOL  writeMoveReport;
+  BOOL  writeReadyToSpawnReport;
+  BOOL  writeSpawnCellReport;
+  BOOL  writeReddSurvReport;
+  BOOL  writeCellFishReport;
+  BOOL  writeReddMortReport;
 
 
 @protected
@@ -284,27 +284,27 @@ char*        movementRule;
 - setObserverSwarm: anObserverSwarm;
 - getObserverSwarm;
 - setWriteFoodAvailabilityReport: (char *) writeFoodAvail;
-- (char *) getWriteFoodAvailabilityReport;
+- (BOOL) getWriteFoodAvailabilityReport;
 - setWriteDepthReport: (char *) writeDepth;
-- (char *) getWriteDepthReport;
+- (BOOL) getWriteDepthReport;
 - setWriteVelocityReport: (char *) writeVel;
-- (char *) getWriteVelocityReport;
+- (BOOL) getWriteVelocityReport;
 - setWriteDepthVelocityReport: (char *) writeDepthVel;
-- (char *) getWriteDepthVelocityReport;
+- (BOOL) getWriteDepthVelocityReport;
 - setWriteHabitatReport: (char *) writeHab;
-- (char *) getWriteHabitatReport;
+- (BOOL) getWriteHabitatReport;
 - setWriteMoveReport: (char *) writeMove;
-- (char *) getWriteMoveReport;
+- (BOOL) getWriteMoveReport;
 - setWriteReadyToSpawnReport: (char *) writeReadyToSpawn;
-- (char *) getWriteReadyToSpawnReport;
+- (BOOL) getWriteReadyToSpawnReport;
 - setWriteSpawnCellReport: (char *) writeSpawnCell;
-- (char *) getWriteSpawnCellReport;
+- (BOOL) getWriteSpawnCellReport;
 - setWriteReddSurvReport: (char *) writeReddSurv;
-- (char *) getWriteReddSurvReport;
+- (BOOL) getWriteReddSurvReport;
 - setWriteCellFishReport: (char *) writeCellFish;
-- (char *) getWriteCellFishReport;
+- (BOOL) getWriteCellFishReport;
 - setWriteReddMortReport: (char *) writeReddMort;
-- (char *) getWriteReddMortReport;
+- (BOOL) getWriteReddMortReport;
 
 
 - buildObjectsWith: theColormaps

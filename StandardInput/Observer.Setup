@@ -15,17 +15,17 @@ tagFishColor                 tomato
 tagCellColor                 DeepPink1
 dryCellColor                 white
 
-writeFoodAvailabilityReport   NO
-writeDepthReport	      NO 
-writeVelocityReport	      NO
-writeDepthVelocityReport      NO
-writeHabitatReport	      NO
-writeMoveReport		      NO
-writeReadyToSpawnReport	      NO
-writeSpawnCellReport	      NO
-writeReddSurvReport	      NO
-writeReddMortReport	      NO
-writeCellFishReport	      NO
+writeFoodAvailabilityReport   YES
+writeDepthReport	      YES 
+writeVelocityReport	      YES
+writeDepthVelocityReport      YES
+writeHabitatReport	      YES
+writeMoveReport		      YES
+writeReadyToSpawnReport	      YES
+writeSpawnCellReport	      YES
+writeReddSurvReport	      YES
+writeReddMortReport	      YES
+writeCellFishReport	      YES
 
 @end
 

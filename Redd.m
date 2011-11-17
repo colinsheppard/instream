@@ -83,10 +83,10 @@ Boston, MA 02111-1307, USA.
   numberOfEggsLostToHiTemp = 0;
   numberOfEggsLostToSuperimp = 0;
 
-  if(strcmp([model getWriteReddMortReport],"YES")==0){
+  if([model getWriteReddMortReport]){
     printList     = [List create: reddZone];
   }
-  if(strcmp([model getWriteReddSurvReport],"YES")==0){
+  if([model getWriteReddSurvReport]){
     survPrintList = [List create: reddZone];
   }
 
@@ -390,7 +390,7 @@ Boston, MA 02111-1307, USA.
            exit(1);
       }
 
-      if(strcmp([model getWriteReddMortReport],"YES")==0){
+      if([model getWriteReddMortReport]){
 	[self createPrintString: eggsLostToDewatering
                               : eggsLostToScouring
                               : eggsLostToLowTemp
@@ -399,7 +399,7 @@ Boston, MA 02111-1307, USA.
                               : [model getModelTime] ];
       }
 
-      if(strcmp([model getWriteReddSurvReport],"YES")==0){
+      if([model getWriteReddSurvReport]){
         [self createSurvPrintStringWithDewaterSF: dewater
                                     withScourSF: scour
                                    withLoTempSF: loTemp
@@ -417,7 +417,7 @@ Boston, MA 02111-1307, USA.
   }
   if(numberOfEggs == 0 ) 
   {
-    if(strcmp([model getWriteReddMortReport],"YES")==0){
+    if([model getWriteReddMortReport]==0){
       [self printReport];
     }
      //[self createReddSummaryStr];
@@ -523,7 +523,7 @@ Boston, MA 02111-1307, USA.
 
      // determine if Redd empty - if so, remove redd
      if (numberOfEggs <= 0){
-       if(strcmp([model getWriteReddMortReport],"YES")==0){
+       if([model getWriteReddMortReport]){
          [self printReport]; // Added 2/28/04 skj
        }
         [self removeWhenEmpty];
