@@ -38,7 +38,6 @@ Boston, MA 02111-1307, USA.
 #import "Trout.h"
 #import "Redd.h"
 #import "HabitatSpace.h"
-#import "KDTree.h"
 
 
 @implementation HabitatSpace
@@ -412,6 +411,56 @@ Boston, MA 02111-1307, USA.
     return reachSymbol;
 }
 
+/////////////////////////////////////////////
+//
+// buildKDTree
+//
+/////////////////////////////////////////////
+- buildKDTree {
+  id cell = nil;
+  double x=0.0, y=0.0, z=0.0;
+  id <UniformUnsignedDist> listRandomizer;
+  id <ListShuffler> listShuffler;
+  id <List> shuffledPolyCellList;
+  id <ListIndex> aPolyCellListNdx;
+
+  // KD Trees should be balanced, to acheive this, we need to add nodes to the tree in a random order, 
+  // so we create a shuffled list
+  shuffledPolyCellList = [List create: scratchZone];
+  [polyCellListNdx setLoc: Start];
+  while(([polyCellListNdx getLoc] != End) && ((cell = [polyCellListNdx next]) != nil)){
+    [shuffledPolyCellList addLast: cell];
+  }
+  listRandomizer = [UniformUnsignedDist create: scratchZone
+                                  setGenerator: randGen
+                                setUnsignedMin: (unsigned) 0 
+                                        setMax: (unsigned) 1];
+  listShuffler = [ListShuffler      create: scratchZone
+                          setUniformRandom: listRandomizer];
+  [listShuffler shuffleWholeList: shuffledPolyCellList];
+  [listShuffler drop];
+  [listRandomizer drop];
+
+  //fprintf(stdout,"HabitatSpace >>> buildKDTree >>> Inserting PolyCells into tree...\n ");
+  //fflush(0);
+
+  kdTree = kd_create(2);
+  aPolyCellListNdx = [shuffledPolyCellList listBegin: scratchZone];
+  while(([aPolyCellListNdx getLoc] != End) && ((cell = [aPolyCellListNdx next]) != nil)){ 
+    x = [cell getPolyCenterX];
+    y = [cell getPolyCenterY];
+    //fprintf(stdout,"HabitatSpace >>> buildKDTree >>> Inserting PolyCell into KDTree coords x = %f, y = %f \n", x,y);
+    //fflush(0);
+    if(kd_insert3(kdTree, x, y, z, cell) != 0){
+      fprintf(stderr,"HabitatSpace >>> buildKDTree >>> Error attempting kd_insert3 with values x = %f, y = %f, z = %f \n", x, y, z);
+      fflush(0);
+      exit(1);
+    }
+  }
+  [aPolyCellListNdx drop];
+  [shuffledPolyCellList drop];
+  return self;
+}
 
 
 ////////////////////////////////////////////
@@ -791,34 +840,7 @@ Boston, MA 02111-1307, USA.
     [self setCellShadeColorMax];
     [self readPolyCellDataFile];
     [self calcPolyCellsDistFromRE];
-    //[self calcPolyCellsDistFromCells];
-    //
-	int i, vcount = 100;
-	void *kd, *set;
-	
-	fprintf(stdout,"inserting %d random vectors... ", vcount);
-	fflush(0);
-
-	kd = kd_create(2);
-
-	for(i=0; i<vcount; i++) {
-		float x, y, z;
-		x = ((float)rand() / RAND_MAX) * 200.0 - 100.0;
-		y = ((float)rand() / RAND_MAX) * 200.0 - 100.0;
-		z = 0.0;
-
-		if(kd_insert3(kd, x, y, z, 0) != 0){
-		  fprintf(stderr,"Error attempting kd_insert3 with values x = %f, y = %f, z = %f \n", x, y, z);
-		  fflush(0);
-		  exit(1);
-		}
-	}
-	set = kd_nearest_range3(kd, 0, 0, 0, 40);
-	fprintf(stdout,"range query returned %d items \n", kd_res_size(set));
-	fflush(0);
-	kd_res_free(set);
-	kd_free(kd);
-		  exit(1);
+    [self buildKDTree];
 
     //[self outputCellCentroidRpt];
     //[self outputCellCorners];
@@ -1679,16 +1701,6 @@ Boston, MA 02111-1307, USA.
     return self;
 }
 
-/////////////////////////////////////////////
-//
-// calcPolyCellsDistFromCells
-//
-/////////////////////////////////////////////
-//- calcPolyCellsDistFromCells{
-    //[polyCellList  forEach: M(calcCellDistToCells)];
-    //return self;
-//}
-
 
 ///////////////////////////////////////////////
 //
@@ -2149,6 +2161,14 @@ Boston, MA 02111-1307, USA.
      return polyCellList;
 }
 
+////////////////////////////////////////////////
+//
+// getPolyCellListNdx
+//
+///////////////////////////////////////////////
+- (id <ListIndex>) getPolyCellListNdx{
+  return polyCellListNdx;
+}
 
 
 ///////////////////////////////
@@ -2270,91 +2290,14 @@ Boston, MA 02111-1307, USA.
 - (id <List>) getNeighborsWithin: (double) aRange 
                               of: refCell 
                         withList: (id <List>) aCellList{
-  id <ListIndex> cellNdx;
-  id tempCell;
-  id <List> listOfCellsWithinRange = aCellList;
-  id <List> adjacentCells = [refCell getListOfAdjacentCells];
-  int adjacentCellCount;
-
-  double polyRefCenterX = [refCell getPolyCenterX];
-  double polyRefCenterY = [refCell getPolyCenterY];
-
-  double polyDistance = 0.0;
+  id <List> listOfCellsWithinRange;
 
   struct timeval begTV, endTV;
   gettimeofday(&begTV,NULL);
-  //tv.tv_usec // microseconds
 
-  //fprintf(stdout, "HabitatSpace >>>> getNeigborsWithin >>>> BEGIN\n");
-  //fflush(0);
-
-  cellNdx = [polyCellList listBegin: scratchZone];
-
-
-  if(listOfCellsWithinRange == nil){
-      fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> listOfCellsWithinRange is nil\n");
-      fflush(0);
-      exit(1);
-  }
-  if([listOfCellsWithinRange getCount] != 0){
-      // 
-      // The list from the fish must be empty
-      //
-      fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> listOfCellsWithinRange is not empty\n");
-      fflush(0);
-      exit(1);
-  }
-  if(adjacentCells == nil){
-      fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> adjacentCells is nil\n");
-      fflush(0);
-      exit(1);
-  }
-
-  adjacentCellCount = [adjacentCells getCount];
-
-  if(adjacentCellCount == 0){
-      // 
-      // The list of adjacent cells shouldn't be empty
-      //
-      fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> adjacentCells is empty\n");
-      fflush(0);
-      exit(1);
-  }
-
-  while(([cellNdx getLoc] != End) && ((tempCell = [cellNdx next]) != nil)) {
-     double polyCenterX;
-     double polyCenterY;
-     double polyCenterDiffSquareX;
-     double polyCenterDiffSquareY;
-
-     if(refCell == tempCell){
-         continue;
-     }
-
-     polyCenterX = [tempCell getPolyCenterX];
-     polyCenterY = [tempCell getPolyCenterY];
-
-     polyCenterDiffSquareX = (polyCenterX - polyRefCenterX);
-     polyCenterDiffSquareY = (polyCenterY - polyRefCenterY);
-
-     polyCenterDiffSquareX = polyCenterDiffSquareX * polyCenterDiffSquareX;
-     polyCenterDiffSquareY = polyCenterDiffSquareY * polyCenterDiffSquareY;
-
-     polyDistance = sqrt(polyCenterDiffSquareX + polyCenterDiffSquareY); 
-   
-     if(polyDistance <= aRange){
-        [listOfCellsWithinRange addLast: tempCell];
-     }
-  }
-  // Now, ensure listOfCellsWithinRange contains refCell's
-  // adjacentCells
-  int i;
-  for(i = 0; i < adjacentCellCount; i++){
-      FishCell* adjacentCell = [adjacentCells atOffset: i]; 
-      if([listOfCellsWithinRange contains: adjacentCell] == NO){
-         [listOfCellsWithinRange addLast: adjacentCell];
-      }
-  } 
+  listOfCellsWithinRange = [self getNeighborsInReachWithin: aRange 
+							of: refCell 
+						  withList: aCellList];
 
   // Upstream and Downstream reaches.
   
@@ -2414,12 +2357,12 @@ Boston, MA 02111-1307, USA.
 
   }  // if (aRange > [refCell getCellDistToUS])
 
-  [cellNdx drop];
-  //xprint(listOfCellsWithinRange);
   gettimeofday(&endTV,NULL);
   fprintf(stdout, "HabitatSpace >>>> getNeigborsWithin >>>> Time (micro s): %ld \n",(endTV.tv_usec-begTV.tv_usec));
+  //fflush(0);
+  
   //fprintf(stdout, "HabitatSpace >>>> getNeigborsWithin >>>> END\n");
-  fflush(0);
+  //fflush(0);
 
   return listOfCellsWithinRange;
 }
@@ -2435,30 +2378,22 @@ Boston, MA 02111-1307, USA.
                               of: refCell 
                         withList: (id <List>) aCellList
 {
-  id <ListIndex> cellNdx;
+  void *kdSet;
+
   id tempCell;
   id <List> listOfCellsWithinRange = aCellList;
   id <List> adjacentCells = [refCell getListOfAdjacentCells];
   int adjacentCellCount;
 
-  double polyRefCenterX = [refCell getPolyCenterX];
-  double polyRefCenterY = [refCell getPolyCenterY];
-
-  double polyDistance = 0.0;
-
-  cellNdx = [polyCellList listBegin: scratchZone];
-
-  //fprintf(stdout, "HabitatSpace >>>> getNeigborsWithin >>>> BEGIN\n");
+  //fprintf(stdout, "HabitatSpace >>>> getNeigborsInReachWithin >>>> BEGIN\n");
   //fflush(0);
 
-  if(listOfCellsWithinRange == nil)
-  {
+  if(listOfCellsWithinRange == nil){
       fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> listOfCellsWithinRange is nil\n");
       fflush(0);
       exit(1);
   }
-  if([listOfCellsWithinRange getCount] != 0)
-  {
+  if([listOfCellsWithinRange getCount] != 0){
       // 
       // The list from the fish must be empty
       //
@@ -2466,84 +2401,49 @@ Boston, MA 02111-1307, USA.
       fflush(0);
       exit(1);
   }
-
-  if(adjacentCells == nil)
-  {
+  // The list of adjacent cells shouldn't be empty
+  if(adjacentCells == nil){
       fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> adjacentCells is nil\n");
       fflush(0);
       exit(1);
   }
-
   adjacentCellCount = [adjacentCells getCount];
-
-  if(adjacentCellCount == 0)
-  {
-      // 
-      // The list of adjacent cells shouldn't be empty
-      //
+  if(adjacentCellCount == 0){
       fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> adjacentCells is empty\n");
       fflush(0);
       exit(1);
   }
 
-  while(([cellNdx getLoc] != End) && ((tempCell = [cellNdx next]) != nil)) 
-  {
-     double polyCenterX;
-     double polyCenterY;
+  [listOfCellsWithinRange addLast: refCell];
 
-     double polyCenterDiffSquareX;
-     double polyCenterDiffSquareY;
-
-     
-     if(refCell == tempCell)
-     {
-         continue;
-     }
-
-     polyCenterX = [tempCell getPolyCenterX];
-     polyCenterY = [tempCell getPolyCenterY];
-
-     polyCenterDiffSquareX = (polyCenterX - polyRefCenterX);
-     polyCenterDiffSquareY = (polyCenterY - polyRefCenterY);
-
-     polyCenterDiffSquareX = polyCenterDiffSquareX * polyCenterDiffSquareX;
-     polyCenterDiffSquareY = polyCenterDiffSquareY * polyCenterDiffSquareY;
-
-     polyDistance = sqrt(polyCenterDiffSquareX + polyCenterDiffSquareY); 
-   
-     if(polyDistance <= aRange)
-     {
-        [listOfCellsWithinRange addLast: tempCell];
-     }
-
+  kdSet = kd_nearest_range3(kdTree, [refCell getPolyCenterX], [refCell getPolyCenterY], 0.0, aRange);
+  //fprintf(stdout,"HabitatSpace >>> getNeighborsWithin >>> KDTree range query returned %d items \n", kd_res_size(kdSet));
+  //fflush(0);
+  while(kd_res_end(kdSet)==0){
+    tempCell = kd_res_item_data(kdSet);
+    [listOfCellsWithinRange addLast: tempCell];
+    //fprintf(stdout,"HabitatSpace >>> getNeighborsWithin >>> KD found PolyCell with coords x = %f, y = %f \n", [tempCell getPolyCenterX], [tempCell getPolyCenterY]);
+    //fflush(0);
+    kd_res_next(kdSet);
   }
-        
-  //
-  // Now, ensure listOfCellsWithinRange contains refCell's
-  // adjacentCells
-  //
-  {
-     int i;
-     for(i = 0; i < adjacentCellCount; i++)
-     {
-         FishCell* adjacentCell = [adjacentCells atOffset: i]; 
-         if([listOfCellsWithinRange contains: adjacentCell] == NO)
-         {
-            [listOfCellsWithinRange addLast: adjacentCell];
-         }
-     } 
-  }
+  kd_res_free(kdSet);
 
+  // Now, ensure listOfCellsWithinRange contains refCell's adjacentCells
+  int i;
+  for(i = 0; i < adjacentCellCount; i++){
+      FishCell* adjacentCell = [adjacentCells atOffset: i]; 
+      if([listOfCellsWithinRange contains: adjacentCell] == NO){
+         [listOfCellsWithinRange addLast: adjacentCell];
+      }
+  } 
 
   //
   // Upstream and Downstream reaches are not considered!
   //
 
-  [cellNdx drop];
-
   //xprint(listOfCellsWithinRange);
 
-  //fprintf(stdout, "HabitatSpace >>>> getNeigborsWithin >>>> END\n");
+  //fprintf(stdout, "HabitatSpace >>>> getNeigborsInReachWithin >>>> END\n");
   //fflush(0);
 
   return listOfCellsWithinRange;
@@ -4084,6 +3984,7 @@ Boston, MA 02111-1307, USA.
     [habitatZone drop];
     habitatZone = nil;
 
+    kd_free(kdTree);
     //fprintf(stdout, "HabitatSpace >>>> drop >>>> END\n");
     //fflush(0);
 }

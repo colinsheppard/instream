@@ -39,6 +39,7 @@ Boston, MA 02111-1307, USA.
 
 #import "PolyCell.h"
 #import "PolyPoint.h"
+#import "KDTree.h"
 
 @interface HabitatSpace : Discrete2d 
 {
@@ -243,6 +244,7 @@ long int maxYCoordinate;
 //  double** nodeUTMXArray;
 //  double** nodeUTMYArray;
   id <ListIndex> polyCellListNdx;
+  void* kdTree;
 
   unsigned int polySpaceSizeX;
   unsigned int polySpaceSizeY;
@@ -260,12 +262,11 @@ long int maxYCoordinate;
   id <List> listOfPolyInputData;
   //PolyInterpolatorFactory* polyInterpolatorFactory;
 
+  //
+  // The new poly cell data 
+  //
 
-   //
-   // The new poly cell data 
-   //
-
-   id <List> polyCellList;
+  id <List> polyCellList;
 
 }
 
@@ -287,6 +288,7 @@ long int maxYCoordinate;
 - setReachSymbol: (id <Symbol>) aSymbol;
 - (id <Symbol>) getReachSymbol;
 
+- buildKDTree;
 
 //
 // Adjacent Cells BEGIN
@@ -371,6 +373,7 @@ long int maxYCoordinate;
 - outputCellCentroidRpt;
 - outputCellCorners;
 - (id <List>) getPolyCellList;
+- (id <ListIndex>) getPolyCellListNdx;
 - (unsigned int) getPolyPixelsX;
 - (unsigned int) getPolyPixelsY;
 - (FishCell *) getCellForNewFishWithCellNum: (int) aCellNum;

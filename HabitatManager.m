@@ -652,12 +652,12 @@ Boston, MA 02111-1307, USA.
 
   [self buildReachJunctions];
   
-
   //fprintf(stdout, "HabitatManager >>>> finishBuildingTheHabitatSpaces >>>> END\n");
   //fflush(0);
 
   return self;
 }
+
 
 
 ////////////////////////////////////////////////////
