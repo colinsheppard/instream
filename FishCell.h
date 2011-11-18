@@ -261,6 +261,9 @@ Boston, MA 02111-1307, USA.
 - checkVelocityInterpolator;
 - checkDepthInterpolator;
 
+- (int) compareToUS: (FishCell *) cell;
+- (int) compareToDS: (FishCell *) cell;
+
 - (void) drop;
 
 @end

@@ -2080,6 +2080,42 @@ Boston, MA 02111-1307, USA.
     return self;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+//
+// compareToUS
+// Needed by QSort in HabitatSpace method: calcPolyDistFromRE
+//
+///////////////////////////////////////////////////////////////////////////////
+- (int) compareToUS: (FishCell *) cell {
+  double otherCellDistToUS = [cell getCellDistToUS];
+
+  if(cellDistToUS > otherCellDistToUS){
+    return 1;
+  }else if (cellDistToUS == otherCellDistToUS){
+    return 0;
+  }else{
+    return -1;
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// compareToDS
+// Needed by QSort in HabitatSpace method: calcPolyDistFromRE
+//
+///////////////////////////////////////////////////////////////////////////////
+- (int) compareToDS: (FishCell *) cell {
+  double otherCellDistToDS = [cell getCellDistToDS];
+
+  if(cellDistToDS > otherCellDistToDS){
+    return 1;
+  }else if (cellDistToDS == otherCellDistToDS){
+    return 0;
+  }else{
+    return -1;
+  }
+}
+
 /////////////////////////////////////////
 //
 // drop

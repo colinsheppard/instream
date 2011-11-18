@@ -37,6 +37,7 @@ Boston, MA 02111-1307, USA.
 #import "globals.h"
 #import "Trout.h"
 #import "Redd.h"
+#import "FishCell.h"
 #import "HabitatSpace.h"
 
 
@@ -1692,11 +1693,37 @@ Boston, MA 02111-1307, USA.
 // calcPolyCellsDistFromRE 
 //
 /////////////////////////////////////////////
-- calcPolyCellsDistFromRE 
-{
-
+- calcPolyCellsDistFromRE {
     [polyCellList  forEach: M(calcCellDistToUS)];
     [polyCellList  forEach: M(calcCellDistToDS)];
+
+    polyCellListSortedByDistFromUS = [List create: habitatZone];
+    polyCellListSortedByDistFromDS = [List create: habitatZone];
+
+    id <ListIndex> ndx = [polyCellList listBegin: scratchZone];
+    id polyCell = nil;
+    while(([ndx getLoc] != End) && ((polyCell = [ndx next]) != nil)){
+      [polyCellListSortedByDistFromUS addLast: polyCell];
+      [polyCellListSortedByDistFromDS addLast: polyCell];
+    }
+    [ndx drop];
+
+    [QSort sortObjectsIn:  polyCellListSortedByDistFromUS using: @selector(compareToUS:)];
+    [QSort sortObjectsIn:  polyCellListSortedByDistFromDS using: @selector(compareToDS:)];
+
+    //ndx = [polyCellListSortedByDistFromUS listBegin: scratchZone];
+    //while(([ndx getLoc] != End) && ((polyCell = [ndx next]) != nil)){
+      //fprintf(stdout, "HabitatSpace >>>> calcPolyCellsDistFromRE >>>> distFromUS = %f \n", [polyCell getCellDistToUS]);
+      //fflush(0);
+    //}
+    //[ndx drop];
+    //ndx = [polyCellListSortedByDistFromDS listBegin: scratchZone];
+    //while(([ndx getLoc] != End) && ((polyCell = [ndx next]) != nil)){
+      //fprintf(stdout, "HabitatSpace >>>> calcPolyCellsDistFromRE >>>> distFromDS = %f \n", [polyCell getCellDistToDS]);
+      //fflush(0);
+    //}
+    //[ndx drop];
+    ndx = nil;
 
     return self;
 }
@@ -2282,6 +2309,92 @@ Boston, MA 02111-1307, USA.
 
 ////////////////////////////////////////////////////////////////////////
 //
+// getNeighborsInReachWithin
+//
+// Used by salmon spawners, which cannot move out of their reach
+//
+///////////////////////////////////////////////////////////////////////
+- (id <List>) getNeighborsInReachWithin: (double) aRange 
+                              of: refCell 
+                        withList: (id <List>) aCellList
+{
+  void *kdSet;
+  id tempCell;
+  id <List> listOfCellsWithinRange = aCellList;
+  id <List> adjacentCells = [refCell getListOfAdjacentCells];
+  int adjacentCellCount;
+
+  //fprintf(stdout, "HabitatSpace >>>> getNeigborsInReachWithin >>>> BEGIN\n");
+  //fflush(0);
+
+  if(listOfCellsWithinRange == nil){
+      fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> listOfCellsWithinRange is nil\n");
+      fflush(0);
+      exit(1);
+  }
+  if([listOfCellsWithinRange getCount] != 0){
+      // 
+      // The list from the fish must be empty
+      //
+      fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> listOfCellsWithinRange is not empty\n");
+      fflush(0);
+      exit(1);
+  }
+  // The list of adjacent cells shouldn't be empty
+  if(adjacentCells == nil){
+      fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> adjacentCells is nil\n");
+      fflush(0);
+      exit(1);
+  }
+  adjacentCellCount = [adjacentCells getCount];
+  if(adjacentCellCount == 0){
+      fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> adjacentCells is empty\n");
+      fflush(0);
+      exit(1);
+  }
+
+  [listOfCellsWithinRange addLast: refCell];
+
+  // Use the KDTree to find the neighbors within aRange of refCell
+  kdSet = kd_nearest_range3(kdTree, [refCell getPolyCenterX], [refCell getPolyCenterY], 0.0, aRange);
+  //fprintf(stdout,"HabitatSpace >>> getNeighborsWithin >>> KDTree range query returned %d items \n", kd_res_size(kdSet));
+  //fflush(0);
+  
+  // Put the found cells into the result list
+  while(kd_res_end(kdSet)==0){
+    tempCell = kd_res_item_data(kdSet);
+    [listOfCellsWithinRange addLast: tempCell];
+    //fprintf(stdout,"HabitatSpace >>> getNeighborsWithin >>> KD found PolyCell with coords x = %f, y = %f \n", [tempCell getPolyCenterX], [tempCell getPolyCenterY]);
+    //fflush(0);
+    kd_res_next(kdSet);
+  }
+  kd_res_free(kdSet);
+
+  // Now, ensure listOfCellsWithinRange contains refCell's adjacentCells
+  if([listOfCellsWithinRange getCount] - 1 < adjacentCellCount){
+    int i;
+    for(i = 0; i < adjacentCellCount; i++){
+	FishCell* adjacentCell = [adjacentCells atOffset: i]; 
+	if([listOfCellsWithinRange contains: adjacentCell] == NO){
+	   [listOfCellsWithinRange addLast: adjacentCell];
+	}
+    } 
+  }
+
+  //
+  // Upstream and Downstream reaches are not considered!
+  //
+
+  //xprint(listOfCellsWithinRange);
+
+  //fprintf(stdout, "HabitatSpace >>>> getNeigborsInReachWithin >>>> END\n");
+  //fflush(0);
+
+  return listOfCellsWithinRange;
+}
+
+////////////////////////////////////////////////////////////////////////
+//
 // getNeighborsWithin
 //
 // Comment: List of neighbors does not include self
@@ -2369,134 +2482,43 @@ Boston, MA 02111-1307, USA.
 
 ////////////////////////////////////////////////////////////////////////
 //
-// getNeighborsInReachWithin
-//
-// Used by salmon spawners, which cannot move out of their reach
+// addDownstreamCellsWithin
 //
 ///////////////////////////////////////////////////////////////////////
-- (id <List>) getNeighborsInReachWithin: (double) aRange 
-                              of: refCell 
-                        withList: (id <List>) aCellList
-{
-  void *kdSet;
-
-  id tempCell;
-  id <List> listOfCellsWithinRange = aCellList;
-  id <List> adjacentCells = [refCell getListOfAdjacentCells];
-  int adjacentCellCount;
-
-  //fprintf(stdout, "HabitatSpace >>>> getNeigborsInReachWithin >>>> BEGIN\n");
-  //fflush(0);
-
-  if(listOfCellsWithinRange == nil){
-      fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> listOfCellsWithinRange is nil\n");
-      fflush(0);
-      exit(1);
-  }
-  if([listOfCellsWithinRange getCount] != 0){
-      // 
-      // The list from the fish must be empty
-      //
-      fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> listOfCellsWithinRange is not empty\n");
-      fflush(0);
-      exit(1);
-  }
-  // The list of adjacent cells shouldn't be empty
-  if(adjacentCells == nil){
-      fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> adjacentCells is nil\n");
-      fflush(0);
-      exit(1);
-  }
-  adjacentCellCount = [adjacentCells getCount];
-  if(adjacentCellCount == 0){
-      fprintf(stderr, "ERROR: HabitatSpace >>>> getNeighborsWithin >>>> adjacentCells is empty\n");
-      fflush(0);
-      exit(1);
-  }
-
-  [listOfCellsWithinRange addLast: refCell];
-
-  kdSet = kd_nearest_range3(kdTree, [refCell getPolyCenterX], [refCell getPolyCenterY], 0.0, aRange);
-  //fprintf(stdout,"HabitatSpace >>> getNeighborsWithin >>> KDTree range query returned %d items \n", kd_res_size(kdSet));
-  //fflush(0);
-  while(kd_res_end(kdSet)==0){
-    tempCell = kd_res_item_data(kdSet);
-    [listOfCellsWithinRange addLast: tempCell];
-    //fprintf(stdout,"HabitatSpace >>> getNeighborsWithin >>> KD found PolyCell with coords x = %f, y = %f \n", [tempCell getPolyCenterX], [tempCell getPolyCenterY]);
-    //fflush(0);
-    kd_res_next(kdSet);
-  }
-  kd_res_free(kdSet);
-
-  // Now, ensure listOfCellsWithinRange contains refCell's adjacentCells
-  int i;
-  for(i = 0; i < adjacentCellCount; i++){
-      FishCell* adjacentCell = [adjacentCells atOffset: i]; 
-      if([listOfCellsWithinRange contains: adjacentCell] == NO){
-         [listOfCellsWithinRange addLast: adjacentCell];
-      }
-  } 
-
-  //
-  // Upstream and Downstream reaches are not considered!
-  //
-
-  //xprint(listOfCellsWithinRange);
-
-  //fprintf(stdout, "HabitatSpace >>>> getNeigborsInReachWithin >>>> END\n");
-  //fflush(0);
-
-  return listOfCellsWithinRange;
-}
-
-
-
 - (id <List>) addDownstreamCellsWithin: (double) aRange 
                                 toList: (id <List>) aCellList // used by getNeighborsWithin
 {
-    id cell = nil;
-
-    [polyCellListNdx setLoc: Start];
-
-    while(([polyCellListNdx getLoc] != End) && ((cell = [polyCellListNdx next]) != nil))
-    { 
-        if([cell getCellDistToDS] < aRange)
-        {
-             [aCellList addLast: cell]; 	 
-        }
-    
+  id cell = nil;
+  id <ListIndex> ndx = [polyCellListSortedByDistFromDS listBegin: scratchZone];
+  while(([ndx getLoc] != End) && ((cell = [ndx next]) != nil)){
+    if([cell getCellDistToDS] < aRange){
+           [aCellList addLast: cell]; 	 
+    }else{
+      break;
     }
-
-
-    return aCellList;
-
+  }
+  return aCellList;
 }
 
-
+////////////////////////////////////////////////////////////////////////
+//
+// addUpstreamCellsWithin
+//
+///////////////////////////////////////////////////////////////////////
 - (id <List>) addUpstreamCellsWithin: (double) aRange 
                               toList: (id <List>) aCellList // used by getNeighborsWithin
 {
-    id cell = nil;
-
-    [polyCellListNdx setLoc: Start];
-
-    while(([polyCellListNdx getLoc] != End) && ((cell = [polyCellListNdx next]) != nil))
-    { 
-        if([cell getCellDistToUS] < aRange)
-        {
-             [aCellList addLast: cell]; 	 
-        }
-    
+  id cell = nil;
+  id <ListIndex> ndx = [polyCellListSortedByDistFromUS listBegin: scratchZone];
+  while(([ndx getLoc] != End) && ((cell = [ndx next]) != nil)){
+    if([cell getCellDistToUS] < aRange){
+           [aCellList addLast: cell]; 	 
+    }else{
+      break;
     }
-
-
-    return aCellList;
-
+  }
+  return aCellList;
 }
-
-
-
-
 
 ///////////////////////////////////////
 //
@@ -2508,8 +2530,6 @@ Boston, MA 02111-1307, USA.
     return reachLength;
 }
 
-
-
 ////////////////////////////////////////
 //
 // getUpstreamCells
@@ -2520,8 +2540,6 @@ Boston, MA 02111-1307, USA.
      return upstreamCells;
 }
 
-
-
 //////////////////////////////////////
 //
 // getDownstreamCells
@@ -2531,10 +2549,6 @@ Boston, MA 02111-1307, USA.
 {
      return downstreamCells;
 }
-
-
-
-
 
 ////////////////////////////////////////////////////
 //
@@ -3976,6 +3990,12 @@ Boston, MA 02111-1307, USA.
 
     [polyCellListNdx drop];
     polyCellListNdx = nil;
+
+    [polyCellListSortedByDistFromUS drop];
+    polyCellListSortedByDistFromUS = nil;
+
+    [polyCellListSortedByDistFromDS drop];
+    polyCellListSortedByDistFromDS = nil;
 
     [polyCellList deleteAll];
     [polyCellList drop];

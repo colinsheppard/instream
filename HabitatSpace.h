@@ -267,6 +267,8 @@ long int maxYCoordinate;
   //
 
   id <List> polyCellList;
+  id <List> polyCellListSortedByDistFromDS;
+  id <List> polyCellListSortedByDistFromUS;
 
 }
 
