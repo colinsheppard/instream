@@ -425,6 +425,9 @@ Boston, MA 02111-1307, USA.
   id <List> shuffledPolyCellList;
   id <ListIndex> aPolyCellListNdx;
 
+  //struct timeval begTV, endTV;
+  //gettimeofday(&begTV,NULL);
+
   // KD Trees should be balanced, to acheive this, we need to add nodes to the tree in a random order, 
   // so we create a shuffled list
   shuffledPolyCellList = [List create: scratchZone];
@@ -460,6 +463,9 @@ Boston, MA 02111-1307, USA.
   }
   [aPolyCellListNdx drop];
   [shuffledPolyCellList drop];
+  //gettimeofday(&endTV,NULL);
+  //fprintf(stdout, "HabitatSpace >>>> buildKDTree >>>> Time (micro s): %ld \n",(endTV.tv_usec-begTV.tv_usec));
+  //fflush(0);
   return self;
 }
 
