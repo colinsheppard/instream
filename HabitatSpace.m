@@ -2405,8 +2405,8 @@ Boston, MA 02111-1307, USA.
                         withList: (id <List>) aCellList{
   id <List> listOfCellsWithinRange;
 
-  struct timeval begTV, endTV;
-  gettimeofday(&begTV,NULL);
+  //struct timeval begTV, endTV;
+  //gettimeofday(&begTV,NULL);
 
   listOfCellsWithinRange = [self getNeighborsInReachWithin: aRange 
 							of: refCell 
@@ -2470,8 +2470,8 @@ Boston, MA 02111-1307, USA.
 
   }  // if (aRange > [refCell getCellDistToUS])
 
-  gettimeofday(&endTV,NULL);
-  fprintf(stdout, "HabitatSpace >>>> getNeigborsWithin >>>> Time (micro s): %ld \n",(endTV.tv_usec-begTV.tv_usec));
+  //gettimeofday(&endTV,NULL);
+  //fprintf(stdout, "HabitatSpace >>>> getNeigborsWithin >>>> Time (micro s): %ld \n",(endTV.tv_usec-begTV.tv_usec));
   //fflush(0);
   
   //fprintf(stdout, "HabitatSpace >>>> getNeigborsWithin >>>> END\n");

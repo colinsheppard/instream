@@ -1459,7 +1459,7 @@ char **speciesColor;
   [overheadActions createActionTo: self message: M(removeKilledFishFromLiveFishList)];
   [overheadActions createActionTo: self message: M(sortLiveFish)];
   [overheadActions createActionTo: self message: M(updateKilledFishList)];
-  //[overheadActions createActionTo: self message: M(outputInfoToTerminal)];
+  [overheadActions createActionTo: self message: M(outputInfoToTerminal)];
 
   //
   // This is the main model schedule

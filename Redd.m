@@ -417,7 +417,7 @@ Boston, MA 02111-1307, USA.
   }
   if(numberOfEggs == 0 ) 
   {
-    if([model getWriteReddMortReport]==0){
+    if([model getWriteReddMortReport]){
       [self printReport];
     }
      //[self createReddSummaryStr];
