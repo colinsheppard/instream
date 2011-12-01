@@ -201,6 +201,7 @@ id toggledFishForHabSurvUpdate;
 - setSpawnVelocityInterpolator: (id <InterpolationTable>) anInterpolator;
 - setCaptureLogistic: (LogisticFunc *) aLogisticFunc;
 - setFishID: (int) anIDNum;
+- (int) getFishID;
 
 
 //- setMovementRule: (char *) aRule;

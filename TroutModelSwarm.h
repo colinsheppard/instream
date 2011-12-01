@@ -85,6 +85,8 @@ typedef struct FishSetupStruct TroutInitializationRecord;
   int    polyRasterResolutionY;
   char   polyRasterColorVariable[35];
   double shadeColorMax;
+  
+  // Optional Output Flags
   BOOL  writeFoodAvailabilityReport;
   BOOL  writeDepthReport;
   BOOL  writeVelocityReport;
@@ -96,6 +98,7 @@ typedef struct FishSetupStruct TroutInitializationRecord;
   BOOL  writeReddSurvReport;
   BOOL  writeCellFishReport;
   BOOL  writeReddMortReport;
+  BOOL  writeIndividualFishReport;
 
 
 @protected
@@ -127,6 +130,7 @@ typedef struct FishSetupStruct TroutInitializationRecord;
 
   FILE * reddRptFilePtr;
   FILE * reddSummaryFilePtr;
+  FILE * individualFishFilePtr;
 
   //
   // Changes for LJCMultReachv4.0
@@ -152,6 +156,7 @@ char * runEndDate;
 const char*  fishOutputFile;
 const char*  fishMortalityFile;
 const char*  reddMortalityFile;
+const char*  individualFishFile;
 const char*  reddOutputFile;
 char* popInitDate;
 int          fileOutputFrequency;
@@ -305,6 +310,8 @@ char*        movementRule;
 - (BOOL) getWriteCellFishReport;
 - setWriteReddMortReport: (char *) writeReddMort;
 - (BOOL) getWriteReddMortReport;
+- setWriteIndividualFishReport: (char *) writeIndividualFish;
+- (BOOL) getWriteIndividualFishReport;
 
 
 - buildObjectsWith: theColormaps
@@ -415,9 +422,11 @@ char*        movementRule;
 - (FILE *) getReddSummaryFilePtr;
 - openReddReportFilePtr;
 - (FILE *) getReddReportFilePtr;
+- openIndividualFishReportFilePtr;
 
 - outputInfoToTerminal;
 
+- printIndividualFishReport;
 
 - (id <Zone>) getModelZone;
 

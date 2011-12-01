@@ -60,6 +60,7 @@ char **speciesColor;
   troutModelSwarm->timeManager = nil;
   troutModelSwarm->fishColorMap = nil;
   troutModelSwarm->reddMortalityFile = "Redd_Mortality_Out.csv";
+  troutModelSwarm->individualFishFile = "Individual_Fish_Out.csv";
 
   troutModelSwarm->printFishParams = NO;
 
@@ -395,6 +396,23 @@ char **speciesColor;
 - (BOOL) getWriteReddMortReport {
   return writeReddMortReport;
 }
+/////////////////////////////////////////////////////////////////
+//
+// setWriteIndividualFishReport
+//
+//////////////////////////////////////////////////////////////
+- setWriteIndividualFishReport: (char *) writeIndividualFish {
+  writeIndividualFishReport = (strcmp(writeIndividualFish,"YES")==0);
+  return self;
+}
+/////////////////////////////////////////////////////////////////
+//
+// getWriteIndividualFishReport
+//
+//////////////////////////////////////////////////////////////
+- (BOOL) getWriteIndividualFishReport {
+  return writeIndividualFishReport;
+}
 
 //////////////////////////////////////////////////////////////////
 //
@@ -597,6 +615,9 @@ char **speciesColor;
   [self openReddSummaryFilePtr];
   if(writeReddMortReport){
     [self openReddReportFilePtr];
+  }
+  if(writeIndividualFishReport){
+    [self openIndividualFishReportFilePtr];
   }
 
   [self createBreakoutReporters];
@@ -2236,6 +2257,85 @@ char **speciesColor;
    return self;
 }
 
+/////////////////////////////////////////////////
+//
+// openIndividualFishReportFilePtr
+//
+//////////////////////////////////////////////////
+- openIndividualFishReportFilePtr {
+  if(individualFishFilePtr == NULL){
+     if ((appendFiles == NO) && (scenario == 1) && (replicate == 1)){
+        if((individualFishFilePtr = fopen(individualFishFile,"w")) == NULL ) {
+            fprintf(stderr, "ERROR: TroutModelSwarm >>>> openIndividualFishReportFilePtr >>>> Cannot open %s for writing\n",individualFishFile);
+            fflush(0);
+            exit(1);
+        }
+        fprintf(individualFishFilePtr,"\n\n");
+        fprintf(individualFishFilePtr,"SYSTEM TIME:  %s\n", [timeManager getSystemDateAndTime]);
+        fprintf(individualFishFilePtr,"Scenario,Replicate,Model Date,Fish ID,Reach,Cell #,Species,Age,Length,Weight,Condition\n");
+     }else if((scenario == 1) && (replicate == 1) && (appendFiles == YES)){
+        if((individualFishFilePtr = fopen(individualFishFile,"a")) == NULL){
+            fprintf(stderr, "ERROR: TroutModelSwarm >>>> openIndividualFishReportFilePtr >>>> Cannot open %s for writing\n",individualFishFile);
+            fflush(0);
+            exit(1);
+        }
+        fprintf(individualFishFilePtr,"\n\n");
+        fprintf(individualFishFilePtr,"SYSTEM TIME:  %s\n", [timeManager getSystemDateAndTime]);
+        fprintf(individualFishFilePtr,"Scenario,Replicate,Model Date,Fish ID,Reach,Cell #,Species,Age,Length,Weight,Condition\n");
+     }else{ // Not the first replicate or scenario, so no header 
+         if((individualFishFilePtr = fopen(individualFishFile,"a")) == NULL){
+            fprintf(stderr, "ERROR: TroutModelSwarm >>>> openIndividualFishReportFilePtr >>>> Cannot open %s for appending\n",individualFishFile);
+            fflush(0);
+            exit(1);
+         }
+     }
+  }
+  if(individualFishFilePtr == NULL){
+     fprintf(stderr, "ERROR: TroutModelSwarm >>>> openIndividualFishReportFilePtr >>>> File %s is not open\n",individualFishFile);
+     fflush(0);
+     exit(1);
+  }
+  return self;
+}
+//////////////////////////////////////////////////////////
+////
+//// printIndividualFishReport
+////
+///////////////////////////////////////////////////////////
+- printIndividualFishReport { 
+  id <ListIndex> fishListNdx;
+  id aFish;
+
+  if((individualFishFilePtr = fopen(individualFishFile,"a")) != NULL) {
+    if([liveFish getCount] != 0) {
+      fishListNdx = [liveFish listBegin: modelZone];
+
+      while(([fishListNdx getLoc] != End) && ((aFish = [fishListNdx next]) != nil)){
+	fprintf(individualFishFilePtr,"%d,%d,%s,%d,%s,%d,%s,%d,%f,%f,%f\n",
+	    scenario,
+	    replicate,
+	    modelDate,
+	    [aFish getFishID],
+	    [[aFish getReachSymbol] getName],
+	    [[aFish getCell] getPolyCellNumber], 
+	    [[aFish getSpecies] getName],
+	    [aFish getAge],
+	    [aFish getFishLength],
+	    [aFish getFishWeight],
+	    [aFish getFishCondition]);
+      }
+      [fishListNdx drop];
+    }
+  } else {
+    fprintf(stderr, "ERROR: TroutModelSwarm >>>> printIndividualFishReport >>>> Couldn't open output file\n");
+    fflush(0);
+    exit(1);
+  }
+  fclose(individualFishFilePtr);
+  return self;
+}
+
+
 ///////////////////////////////////////////////////
 //
 // openReddSummaryFilePtr
@@ -2791,6 +2891,10 @@ char **speciesColor;
    [liveFishReporter output];
 
    [deadFish deleteAll];
+   
+   if(writeIndividualFishReport){
+      [self printIndividualFishReport];
+   }
 
   //  fprintf(stderr, "TroutModelSwarm >>>> outputBreakoutReports >>> END\n");
   //  fflush(0);
