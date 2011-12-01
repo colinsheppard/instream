@@ -59,6 +59,7 @@ char **speciesColor;
   troutModelSwarm->numberOfSpecies=0;
   troutModelSwarm->timeManager = nil;
   troutModelSwarm->fishColorMap = nil;
+  troutModelSwarm->reddMortalityFile = "Redd_Mortality_Out.csv";
 
   troutModelSwarm->printFishParams = NO;
 
