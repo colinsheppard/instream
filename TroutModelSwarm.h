@@ -117,7 +117,7 @@ typedef struct FishSetupStruct TroutInitializationRecord;
   id overheadActions;
   id modelSchedule;
   id printSchedule;
-  id writeLFTAction;
+  id updateLFTAction;
   id lftSchedule;
   id coinFlip;
 
@@ -172,8 +172,9 @@ typedef struct FishSetupStruct TroutInitializationRecord;
   //END VARIABLES INITIALIZED BY Model.Setup
 
   //// NEW VARIABLES CONTROLLED BY OR USED BY LIMITING FACTOR TOOL
-  int lftNumAdultTrout;	  // Number of all adult trout with age >= resultsAgeThreshold, take on resultsCensusDay
-  int lftBiomassAdultTrout; // Total weight of all adult trout with age >= resultsAgeThreshold, take on resultsCensusDay
+  double lftNumAdultTrout;	  // Total number of all adult trout with age >= resultsAgeThreshold, summed across every resultsCensusDay
+  double lftBiomassAdultTrout;	  // Total weight of all adult trout with age >= resultsAgeThreshold, summed across every resultsCensusDay
+  int lftNumCensusDays;		  // Number of census days, used to calculate average of the above to metrics 
 
   time_t popInitTime;
 
@@ -322,6 +323,7 @@ typedef struct FishSetupStruct TroutInitializationRecord;
 - setWriteIndividualFishReport: (char *) writeIndividualFish;
 - (BOOL) getWriteIndividualFishReport;
 
+- writeLFTOutput;
 
 - buildObjectsWith: theColormaps
            andWith: (double) aShadeColorMax;

@@ -61,9 +61,13 @@ char **speciesColor;
   troutModelSwarm->fishColorMap = nil;
   troutModelSwarm->reddMortalityFile = "Redd_Mortality_Out.csv";
   troutModelSwarm->individualFishFile = "Individual_Fish_Out.csv";
+
+  // variables used for tracking LFT data
   troutModelSwarm->resultsAgeThreshold = 1;
   troutModelSwarm->resultsCensusDay = "10/01";
-
+  troutModelSwarm->lftNumAdultTrout = 0.0;
+  troutModelSwarm->lftBiomassAdultTrout = 0.0;
+  troutModelSwarm->lftNumCensusDays = 0;	
 
   troutModelSwarm->printFishParams = NO;
 
@@ -1508,13 +1512,9 @@ char **speciesColor;
   // 
   // Setup LFT Annual Census of Adult Fish Count and Weight
   // 
-  writeLFTAction = [ActionGroup createBegin: modelZone];
-  writeLFTAction = [writeLFTAction createEnd];
-  [writeLFTAction createActionTo: self message: M(writeLFTOutput)];
-  lftSchedule = [Schedule createBegin: modelZone];
-  [lftSchedule setRepeatInterval: 365];
-  lftSchedule = [lftSchedule createEnd];
-  [lftSchedule createAction: writeLFTAction];
+  updateLFTAction = [ActionGroup createBegin: modelZone];
+  updateLFTAction = [updateLFTAction createEnd];
+  [updateLFTAction createActionTo: self message: M(updateLFTOutput)];
 
   //
   // Put the Actions in the schedule
@@ -1523,6 +1523,7 @@ char **speciesColor;
  oneAction =  [modelSchedule at: 0 createAction: initAction];
               [modelSchedule at: 0 createAction: modelActions];
               [modelSchedule at: 0 createAction: overheadActions];
+              [modelSchedule at: 0 createAction: updateLFTAction];
 
   fprintf(stdout,"TroutModelSwarm >>>> buildActions >>>> END\n");
   fflush(0);
@@ -1559,7 +1560,6 @@ char **speciesColor;
   [super activateIn: swarmContext];
   [modelSchedule activateIn: self];
   [printSchedule activateIn: self];
-  [lftSchedule activateIn: self];
 
   fprintf(stdout, "TROUT MODEL SWARM >>>> activateIn\n");
   fflush(0);
@@ -1664,29 +1664,24 @@ char **speciesColor;
 // Called from the observer swarm 
 //
 ////////////////////////////////////////////////////////
-- (BOOL) whenToStop 
-{ 
-   BOOL STOP = NO;
+- (BOOL) whenToStop { 
+  BOOL STOP = NO;
 
-   if(simCounter >= numSimDays)
-   {
-       STOP = YES;
+  if(simCounter >= numSimDays){
+    STOP = YES;
 
-       if(writeReddSurvReport){
-          [self printReddSurvReport];
-       }
+    if(writeReddSurvReport){
+      [self printReddSurvReport];
+    }
+    [self writeLFTOutput];
 
-       fprintf(stdout,"TroutModelSwarm >>>> whenToStop >>>> STOPPING\n");
-       fflush(0);
-
-   }
-   else 
-   {
-       STOP = NO;
-       simCounter++;
-   }
-
-   return STOP;
+    fprintf(stdout,"TroutModelSwarm >>>> whenToStop >>>> STOPPING\n");
+    fflush(0);
+  }else{
+    STOP = NO;
+    simCounter++;
+  }
+  return STOP;
 }
 
 
@@ -3024,12 +3019,42 @@ char **speciesColor;
 
 ///////////////////////////////////////////////
 //
+// updateLFTOutput
+//
+///////////////////////////////////////////////
+
+- updateLFTOutput{
+  // First determine if the current day is a census day
+  if([timeManager isThisTime: modelTime onThisDay: resultsCensusDay] && !([timeManager getTimeTWithDate: runStartDate] == modelTime)){
+    //
+    //fprintf(stdout, "TroutModelSwarm >>>> writeLFTOutput >>>> Current day %s, Census day %s, runStartDate %s \n",[timeManager getDateWithTimeT: modelTime],resultsCensusDay,runStartDate);
+    //fflush(0);
+
+    id <ListIndex> liveFishNdx;
+    id nextLiveFish = nil;
+
+    liveFishNdx = [liveFish listBegin: scratchZone];
+    while (([liveFishNdx getLoc] != End) && ((nextLiveFish = [liveFishNdx next]) != nil)){
+        if([nextLiveFish getAge] >= resultsAgeThreshold){
+	  lftNumAdultTrout = lftNumAdultTrout + 1.0;
+	  lftBiomassAdultTrout = lftBiomassAdultTrout + [nextLiveFish getFishWeight];
+        }
+     }
+    [liveFishNdx drop];
+    lftNumCensusDays++;	
+  }
+    return self;
+}
+
+///////////////////////////////////////////////
+//
 // writeLFTOutput
 //
 ///////////////////////////////////////////////
 
 - writeLFTOutput{
   const char * lftOutputFile = "LFT_Output.rpt";
+  double meanNumAdults, meanBiomass;
 
   if(lftOutputFilePtr == NULL) {
      if ((scenario == 1) && (replicate == 1)){
@@ -3040,7 +3065,7 @@ char **speciesColor;
         }
         fprintf(lftOutputFilePtr,"Limiting factors tool output file\n");
         fprintf(lftOutputFilePtr,"SYSTEM TIME:  %s\n", [timeManager getSystemDateAndTime]);
-        fprintf(lftOutputFilePtr,"Scenario,Replicate,Census Date,Number of Adults,Adult Biomass\n");
+        fprintf(lftOutputFilePtr,"Scenario,Replicate,Census Date,Mean Number of Adults,Mean Biomass of All Adults\n");
      }else{ // Not the first replicate or scenario, so no header 
          if((lftOutputFilePtr = fopen(lftOutputFile,"a")) == NULL){
             fprintf(stderr, "ERROR: TroutModelSwarm >>>> writeLFTOutput >>>> Cannot open %s for appending\n",lftOutputFile);
@@ -3054,13 +3079,19 @@ char **speciesColor;
       fflush(0);
       exit(1);
   }
-  fprintf(lftOutputFilePtr,"%d\t%d\t%s\t%d\t%f\n", 
-     scenario, 
-     replicate, 
-     [timeManager getDateWithTimeT: modelTime],
-     7,
-     42.0);
-
+  if(lftNumCensusDays <= 0){
+    meanNumAdults = -9999.0;
+    meanBiomass = -9999.0;
+  }else{
+    meanNumAdults = lftNumAdultTrout / lftNumCensusDays;
+    meanBiomass = lftBiomassAdultTrout / lftNumCensusDays;
+  }
+  fprintf(lftOutputFilePtr,"%d\t%d\t%s\t%f\t%f\n", 
+    scenario, 
+    replicate, 
+    resultsCensusDay,
+    meanNumAdults,
+    meanBiomass);
   return self;
 }
 
@@ -3282,8 +3313,8 @@ char **speciesColor;
      modelActions = nil;
      [overheadActions drop];
      overheadActions = nil;
-     [writeLFTAction drop];
-     writeLFTAction = nil;
+     [updateLFTAction drop];
+     updateLFTAction = nil;
 
     if(writeCellFishReport){
        [printCellFishAction drop];
@@ -3294,8 +3325,6 @@ char **speciesColor;
      modelSchedule = nil;
      [printSchedule drop];
      printSchedule = nil;
-     [lftSchedule drop];
-     lftSchedule = nil;
       
      // The following produces error: FallChinook does not recognize drop
      //[speciesClassList deleteAll];
