@@ -1,9 +1,12 @@
 /*
-inSTREAM Version 4.2, October 2006.
-Individual-based stream trout modeling software. Developed and maintained by Steve Railsback (Lang, Railsback & Associates, Arcata, California) and
-Steve Jackson (Jackson Scientific Computing, McKinleyville, California).
-Development sponsored by EPRI, US EPA, USDA Forest Service, and others.
-Copyright (C) 2004 Lang, Railsback & Associates.
+EcoSwarm library for individual-based modeling, last revised October 2011.
+Developed and maintained by Steve Railsback, Lang, Railsback & Associates, 
+Steve@LangRailsback.com; Colin Sheppard, critter@stanfordalumni.org; and
+Steve Jackson, Jackson Scientific Computing, McKinleyville, California.
+Development sponsored by US Bureau of Reclamation under the 
+Central Valley Project Improvement Act, EPRI, USEPA, USFWS,
+USDA Forest Service, and others.
+Copyright (C) 2011 Lang, Railsback & Associates.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,7 +25,16 @@ Boston, MA 02111-1307, USA.
 */
 
 
+/*
 
+This version of BreakoutReporter was created 9/6/2011 by Steve Railsback.
+It is modified to write a single column of output values, with the breakout 
+categories listed in a different columns. This format is more flexible
+for use with Excel pivot tables: it lets you create the breakouts you want in Excel,
+and pivot tables are easier to create because the number of columns does not vary
+with model input.
+
+*/
 
 #include <stdlib.h>
 #include <string.h>
@@ -85,9 +97,9 @@ Boston, MA 02111-1307, USA.
    reporter->useCSV = FALSE;
    reporter->columnWidth = aColumnWidth;
    sprintf(reporter->headerFormatString, "%s%d%s", "%-",aColumnWidth,"s");
-   sprintf(reporter->floatFormatString, "%s%d%s", "%-",aColumnWidth,"f");
-   sprintf(reporter->intFormatString, "%s%d%s", "%-",aColumnWidth,"d");
-   sprintf(reporter->expFormatString, "%s%d%s", "%-",aColumnWidth,"E");
+   sprintf(reporter->floatFormatString, "%s%d%s", "%-",aColumnWidth,"f\n");
+   sprintf(reporter->intFormatString, "%s%d%s", "%-",aColumnWidth,"d\n");
+   sprintf(reporter->expFormatString, "%s%d%s", "%-",aColumnWidth,"E\n");
    fprintf(stdout, "BreakoutReport >>>>   createBegin: aZone >>>> useCSV = %d \n", (int) reporter->useCSV);
    fprintf(stdout, "BreakoutReport >>>>   headerFormatString = %s\n", reporter->headerFormatString);
    fprintf(stdout, "BreakoutReport >>>>   floatFormatString = %s\n", reporter->floatFormatString);
@@ -162,7 +174,7 @@ Boston, MA 02111-1307, USA.
    reporter->useCSV = TRUE;
    reporter->columnWidth = 25;
    sprintf(reporter->headerFormatString, "%s%s%s", "%", "s", ",");
-   sprintf(reporter->floatFormatString, "%s%d%s%s", "%",reporter->columnWidth,"f", ",");
+   sprintf(reporter->floatFormatString, "%s%d%s%s", "%",reporter->columnWidth,"f", "\n");
 
    //fprintf(stdout, "BreakoutReport >>>>   createBegin: aZone >>>> useCSV = %d \n", (int) reporter->useCSV);
    //fprintf(stdout, "BreakoutReport >>>>   headerFormatString = %s\n", reporter->headerFormatString);
@@ -314,6 +326,7 @@ Boston, MA 02111-1307, USA.
                     [level1ListOfKeys addLast: aKey];
                  }
                  level1KeySelector = aBreakoutVariableSelector;
+                 level1HeaderString = (char *) sel_get_name(aBreakoutVariableSelector);
                  break;
       
         case 2:  [level2ListOfKeys removeAll];
@@ -322,6 +335,7 @@ Boston, MA 02111-1307, USA.
                     [level2ListOfKeys addLast: aKey];
                  }
                  level2KeySelector = aBreakoutVariableSelector;
+                 level2HeaderString = (char *) sel_get_name(aBreakoutVariableSelector);
                  break;
       
         case 3:  [level3ListOfKeys removeAll];
@@ -330,6 +344,7 @@ Boston, MA 02111-1307, USA.
                     [level3ListOfKeys addLast: aKey];
                  }
                  level3KeySelector = aBreakoutVariableSelector;
+                 level3HeaderString = (char *) sel_get_name(aBreakoutVariableSelector);
                  break;
       
         case 4:  [level4ListOfKeys removeAll];
@@ -338,6 +353,7 @@ Boston, MA 02111-1307, USA.
                     [level4ListOfKeys addLast: aKey];
                  }
                  level4KeySelector = aBreakoutVariableSelector;
+                 level4HeaderString = (char *) sel_get_name(aBreakoutVariableSelector);
                  break;
       
         case 5:  [level5ListOfKeys removeAll];
@@ -346,6 +362,7 @@ Boston, MA 02111-1307, USA.
                     [level5ListOfKeys addLast: aKey];
                  }
                  level5KeySelector = aBreakoutVariableSelector;
+                 level5HeaderString = (char *) sel_get_name(aBreakoutVariableSelector);
                  break;
       
         default: fprintf(stderr, "ERROR: BreakoutReporter >>>> breakOutUsingSelector:withListOfKeys >>>> called more than 5 times\n");
@@ -765,7 +782,6 @@ Boston, MA 02111-1307, USA.
       id level3Key = nil;
       id level4Key = nil;
       id level5Key = nil;
-      BOOL printLn = FALSE;
       int i;
 
       char sysDateAndTime[35];
@@ -787,383 +803,44 @@ Boston, MA 02111-1307, USA.
           fflush(filePtr);
       }
 
-      for(i = 0; i < [averagerMapList getCount]; i++)
-      {
       [level1Ndx setLoc: Start];
-      while(([level1Ndx getLoc] != End) && ((level1Key = [level1Ndx next]) != nil))
-      {
-         [level2Ndx setLoc: Start];
-         while(([level2Ndx getLoc] != End) && ((level2Key = [level2Ndx next]) != nil))
-         {
-            [level3Ndx setLoc: Start];
-            while(([level3Ndx getLoc] != End) && ((level3Key = [level3Ndx next]) != nil))
-            {
-               [level4Ndx setLoc: Start];
-               while(([level4Ndx getLoc] != End) && ((level4Key = [level4Ndx next]) != nil))
-               {
-                  [level5Ndx setLoc: Start];
-                  while(([level5Ndx getLoc] != End) && ((level5Key = [level5Ndx next]) != nil))
-                  {
-                        const char* level1KeyName = [level1Key getName];
-                        if((id) level1Key != (id) dummyKeySymbol)
-                        {
-                           fprintf(filePtr, headerFormatString, level1KeyName);
-                           fflush(filePtr);
-                           printLn = TRUE;
-                        }
-                  }
-               }
-            }
-         }
-      }
-      }
-  
-      if(printLn == TRUE)
-      {
-          if(useCSV == TRUE)
-          {
-             //
-             // go back one character and overwrite trailing ',' with a \n
-             //
-             long filePos = 0;
-             if((filePos = ftell(filePtr)) != (long) -1)
-             {
-                 filePos = filePos - 1;
-                 if(fseek(filePtr, filePos, 0) != 0)
-                 {
-                     fprintf(stderr, "BreakoutReporter >>>>  printBreakoutReportHeader >>>> ERROR: cannot reset output file position\n");
-                     fflush(0);
-                     exit(1);
-                 }
+      level1Key = [level1Ndx next];
+      if((id) level1Key != (id) dummyKeySymbol)
+        {
+           fprintf(filePtr, headerFormatString, level1HeaderString);
+        }
 
-              }
-              else
-              {
-                    fprintf(stderr, "BreakoutReporter >>>> printBreakoutReportHeader >>>> ERROR: cannot get output file position\n");
-                    fflush(0);
-                    exit(1);
-              }
-          } //if useCSV
+      [level2Ndx setLoc: Start];
+      level2Key = [level2Ndx next];
+      if((id) level2Key != (id) dummyKeySymbol)
+        {
+           fprintf(filePtr, headerFormatString, level2HeaderString);
+        }
 
-          fprintf(filePtr, "\n"); 
-          for(i = 0; i < [blankColumnLabelList getCount]; i++)
-          {
-              fprintf(filePtr, headerFormatString, (char *) [blankColumnLabelList atOffset: i]);
-              fflush(filePtr);
-          }
-      } 
+      [level3Ndx setLoc: Start];
+      level3Key = [level3Ndx next];
+      if((id) level3Key != (id) dummyKeySymbol)
+        {
+           fprintf(filePtr, headerFormatString, level3HeaderString);
+        }
 
-      printLn = FALSE;
-     
-      for(i = 0; i < [averagerMapList getCount]; i++)
-      {
-      [level1Ndx setLoc: Start];
-      while(([level1Ndx getLoc] != End) && ((level1Key = [level1Ndx next]) != nil))
-      {
-         [level2Ndx setLoc: Start];
-         while(([level2Ndx getLoc] != End) && ((level2Key = [level2Ndx next]) != nil))
-         {
-            [level3Ndx setLoc: Start];
-            while(([level3Ndx getLoc] != End) && ((level3Key = [level3Ndx next]) != nil))
-            {
-               [level4Ndx setLoc: Start];
-               while(([level4Ndx getLoc] != End) && ((level4Key = [level4Ndx next]) != nil))
-               {
-                  [level5Ndx setLoc: Start];
-                  while(([level5Ndx getLoc] != End) && ((level5Key = [level5Ndx next]) != nil))
-                  {
-                        const char* level2KeyName = [level2Key getName];
-                        if((id) level2Key != (id) dummyKeySymbol)
-                        {
-                            fprintf(filePtr, headerFormatString, level2KeyName);
-                            fflush(filePtr);
-                            printLn = TRUE;
-                        }
-                  }
-               }
-            }
-         }
-      }
-      }
-  
-      if(printLn == TRUE)
-      {
-          if(useCSV == TRUE)
-          {
-             //
-             // go back one character and in order to 
-             // overwrite trailing ',' with a \n
-             //
-             long filePos = 0;
-             if((filePos = ftell(filePtr)) != (long) -1)
-             {
-                 filePos = filePos - 1;
-                 if(fseek(filePtr, filePos, 0) != 0)
-                 {
-                     fprintf(stderr, "BreakoutReporter >>>>  printBreakoutReportHeader >>>> ERROR: cannot reset output file position\n");
-                     fflush(0);
-                     exit(1);
-                 }
+      [level4Ndx setLoc: Start];
+      level4Key = [level4Ndx next];
+      if((id) level4Key != (id) dummyKeySymbol)
+        {
+           fprintf(filePtr, headerFormatString, level4HeaderString);
+        }
 
-              }
-              else
-              {
-                    fprintf(stderr, "BreakoutReporter >>>> printBreakoutReportHeader >>>> ERROR: cannot get output file position\n");
-                    fflush(0);
-                    exit(1);
-              }
-          } //if useCSV
+      [level5Ndx setLoc: Start];
+      level5Key = [level5Ndx next];
+      if((id) level5Key != (id) dummyKeySymbol)
+        {
+           fprintf(filePtr, headerFormatString, level5HeaderString);
+        }
 
-          fprintf(filePtr, "\n"); 
-          for(i = 0; i < [blankColumnLabelList getCount]; i++)
-          {
-              fprintf(filePtr, headerFormatString, (char *) [blankColumnLabelList atOffset: i]);
-              fflush(filePtr);
-          }
-          //fprintf(filePtr, totalDataColumnWidthStr, "*");
-          //fflush(filePtr);      
-      } 
- 
-      printLn = FALSE;
-      
-      for(i = 0; i < [averagerMapList getCount]; i++)
-      {
-      [level1Ndx setLoc: Start];
-      while(([level1Ndx getLoc] != End) && ((level1Key = [level1Ndx next]) != nil))
-      {
-         [level2Ndx setLoc: Start];
-         while(([level2Ndx getLoc] != End) && ((level2Key = [level2Ndx next]) != nil))
-         {
-            [level3Ndx setLoc: Start];
-            while(([level3Ndx getLoc] != End) && ((level3Key = [level3Ndx next]) != nil))
-            {
-               [level4Ndx setLoc: Start];
-               while(([level4Ndx getLoc] != End) && ((level4Key = [level4Ndx next]) != nil))
-               {
-                  [level5Ndx setLoc: Start];
-                  while(([level5Ndx getLoc] != End) && ((level5Key = [level5Ndx next]) != nil))
-                  {
-                        const char* level3KeyName = [level3Key getName];
-                        if((id) level3Key != (id) dummyKeySymbol)
-                        {
-                            fprintf(filePtr, headerFormatString, level3KeyName);
-                            fflush(filePtr);
-                            printLn = TRUE;
-                        }
-                  }
-               }
-            }
-         }
-      }
-      }
+      fprintf(filePtr, headerFormatString, "OutputType");
+      fprintf(filePtr, headerFormatString, "Value");
 
-  
-      if(printLn == TRUE)
-      {
-          if(useCSV == TRUE)
-          {
-             //
-             // go back one character and in order to 
-             // overwrite trailing ',' with a \n
-             //
-             long filePos = 0;
-             if((filePos = ftell(filePtr)) != (long) -1)
-             {
-                 filePos = filePos - 1;
-                 if(fseek(filePtr, filePos, 0) != 0)
-                 {
-                     fprintf(stderr, "BreakoutReporter >>>>  printBreakoutReportHeader >>>> ERROR: cannot reset output file position\n");
-                     fflush(0);
-                     exit(1);
-                 }
-
-              }
-              else
-              {
-                    fprintf(stderr, "BreakoutReporter >>>> printBreakoutReportHeader >>>> ERROR: cannot get output file position\n");
-                    fflush(0);
-                    exit(1);
-              }
-          } //if useCSV
-          fprintf(filePtr, "\n"); 
-          for(i = 0; i < [blankColumnLabelList getCount]; i++)
-          {
-              fprintf(filePtr, headerFormatString, (char *) [blankColumnLabelList atOffset: i]);
-              fflush(filePtr);
-          }
-      } 
- 
-      printLn = FALSE;
-
-      for(i = 0; i < [averagerMapList getCount]; i++)
-      {
-      [level1Ndx setLoc: Start];
-      while(([level1Ndx getLoc] != End) && ((level1Key = [level1Ndx next]) != nil))
-      {
-         [level2Ndx setLoc: Start];
-         while(([level2Ndx getLoc] != End) && ((level2Key = [level2Ndx next]) != nil))
-         {
-            [level3Ndx setLoc: Start];
-            while(([level3Ndx getLoc] != End) && ((level3Key = [level3Ndx next]) != nil))
-            {
-               [level4Ndx setLoc: Start];
-               while(([level4Ndx getLoc] != End) && ((level4Key = [level4Ndx next]) != nil))
-               {
-                  [level5Ndx setLoc: Start];
-                  while(([level5Ndx getLoc] != End) && ((level5Key = [level5Ndx next]) != nil))
-                  {
-                        const char* level4KeyName = [level4Key getName];
-                        if((id) level4Key != (id) dummyKeySymbol)
-                        {
-                            fprintf(filePtr, headerFormatString, level4KeyName);
-                            fflush(filePtr);
-                            printLn = TRUE;
-                        }
-                  }
-               }
-            }
-         }
-      }
-      }
-
-  
-      if(printLn == TRUE)
-      {
-          if(useCSV == TRUE)
-          {
-             //
-             // go back one character and in order to 
-             // overwrite trailing ',' with a \n
-             //
-             long filePos = 0;
-             if((filePos = ftell(filePtr)) != (long) -1)
-             {
-                 filePos = filePos - 1;
-                 if(fseek(filePtr, filePos, 0) != 0)
-                 {
-                     fprintf(stderr, "BreakoutReporter >>>>  printBreakoutReportHeader >>>> ERROR: cannot reset output file position\n");
-                     fflush(0);
-                     exit(1);
-                 }
-
-              }
-              else
-              {
-                    fprintf(stderr, "BreakoutReporter >>>> printBreakoutReportHeader >>>> ERROR: cannot get output file position\n");
-                    fflush(0);
-                    exit(1);
-              }
-          } //if useCSV
-          fprintf(filePtr, "\n"); 
-          for(i = 0; i < [blankColumnLabelList getCount]; i++)
-          {
-              fprintf(filePtr, headerFormatString, (char *) [blankColumnLabelList atOffset: i]);
-              fflush(filePtr);
-          }
-      } 
-
-      printLn = FALSE; 
-
-      for(i = 0; i < [averagerMapList getCount]; i++)
-      {
-      [level1Ndx setLoc: Start];
-      while(([level1Ndx getLoc] != End) && ((level1Key = [level1Ndx next]) != nil))
-      {
-         [level2Ndx setLoc: Start];
-         while(([level2Ndx getLoc] != End) && ((level2Key = [level2Ndx next]) != nil))
-         {
-            [level3Ndx setLoc: Start];
-            while(([level3Ndx getLoc] != End) && ((level3Key = [level3Ndx next]) != nil))
-            {
-               [level4Ndx setLoc: Start];
-               while(([level4Ndx getLoc] != End) && ((level4Key = [level4Ndx next]) != nil))
-               {
-                  [level5Ndx setLoc: Start];
-                  while(([level5Ndx getLoc] != End) && ((level5Key = [level5Ndx next]) != nil))
-                  {
-                        const char* level5KeyName = [level5Key getName];
-                        if((id) level5Key != (id) dummyKeySymbol)
-                        {
-                            fprintf(filePtr, headerFormatString, level5KeyName);
-                            fflush(filePtr);
-                            printLn = TRUE;
-                        }
-                  }
-               }
-            }
-         }
-      }
-      }
-
-      if(printLn == TRUE)
-      {
-          if(useCSV == TRUE)
-          {
-             //
-             // go back one character and in order to 
-             // overwrite trailing ',' with a \n
-             //
-             long filePos = 0;
-             if((filePos = ftell(filePtr)) != (long) -1)
-             {
-                 filePos = filePos - 1;
-                 if(fseek(filePtr, filePos, 0) != 0)
-                 {
-                     fprintf(stderr, "BreakoutReporter >>>>  printBreakoutReportHeader >>>> ERROR: cannot reset output file position\n");
-                     fflush(0);
-                     exit(1);
-                 }
-
-              }
-              else
-              {
-                    fprintf(stderr, "BreakoutReporter >>>> printBreakoutReportHeader >>>> ERROR: cannot get output file position\n");
-                    fflush(0);
-                    exit(1);
-              }
-          } //if useCSV
-          fprintf(filePtr, "\n"); 
-          for(i = 0; i < [blankColumnLabelList getCount]; i++)
-          {
-              fprintf(filePtr, headerFormatString, (char *) [blankColumnLabelList atOffset: i]);
-              fflush(filePtr);
-          }
-      } 
-
-      printLn = FALSE;
-
-      for(i = 0; i < [averagerMapList getCount]; i++)
-      {
-      id <Map> anAveragerMap = [averagerMapList atOffset: i];
-      [level1Ndx setLoc: Start];
-      while(([level1Ndx getLoc] != End) && ((level1Key = [level1Ndx next]) != nil))
-      {
-         [level2Ndx setLoc: Start];
-         while(([level2Ndx getLoc] != End) && ((level2Key = [level2Ndx next]) != nil))
-         {
-            [level3Ndx setLoc: Start];
-            while(([level3Ndx getLoc] != End) && ((level3Key = [level3Ndx next]) != nil))
-            {
-               [level4Ndx setLoc: Start];
-               while(([level4Ndx getLoc] != End) && ((level4Key = [level4Ndx next]) != nil))
-               {
-                  [level5Ndx setLoc: Start];
-                  while(([level5Ndx getLoc] != End) && ((level5Key = [level5Ndx next]) != nil))
-                  {
-                        BreakoutAverager* anAverager = [[[[[anAveragerMap at: level1Key]
-                                                                          at: level2Key]
-                                                                          at: level3Key]
-                                                                          at: level4Key]
-                                                                          at: level5Key];
-
-                        fprintf(filePtr, headerFormatString, [anAverager getOutputLabel]);
-                        fflush(filePtr);
-                  }
-               }
-            }
-         }
-      }
-      }
 
           if(useCSV == TRUE)
           {
@@ -1262,8 +939,135 @@ Boston, MA 02111-1307, USA.
       id level4Key = nil;
       id level5Key = nil;
 
-      int i;
+      char* levelKeyName;
+
       double aVal;
+
+      while(([ndx getLoc] != End) && ((anAveragerMap = [ndx next]) != nil))
+      {
+
+          [level1Ndx setLoc: Start];
+          while(([level1Ndx getLoc] != End) && ((level1Key = [level1Ndx next]) != nil))
+          {
+
+	    //const char* level1KeyName = [level1Key getName];
+
+             [level2Ndx setLoc: Start];
+             while(([level2Ndx getLoc] != End) && ((level2Key = [level2Ndx next]) != nil))
+             {
+
+	       //const char* level2KeyName = [level2Key getName];
+
+                [level3Ndx setLoc: Start];
+                while(([level3Ndx getLoc] != End) && ((level3Key = [level3Ndx next]) != nil))
+                {
+
+		  //const char* level3KeyName = [level3Key getName];
+
+                   [level4Ndx setLoc: Start];
+                   while(([level4Ndx getLoc] != End) && ((level4Key = [level4Ndx next]) != nil))
+                   {
+
+		     //const char* level4KeyName = [level4Key getName];
+
+                      [level5Ndx setLoc: Start];
+                      while(([level5Ndx getLoc] != End) && ((level5Key = [level5Ndx next]) != nil))
+                      {
+
+			//const char* level5KeyName = [level5Key getName];
+
+                           BreakoutAverager* anAverager;
+                           
+                           anAverager = [[[[[anAveragerMap at: level1Key]
+                                                           at: level2Key]
+                                                           at: level3Key]
+                                                           at: level4Key]
+                                                           at: level5Key];
+                           [anAverager update];
+
+                           // Now, print out one line per value, with data columns
+
+                           [self outputDataColumns];
+
+                           if (level1Key != dummyKeySymbol) {
+			     levelKeyName = (char *)[level1Key getName];
+                             fprintf(filePtr, headerFormatString,levelKeyName);
+			     [scratchZone free: levelKeyName];
+			   }
+                           if (level2Key != dummyKeySymbol) {
+			     levelKeyName = (char *)[level2Key getName];
+                             fprintf(filePtr, headerFormatString,levelKeyName);
+			     [scratchZone free: levelKeyName];
+			   }
+                           if (level3Key != dummyKeySymbol) {
+			     levelKeyName = (char *)[level3Key getName];
+                             fprintf(filePtr, headerFormatString,levelKeyName);
+			     [scratchZone free: levelKeyName];
+			   }
+                           if (level4Key != dummyKeySymbol) {
+			     levelKeyName = (char *)[level4Key getName];
+                             fprintf(filePtr, headerFormatString,levelKeyName);
+			     [scratchZone free: levelKeyName];
+			   }
+                           if (level5Key != dummyKeySymbol) {
+			     levelKeyName = (char *)[level5Key getName];
+                             fprintf(filePtr, headerFormatString,levelKeyName);
+			     [scratchZone free: levelKeyName];
+			   }
+                           fprintf(filePtr, headerFormatString, [anAverager getOutputLabel]);
+
+			  aVal = [anAverager getAveragerValue];
+			  if(aVal==(double)(int)aVal){
+			    if(useCSV == TRUE){
+			      fprintf(filePtr, "%d\n",(int)aVal);
+			    }else{
+			      fprintf(filePtr, intFormatString,(int)aVal);
+			    }
+			  }else{
+			    if(aVal == 0.0){
+				   fprintf(filePtr, floatFormatString,aVal);
+			    }else if(aVal < 0.0){
+				    if(log10(-aVal) < -3.0){
+				      if(useCSV == TRUE){
+					   fprintf(filePtr,"%E\n",aVal);
+				      }else{
+				        fprintf(filePtr,expFormatString,aVal);
+				      }
+				    }else{
+				      fprintf(filePtr, floatFormatString,aVal);
+				    }
+			    }else if(log10(aVal) < -3.0){
+			      if(useCSV == TRUE){
+				   fprintf(filePtr,"%E\n",aVal);
+			      }else{
+				fprintf(filePtr,expFormatString,aVal);
+			      }
+			    }else{
+				   fprintf(filePtr, floatFormatString,aVal);
+			    }
+			  }
+//                           fflush(filePtr);
+                      }                           
+                   }
+                }
+             }
+          }
+
+      } //while ndx
+
+
+      fflush(filePtr);
+
+      [ndx drop];
+
+      return self;
+}
+
+
+- outputDataColumns
+{
+
+      int i;
 
       for(i = 0; i < [dataColumnList getCount]; i++)
       {
@@ -1317,103 +1121,7 @@ Boston, MA 02111-1307, USA.
            }
       }
 
-      while(([ndx getLoc] != End) && ((anAveragerMap = [ndx next]) != nil))
-      {
 
-          [level1Ndx setLoc: Start];
-          while(([level1Ndx getLoc] != End) && ((level1Key = [level1Ndx next]) != nil))
-          {
-
-             [level2Ndx setLoc: Start];
-             while(([level2Ndx getLoc] != End) && ((level2Key = [level2Ndx next]) != nil))
-             {
-                [level3Ndx setLoc: Start];
-                while(([level3Ndx getLoc] != End) && ((level3Key = [level3Ndx next]) != nil))
-                {
-                   [level4Ndx setLoc: Start];
-                   while(([level4Ndx getLoc] != End) && ((level4Key = [level4Ndx next]) != nil))
-                   {
-                      [level5Ndx setLoc: Start];
-                      while(([level5Ndx getLoc] != End) && ((level5Key = [level5Ndx next]) != nil))
-                      {
-                           BreakoutAverager* anAverager;
-                           
-                           anAverager = [[[[[anAveragerMap at: level1Key]
-                                                           at: level2Key]
-                                                           at: level3Key]
-                                                           at: level4Key]
-                                                           at: level5Key];
-                           [anAverager update];
-
-			  aVal = [anAverager getAveragerValue];
-			  if(aVal==(double)(int)aVal){
-			    if(useCSV == TRUE){
-			      fprintf(filePtr, "%d,",(int)aVal);
-			    }else{
-			      fprintf(filePtr, intFormatString,(int)aVal);
-			    }
-			  }else{
-			    if(aVal == 0.0){
-				   fprintf(filePtr, floatFormatString,aVal);
-			    }else if(aVal < 0.0){
-				    if(log10(-aVal) < -3.0){
-				      if(useCSV == TRUE){
-					   fprintf(filePtr,"%E,",aVal);
-				      }else{
-				        fprintf(filePtr,expFormatString,aVal);
-				      }
-				    }else{
-				      fprintf(filePtr, floatFormatString,aVal);
-				    }
-			    }else if(log10(aVal) < -3.0){
-			      if(useCSV == TRUE){
-				   fprintf(filePtr,"%E,",aVal);
-			      }else{
-				fprintf(filePtr,expFormatString,aVal);
-			      }
-			    }else{
-				   fprintf(filePtr, floatFormatString,aVal);
-			    }
-			  }
-                           fflush(filePtr);
-                      }                           
-                   }
-                }
-             }
-          }
-
-      } //while ndx
-
-      if(useCSV == TRUE)
-      {
-          //
-          // go back one character and in order to 
-          // overwrite trailing ',' with a \n
-          //
-          long filePos = 0;
-          if((filePos = ftell(filePtr)) != (long) -1)
-          {
-              filePos = filePos - 1;
-              if(fseek(filePtr, filePos, 0) != 0)
-              {
-                  fprintf(stderr, "BreakoutReporter >>>>  printBreakoutReportHeader >>>> ERROR: cannot reset output file position\n");
-                  fflush(0);
-                  exit(1);
-              }
-
-          }
-          else
-          {
-                fprintf(stderr, "BreakoutReporter >>>> printBreakoutReportHeader >>>> ERROR: cannot get output file position\n");
-                fflush(0);
-                exit(1);
-          }
-      } //if useCSV
-
-      fprintf(filePtr, "\n");
-      fflush(filePtr);
-
-      [ndx drop];
 
       return self;
 }
