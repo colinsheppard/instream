@@ -61,6 +61,7 @@ Boston, MA 02111-1307, USA.
   tbs->writeCellFishReport = "NO";
   tbs->writeReddMortReport = "NO";
   tbs->writeIndividualFishReport = "NO";
+  tbs->writeCellCentroidReport = "NO";
 
   [ObjectLoader load: tbs fromFileNamed: "Observer.Setup"];
 
@@ -141,6 +142,7 @@ Boston, MA 02111-1307, USA.
   [troutModelSwarm setWriteCellFishReport: writeCellFishReport];
   [troutModelSwarm setWriteReddMortReport: writeReddMortReport];
   [troutModelSwarm setWriteIndividualFishReport: writeIndividualFishReport];
+  [troutModelSwarm setWriteCellCentroidReport: writeCellCentroidReport];
 
   //fprintf(stderr,"modelSetupFile = %s \n", modelSetupFile);
   //fflush(stderr);

@@ -99,6 +99,7 @@ typedef struct FishSetupStruct TroutInitializationRecord;
   BOOL  writeCellFishReport;
   BOOL  writeReddMortReport;
   BOOL  writeIndividualFishReport;
+  BOOL  writeCellCentroidReport;
 
 
 @protected
@@ -322,6 +323,8 @@ typedef struct FishSetupStruct TroutInitializationRecord;
 - (BOOL) getWriteReddMortReport;
 - setWriteIndividualFishReport: (char *) writeIndividualFish;
 - (BOOL) getWriteIndividualFishReport;
+- setWriteCellCentroidReport: (char *) writeCellCentroid;
+- (BOOL) getWriteCellCentroidReport;
 
 - writeLFTOutput;
 

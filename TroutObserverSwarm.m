@@ -311,6 +311,7 @@ Boston, MA 02111-1307, USA.
   [troutModelSwarm setWriteCellFishReport: writeCellFishReport];
   [troutModelSwarm setWriteReddMortReport: writeReddMortReport];
   [troutModelSwarm setWriteIndividualFishReport: writeIndividualFishReport];
+  [troutModelSwarm setWriteCellCentroidReport: writeCellCentroidReport];
 
   //
   // Instantiate the objects first;

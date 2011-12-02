@@ -849,7 +849,9 @@ Boston, MA 02111-1307, USA.
     [self calcPolyCellsDistFromRE];
     [self buildKDTree];
 
-    //[self outputCellCentroidRpt];
+    if([[self getModel] getWriteCellCentroidReport]){
+      [self outputCellCentroidRpt];
+    }
     //[self outputCellCorners];
 
   
@@ -1593,7 +1595,7 @@ Boston, MA 02111-1307, USA.
     }
     
     if(polyCellListNdx == nil){
-         fprintf(stderr, "ERROR: HabitatSpace >>>> readPolyCellDataFile >>>> utmCellListNdx is nil\n");
+         fprintf(stderr, "ERROR: HabitatSpace >>>> readPolyCellDataFile >>>> polyCellListNdx is nil\n");
          fflush(0);
          exit(1);
     }
@@ -1791,21 +1793,17 @@ Boston, MA 02111-1307, USA.
 // outputCellCentroidRpt
 //
 /////////////////////////////////////////////
-- outputCellCentroidRpt
-{
-    /*
-    if(0)
-    {
+- outputCellCentroidRpt{
     FILE* fptr = NULL;
-    const char* fileName = "CellCentroids.rpt";
+    char* fileName = [self getReachName];
+    strcat(fileName,"_Cell_Centroids_Out.csv");
     id <ListIndex> ndx = nil;
     FishCell* fishCell = nil;
 
-    const char* headerFmt = "%-14s%-24s%-24s\n";
-    const char* dataFmt = "%-14d%-24f%-24f\n";
+    const char* dataFmt = "%d,%f,%f\n";
 
-    fprintf(stdout, "HabitatSpace >>>> outputCellCentroidRpt >>>> BEGIN\n");
-    fflush(0);
+    //fprintf(stdout, "HabitatSpace >>>> outputCellCentroidRpt >>>> BEGIN\n");
+    //fflush(0);
 
     if((fptr = fopen(fileName, "w")) == NULL)
     {
@@ -1814,14 +1812,13 @@ Boston, MA 02111-1307, USA.
         exit(1);
     } 
 
-    ndx = [utmCellList listBegin: scratchZone];
+    ndx = [polyCellList listBegin: scratchZone];
 
-    fprintf(fptr, "Cell centroid UTM coordinates for reachName: %s System date and time: %s\n\n", reachName, [timeManager getSystemDateAndTime]); 
-    fprintf(fptr, headerFmt, "CellNumber", "CentroidX", "CentroidY"); 
+    fprintf(fptr, "Cell centroid UTM coordinates for reachName: %s\nSystem date and time: %s\n\n", reachName, [timeManager getSystemDateAndTime]); 
+    fprintf(fptr, "%s", "CellNumber,CentroidX,CentroidY\n"); 
     fflush(fptr);
 
-    while(([ndx getLoc] != End) && ((fishCell = [ndx next]) != nil))
-    {
+    while(([ndx getLoc] != End) && ((fishCell = [ndx next]) != nil)){
         int utmCellNumber = [fishCell getPolyCellNumber];
         double utmCenterX = [fishCell getPolyCenterX]/100.0;
         double utmCenterY = [fishCell getPolyCenterY]/100.0;
@@ -1835,8 +1832,6 @@ Boston, MA 02111-1307, USA.
     fclose(fptr);
     [ndx drop];
 
-    }
-    */
     //fprintf(stdout, "HabitatSpace >>>> outputCellCentroidRpt >>>> END\n");
     //fflush(0);
     return self;
@@ -1877,7 +1872,7 @@ Boston, MA 02111-1307, USA.
         exit(1);
     } 
 
-    ndx = [utmCellList listBegin: scratchZone];
+    ndx = [polyCellList listBegin: scratchZone];
 
     fprintf(fptr, "Cell corner UTM coordinates for reachName: %s System date and time: %s\n\n", reachName, [timeManager getSystemDateAndTime]); 
     fprintf(fptr, headerFmt, "CellNumber", "Corner1X", "Corner1Y", "Corner2X", "Corner2Y", "Corner3X", "Corner3Y", "Corner4X", "Corner4Y");
@@ -3469,7 +3464,7 @@ Boston, MA 02111-1307, USA.
 ////////////////////////////////////////
 - updateHabSurvProbForAqPred
 {
-   //[utmCellList forEach: M(updateHabSurvProbForAqPred)];
+   //[polyCellList forEach: M(updateHabSurvProbForAqPred)];
 
    return self;
 }

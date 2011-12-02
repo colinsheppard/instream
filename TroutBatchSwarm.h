@@ -82,6 +82,7 @@ Boston, MA 02111-1307, USA.
   char* writeCellFishReport;
   char* writeReddMortReport;
   char* writeIndividualFishReport;
+  char* writeCellCentroidReport;
 
 @public
   int modelNumber;

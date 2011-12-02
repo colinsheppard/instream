@@ -27,6 +27,12 @@ writeReddSurvReport	      NO
 writeReddMortReport	      NO
 writeCellFishReport	      NO
 writeIndividualFishReport     NO
+writeCellCentroidReport	      NO
+
+@end
+
+
+
 
 @end
 
