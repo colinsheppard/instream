@@ -22,7 +22,6 @@ fishCmaxTempT7                     100
 
 fishDetectDistParamA                 4.0
 fishDetectDistParamB                 2.0
-fishEMForUnknownCells              0.1
 fishEnergyDensity                 5900
 
 fishFecundParamA                  0.18

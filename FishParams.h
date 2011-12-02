@@ -147,8 +147,6 @@ double fishSpawnVSuitV6;
 double fishWeightParamA;
 double fishWeightParamB;
 
-double fishEMForUnknownCells;
-
 double fishTurbidMin;
 double fishTurbidExp;
 double fishDetectDistParamA;

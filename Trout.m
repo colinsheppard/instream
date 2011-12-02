@@ -1613,7 +1613,6 @@ Boston, MA 02111-1307, USA.
        fprintf(stderr,"\n");
        fprintf(stderr,"<<<<<METHOD: moveToMaximizeExpectedMaturity speciesNdx = %d >>>>>\n", speciesNdx);
        xprint(self);
-       fprintf(stderr,"fishEMForUnknownCells = %f\n", fishParams->fishEMForUnknownCells);
        fprintf(stderr,"\n"); 
     
      #endif
