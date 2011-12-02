@@ -2,7 +2,7 @@ ifeq ($(SWARMHOME),)
 SWARMHOME=/usr
 endif
 
-EXTRACPPFLAGS+=-pg
+EXTRACPPFLAGS+=
 
 APPLICATION=instream
 OBJECTS=Trout.o \
