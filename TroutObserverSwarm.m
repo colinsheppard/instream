@@ -910,19 +910,19 @@ Boston, MA 02111-1307, USA.
 - activateIn:  swarmContext
 {
 
-  fprintf(stderr, "OBSERVER SWARM >>>> activateIn begin\n");
-  fprintf(stderr, "OBSERVER SWARM >>>> activateIn begin super = %s\n", [super getName]);
-  fprintf(stderr, "OBSERVER SWARM >>>> activateIn begin swarmContext = %p\n", swarmContext);
+  //fprintf(stderr, "OBSERVER SWARM >>>> activateIn begin\n");
+  //fprintf(stderr, "OBSERVER SWARM >>>> activateIn begin super = %s\n", [super getName]);
+  //fprintf(stderr, "OBSERVER SWARM >>>> activateIn begin swarmContext = %p\n", swarmContext);
   //fprintf(stderr, "OBSERVER SWARM >>>> activateIn begin actionCache = %p\n", actionCache);
-  fflush(0);
+  //fflush(0);
 
   [super activateIn: swarmContext];
   modelActivity = [troutModelSwarm activateIn: self];
-  fprintf(stderr, "OBSERVER SWARM >>>> activateIn modelActivity = %p\n", modelActivity);
-  fflush(0);
+  //fprintf(stderr, "OBSERVER SWARM >>>> activateIn modelActivity = %p\n", modelActivity);
+  //fflush(0);
   [displaySchedule activateIn: self];
-  fprintf(stderr, "OBSERVER SWARM >>>> activateIn displaySchedule = %p\n", displaySchedule);
-  fflush(0);
+  //fprintf(stderr, "OBSERVER SWARM >>>> activateIn displaySchedule = %p\n", displaySchedule);
+  //fflush(0);
   if (rasterOutputFrequency > 0)
   {
     [outputSchedule activateIn: self];
@@ -930,8 +930,8 @@ Boston, MA 02111-1307, USA.
 
   myActivity = [self getActivity];
 
-  fprintf(stderr, "OBSERVER SWARM >>>> activateIn returning myActivity = %p\n", myActivity);
-  fflush(0);
+  //fprintf(stderr, "OBSERVER SWARM >>>> activateIn returning myActivity = %p\n", myActivity);
+  //fflush(0);
 
   return [self getActivity];
 }

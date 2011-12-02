@@ -367,8 +367,8 @@ Boston, MA 02111-1307, USA.
  }
  modelIterator = [modelIterator createEnd];
     
- fprintf(stderr, "ParameterManager >>>> initializeParameters >>>> END\n");
- fflush(0);
+ //fprintf(stdout, "ParameterManager >>>> initializeParameters >>>> END\n");
+ //fflush(0);
 
  return self;
 }
@@ -479,7 +479,7 @@ Boston, MA 02111-1307, USA.
 
   [super buildObjects];
 
-  fprintf(stderr, "EXPERSWARM >>>> buildObjects actionCache = %p\n", actionCache);
+  //fprintf(stdout, "EXPERSWARM >>>> buildObjects actionCache = %p\n", actionCache);
 
   // Build the parameter manager
 
