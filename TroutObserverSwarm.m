@@ -120,43 +120,79 @@ Boston, MA 02111-1307, USA.
    [probeMap setProbedClass: [FishCell class]];
    probeMap = [probeMap createEnd];
 
-[probeMap addProbe: [probeLibrary getProbeForVariable: "polyCellNumber"
+  fprintf(stdout, "TroutObserverSwarm >>>> buildProbesIn >>>> 1\n");
+  fflush(0);
+  [probeMap addProbe: [probeLibrary getProbeForVariable: "polyCellNumber"
                       inClass: [PolyCell class]]];
+  fprintf(stdout, "TroutObserverSwarm >>>> buildProbesIn >>>> 2\n");
+  fflush(0);
    [probeMap addProbe: [probeLibrary getProbeForVariable: "polyCellDepth"
                       inClass: [PolyCell class]]];
+  fprintf(stdout, "TroutObserverSwarm >>>> buildProbesIn >>>> 3\n");
+  fflush(0);
    [probeMap addProbe: [probeLibrary getProbeForVariable: "polyCellVelocity"
                       inClass: [PolyCell class]]];
+  fprintf(stdout, "TroutObserverSwarm >>>> buildProbesIn >>>> 4\n");
+  fflush(0);
    [probeMap addProbe: [probeLibrary getProbeForVariable: "numberOfFish"
                       inClass: [FishCell class]]];
+  fprintf(stdout, "TroutObserverSwarm >>>> buildProbesIn >>>> 5\n");
+  fflush(0);
    [probeMap addProbe: [probeLibrary getProbeForVariable: "polyCellArea"
                       inClass: [PolyCell class]]];
+  fprintf(stdout, "TroutObserverSwarm >>>> buildProbesIn >>>> 6\n");
+  fflush(0);
    [probeMap addProbe: [probeLibrary getProbeForVariable: "cellFracSpawn"
                       inClass: [FishCell class]]];
+  fprintf(stdout, "TroutObserverSwarm >>>> buildProbesIn >>>> 7\n");
+  fflush(0);
    [probeMap addProbe: [probeLibrary getProbeForVariable: "cellDistToHide"
                       inClass: [FishCell class]]];
+  fprintf(stdout, "TroutObserverSwarm >>>> buildProbesIn >>>> 8\n");
+  fflush(0);
    [probeMap addProbe: [probeLibrary getProbeForVariable: "cellShelterArea"
                       inClass: [FishCell class]]];
+  fprintf(stdout, "TroutObserverSwarm >>>> buildProbesIn >>>> 9\n");
+  fflush(0);
    [probeMap addProbe: [probeLibrary getProbeForVariable: "shelterAreaAvailable"
                       inClass: [FishCell class]]];
+  fprintf(stdout, "TroutObserverSwarm >>>> buildProbesIn >>>> 10\n");
+  fflush(0);
    [probeMap addProbe: [probeLibrary getProbeForVariable: "driftHourlyCellTotal"
                       inClass: [FishCell class]]];
+  fprintf(stdout, "TroutObserverSwarm >>>> buildProbesIn >>>> 11\n");
+  fflush(0);
    [probeMap addProbe: [probeLibrary getProbeForVariable: "hourlyAvailDriftFood"
                       inClass: [FishCell class]]];
+  fprintf(stdout, "TroutObserverSwarm >>>> buildProbesIn >>>> 12\n");
+  fflush(0);
    [probeMap addProbe: [probeLibrary getProbeForVariable: "searchHourlyCellTotal"
                       inClass: [FishCell class]]];
+  fprintf(stdout, "TroutObserverSwarm >>>> buildProbesIn >>>> 13\n");
+  fflush(0);
    [probeMap addProbe: [probeLibrary getProbeForVariable: "hourlyAvailSearchFood"
                       inClass: [FishCell class]]];
+  fprintf(stdout, "TroutObserverSwarm >>>> buildProbesIn >>>> 14\n");
+  fflush(0);
    [probeMap addProbe: [probeLibrary getProbeForMessage: "tagPolyCell"
                       inClass: [PolyCell class]]];
+  fprintf(stdout, "TroutObserverSwarm >>>> buildProbesIn >>>> 15\n");
+  fflush(0);
    [probeMap addProbe: [probeLibrary getProbeForMessage: "unTagPolyCell"
                       inClass: [PolyCell class]]];
+  fprintf(stdout, "TroutObserverSwarm >>>> buildProbesIn >>>> 16\n");
+  fflush(0);
    [probeMap addProbe: [probeLibrary getProbeForMessage: "tagAdjacentCells"
                       inClass: [PolyCell class]]];
+  fprintf(stdout, "TroutObserverSwarm >>>> buildProbesIn >>>> 17\n");
+  fflush(0);
    [probeMap addProbe: [probeLibrary getProbeForMessage: "unTagAdjacentCells"
                       inClass: [PolyCell class]]];
+  fprintf(stdout, "TroutObserverSwarm >>>> buildProbesIn >>>> 18\n");
+  fflush(0);
    [probeMap addProbe: [probeLibrary getProbeForMessage: "tagCellsWithin:"
                       inClass: [FishCell class]]];
-
+   
    //
    // Finish adding FishCell's super class vars
    // Don't forget to make clean, then make.
@@ -179,8 +215,7 @@ Boston, MA 02111-1307, USA.
                              "emergeDays",
                              "fracDeveloped",
                              "spawnerLength",
-                             "transect",
-                             "cellNo",
+                             "cellNumber",
                              ":",
                              NULL];
   [probeLibrary setProbeMap: probeMap For: [TroutRedd class]];

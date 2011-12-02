@@ -85,6 +85,9 @@ typedef struct PolyPixelCoordStruct PolyPixelCoord;
    double polyCenterX;
    double polyCenterY;
 
+  double polyCellDepth;
+  double polyCellVelocity;
+
    BOOL tagCell; 
 
   id <List> listOfAdjacentCells;
@@ -162,11 +165,6 @@ typedef struct PolyPixelCoordStruct PolyPixelCoord;
 
 - (BOOL) containsRasterX: (long int) aRasterX andRasterY: (long int) aRasterY;
 - setRasterColorVariable: (char *) aColorVariable;
-
-
-- tagPolyCell;
-- unTagPolyCell;
-- tagAdjacentCells;
 
 - (void) drop;
 

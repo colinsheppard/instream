@@ -63,6 +63,19 @@ Boston, MA 02111-1307, USA.
  id <Activity> myActivity;
  id <Activity> modelActivity;
 
+  char* writeFoodAvailabilityReport;
+  char* writeDepthReport;
+  char* writeVelocityReport;
+  char* writeDepthVelocityReport;
+  char* writeHabitatReport;
+  char* writeMoveReport;
+  char* writeReadyToSpawnReport;
+  char* writeSpawnCellReport;
+  char* writeReddSurvReport;
+  char* writeCellFishReport;
+  char* writeReddMortReport;
+  char* writeIndividualFishReport;
+
 @protected  // the default scope level
   char*  rasterColorVariable;
   int    displayFrequency;				// one parameter: update freq

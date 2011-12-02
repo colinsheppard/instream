@@ -51,8 +51,6 @@ Boston, MA 02111-1307, USA.
 
   id myRandGen;
 
-  double polyCellDepth;
-  double polyCellVelocity;
   int numberOfSpecies;
   int numberOfFish;
   int numberOfRedds;
