@@ -2447,7 +2447,7 @@ Boston, MA 02111-1307, USA.
     unsigned int hDLTUSCount = [habDownstreamLinksToUS getCount];
     for(i = 0; i < hDLTUSCount; i++){
       id anotherReach = [habDownstreamLinksToUS atOffset: i];
-      [anotherReach addDownstreamCellsWithin: fishDistToDSEnd toList: listOfCellsWithinRange]; 
+      [anotherReach addUpstreamCellsWithin: fishDistToDSEnd toList: listOfCellsWithinRange]; 
     } //for
   }  // if (aRange > [refCell getCellDistToDS])
 
