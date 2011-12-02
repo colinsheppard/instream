@@ -26,7 +26,7 @@ writeSpawnCellReport	      NO
 writeReddSurvReport	      NO
 writeReddMortReport	      NO
 writeCellFishReport	      NO
-writeIndividualFishReport     YES
+writeIndividualFishReport     NO
 
 @end
 
