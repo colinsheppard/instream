@@ -61,6 +61,9 @@ char **speciesColor;
   troutModelSwarm->fishColorMap = nil;
   troutModelSwarm->reddMortalityFile = "Redd_Mortality_Out.csv";
   troutModelSwarm->individualFishFile = "Individual_Fish_Out.csv";
+  troutModelSwarm->resultsAgeThreshold = 1;
+  troutModelSwarm->resultsCensusDay = "10/01";
+
 
   troutModelSwarm->printFishParams = NO;
 
@@ -1502,6 +1505,17 @@ char **speciesColor;
      [printSchedule createAction: printCellFishAction];
   }
 
+  // 
+  // Setup LFT Annual Census of Adult Fish Count and Weight
+  // 
+  writeLFTAction = [ActionGroup createBegin: modelZone];
+  writeLFTAction = [writeLFTAction createEnd];
+  [writeLFTAction createActionTo: self message: M(writeLFTOutput)];
+  lftSchedule = [Schedule createBegin: modelZone];
+  [lftSchedule setRepeatInterval: 365];
+  lftSchedule = [lftSchedule createEnd];
+  [lftSchedule createAction: writeLFTAction];
+
   //
   // Put the Actions in the schedule
   //
@@ -1545,6 +1559,7 @@ char **speciesColor;
   [super activateIn: swarmContext];
   [modelSchedule activateIn: self];
   [printSchedule activateIn: self];
+  [lftSchedule activateIn: self];
 
   fprintf(stdout, "TROUT MODEL SWARM >>>> activateIn\n");
   fflush(0);
@@ -3007,6 +3022,49 @@ char **speciesColor;
    return listOfMortalityCounts;
 }
 
+///////////////////////////////////////////////
+//
+// writeLFTOutput
+//
+///////////////////////////////////////////////
+
+- writeLFTOutput{
+  const char * lftOutputFile = "LFT_Output.rpt";
+
+  if(lftOutputFilePtr == NULL) {
+     if ((scenario == 1) && (replicate == 1)){
+        if((lftOutputFilePtr = fopen(lftOutputFile,"w")) == NULL ){
+            fprintf(stderr, "ERROR: TroutModelSwarm >>>> writeLFTOutput >>>> Cannot open %s for writing\n",lftOutputFile);
+            fflush(0);
+            exit(1);
+        }
+        fprintf(lftOutputFilePtr,"Limiting factors tool output file\n");
+        fprintf(lftOutputFilePtr,"SYSTEM TIME:  %s\n", [timeManager getSystemDateAndTime]);
+        fprintf(lftOutputFilePtr,"Scenario,Replicate,Census Date,Number of Adults,Adult Biomass\n");
+     }else{ // Not the first replicate or scenario, so no header 
+         if((lftOutputFilePtr = fopen(lftOutputFile,"a")) == NULL){
+            fprintf(stderr, "ERROR: TroutModelSwarm >>>> writeLFTOutput >>>> Cannot open %s for appending\n",lftOutputFile);
+            fflush(0);
+            exit(1);
+         }
+     }
+  }
+  if(lftOutputFilePtr == NULL){
+      fprintf(stderr, "ERROR: TroutModelSwarm >>>> writeLFTOutput >>>> File %s is not open\n",lftOutputFile);
+      fflush(0);
+      exit(1);
+  }
+  fprintf(lftOutputFilePtr,"%d\t%d\t%s\t%d\t%f\n", 
+     scenario, 
+     replicate, 
+     [timeManager getDateWithTimeT: modelTime],
+     7,
+     42.0);
+
+  return self;
+}
+
+
 
 ///////////////////////////////////////
 //
@@ -3224,6 +3282,8 @@ char **speciesColor;
      modelActions = nil;
      [overheadActions drop];
      overheadActions = nil;
+     [writeLFTAction drop];
+     writeLFTAction = nil;
 
     if(writeCellFishReport){
        [printCellFishAction drop];
@@ -3234,6 +3294,8 @@ char **speciesColor;
      modelSchedule = nil;
      [printSchedule drop];
      printSchedule = nil;
+     [lftSchedule drop];
+     lftSchedule = nil;
       
      // The following produces error: FallChinook does not recognize drop
      //[speciesClassList deleteAll];

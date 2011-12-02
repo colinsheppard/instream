@@ -117,6 +117,8 @@ typedef struct FishSetupStruct TroutInitializationRecord;
   id overheadActions;
   id modelSchedule;
   id printSchedule;
+  id writeLFTAction;
+  id lftSchedule;
   id coinFlip;
 
   id <Activity> modelActivity;
@@ -131,6 +133,7 @@ typedef struct FishSetupStruct TroutInitializationRecord;
   FILE * reddRptFilePtr;
   FILE * reddSummaryFilePtr;
   FILE * individualFishFilePtr;
+  FILE * lftOutputFilePtr;
 
   //
   // Changes for LJCMultReachv4.0
@@ -142,29 +145,35 @@ typedef struct FishSetupStruct TroutInitializationRecord;
   id <ListIndex> mortalityCountLstNdx;
 
 
-//THE FOLLOWING VARIABLES ARE INITIALIZED BY Model.Setup
-//THE FOLLOWING VARIABLES ARE INITIALIZED BY Model.Setup
-//THE FOLLOWING VARIABLES ARE INITIALIZED BY Model.Setup
+  //THE FOLLOWING VARIABLES ARE INITIALIZED BY Model.Setup
+  //THE FOLLOWING VARIABLES ARE INITIALIZED BY Model.Setup
+  //THE FOLLOWING VARIABLES ARE INITIALIZED BY Model.Setup
 
-int          randGenSeed;
-int          numberOfSpecies;
+  int          randGenSeed;
+  int          numberOfSpecies;
 
-int          runStartYear;
-int          runStartDay;
-char * runStartDate;
-char * runEndDate;
-const char*  fishOutputFile;
-const char*  fishMortalityFile;
-const char*  reddMortalityFile;
-const char*  individualFishFile;
-const char*  reddOutputFile;
-char* popInitDate;
-int          fileOutputFrequency;
-char*        movementRule;
+  int          runStartYear;
+  int          runStartDay;
+  char * runStartDate;
+  char * runEndDate;
+  const char*  fishOutputFile;
+  const char*  fishMortalityFile;
+  const char*  reddMortalityFile;
+  const char*  individualFishFile;
+  const char*  reddOutputFile;
+  char* popInitDate;
+  int          fileOutputFrequency;
+  char*        movementRule;
+  int	    resultsAgeThreshold;
+  char*	    resultsCensusDay;
 
-//END VARIABLES INITIALIZED BY Model.Setup
-//END VARIABLES INITIALIZED BY Model.Setup
-//END VARIABLES INITIALIZED BY Model.Setup
+  //END VARIABLES INITIALIZED BY Model.Setup
+  //END VARIABLES INITIALIZED BY Model.Setup
+  //END VARIABLES INITIALIZED BY Model.Setup
+
+  //// NEW VARIABLES CONTROLLED BY OR USED BY LIMITING FACTOR TOOL
+  int lftNumAdultTrout;	  // Number of all adult trout with age >= resultsAgeThreshold, take on resultsCensusDay
+  int lftBiomassAdultTrout; // Total weight of all adult trout with age >= resultsAgeThreshold, take on resultsCensusDay
 
   time_t popInitTime;
 
