@@ -2010,7 +2010,7 @@ Boston, MA 02111-1307, USA.
 {
   FishCell*  fishCell = nil;
   Trout* fish = nil;
-  TroutRedd* redd = nil;
+  Redd* redd = nil;
   id <ListIndex> fishNdx = nil;
   id <ListIndex> reddNdx = nil;
 

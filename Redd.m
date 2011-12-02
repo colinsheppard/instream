@@ -29,7 +29,7 @@ Boston, MA 02111-1307, USA.
 #import  "Trout.h"
 
 
-@implementation TroutRedd
+@implementation Redd
 
 - setCell: (FishCell *) aCell 
 {

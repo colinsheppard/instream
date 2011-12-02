@@ -173,7 +173,7 @@ Boston, MA 02111-1307, USA.
   //
   // Redds
   //
-  probeMap = [CustomProbeMap create: aZone forClass: [TroutRedd class]
+  probeMap = [CustomProbeMap create: aZone forClass: [Redd class]
 			     withIdentifiers: "Species",
 			     "numberOfEggs",
                              "emergeDays",
@@ -182,7 +182,7 @@ Boston, MA 02111-1307, USA.
                              "cellNumber",
                              ":",
                              NULL];
-  [probeLibrary setProbeMap: probeMap For: [TroutRedd class]];
+  [probeLibrary setProbeMap: probeMap For: [Redd class]];
 
     return self;
 }

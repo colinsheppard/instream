@@ -1321,7 +1321,7 @@ Boston, MA 02111-1307, USA.
      #endif
    #endif
 
-  newRedd = [TroutRedd createBegin: [model getModelZone]];
+  newRedd = [Redd createBegin: [model getModelZone]];
   [newRedd setCell: aCell];
   [newRedd setModel];
   [newRedd setFishParams: fishParams];

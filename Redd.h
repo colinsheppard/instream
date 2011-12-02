@@ -32,7 +32,7 @@ Boston, MA 02111-1307, USA.
 #import "FishParams.h"
 #import <random.h>
 
-@interface TroutRedd: SwarmObject
+@interface Redd: SwarmObject
 {
   id reddZone;
 
