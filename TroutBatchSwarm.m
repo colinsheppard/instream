@@ -49,6 +49,19 @@ Boston, MA 02111-1307, USA.
   fprintf(stdout, "TroutBatchSwarm >>>> create >>>> BEGIN\n");
   fflush(0);
 
+  tbs->writeFoodAvailabilityReport = "NO";
+  tbs->writeDepthReport = "NO";
+  tbs->writeVelocityReport = "NO";
+  tbs->writeHabitatReport = "NO";
+  tbs->writeDepthVelocityReport = "NO";
+  tbs->writeMoveReport = "NO";
+  tbs->writeReadyToSpawnReport = "NO";
+  tbs->writeSpawnCellReport = "NO";
+  tbs->writeReddSurvReport = "NO";
+  tbs->writeCellFishReport = "NO";
+  tbs->writeReddMortReport = "NO";
+  tbs->writeIndividualFishReport = "NO";
+
   [ObjectLoader load: tbs fromFileNamed: "Observer.Setup"];
 
   fprintf(stdout, "TroutBatchSwarm >>>> create >>>> END\n");
