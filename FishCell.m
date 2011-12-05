@@ -147,10 +147,11 @@ Boston, MA 02111-1307, USA.
 
 ///////////////////////////////////////////////
 //
-// tagCellsWithin:
+// tagNeighborsWithin:
+// (formerly: tagCellsWithin)
 //
 ///////////////////////////////////////////////
-- tagCellsWithin: (double) aRange
+- tagNeighborsWithin: (double) aRange
 {
    id <List> tempList;
    id <ListIndex> cellNdx;
@@ -175,6 +176,31 @@ Boston, MA 02111-1307, USA.
 
     return self;
 }
+
+
+///////////////////////////////////////////////
+//
+// countNeighborsWithin:
+//
+///////////////////////////////////////////////
+- (int) countNeighborsWithin: (double) aRange
+{
+   id <List> tempList;
+   int theCount;
+
+   tempList = [List create: scratchZone];
+
+    [self getNeighborsWithin: aRange
+                      withList: tempList];
+
+   theCount = [tempList getCount];
+
+
+   [tempList drop];
+
+   return theCount;
+}
+
 
 /////////////////////////////////////////////////////////////////////
 //

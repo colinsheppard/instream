@@ -154,7 +154,9 @@ Boston, MA 02111-1307, USA.
                       inClass: [PolyCell class]]];
    [probeMap addProbe: [probeLibrary getProbeForMessage: "unTagAdjacentCells"
                       inClass: [PolyCell class]]];
-   [probeMap addProbe: [probeLibrary getProbeForMessage: "tagCellsWithin:"
+   [probeMap addProbe: [probeLibrary getProbeForMessage: "tagNeighborsWithin:"
+                      inClass: [FishCell class]]];
+   [probeMap addProbe: [probeLibrary getProbeForMessage: "countNeighborsWithin:"
                       inClass: [FishCell class]]];
    
    //
