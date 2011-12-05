@@ -1247,8 +1247,6 @@ Boston, MA 02111-1307, USA.
   [myCell getNeighborsWithin: maxMoveDistance
                     withList: potentialReddCells]; 
 
-  [potentialReddCells addFirst: myCell];
-
   if([model getWriteSpawnCellReport]){
      [self printSpawnCellRpt: potentialReddCells];
   }
@@ -1471,7 +1469,6 @@ Boston, MA 02111-1307, USA.
   FishCell *destCell=nil;
   FishCell *bestDest=nil;
   double bestExpectedMaturity=0.0;
-  double expectedMaturityHere=0.0;
   double expectedMaturityAtDest=0.0;
 
   double temporaryTemperature;
@@ -1496,10 +1493,6 @@ Boston, MA 02111-1307, USA.
   cMax            = [self calcCmax: temporaryTemperature];
   detectDistance  = [self calcDetectDistanceAt: myCell]; 
 
-  //
-  // calculate our expected maturity here
-  //
-  expectedMaturityHere = [self expectedMaturityAt: myCell];
  
   if(destCellList == nil)
   {
@@ -1516,7 +1509,7 @@ Boston, MA 02111-1307, USA.
   
   //
   // Now, let the habitat space populate
-  // the destCellList with myCells adjacent cells
+  // the destCellList with myCell and its adjacent cells
   // and any other cells that are within
   // maxMoveDistance.
   //
@@ -1554,14 +1547,6 @@ Boston, MA 02111-1307, USA.
       }
 
    }  //while destNdx
-
-   if(expectedMaturityHere >= bestExpectedMaturity) 
-   {
-      //
-      // Stay here 
-      //
-      bestDest = myCell;
-   }
 
    if(bestDest == nil) 
    { 

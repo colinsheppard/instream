@@ -2354,7 +2354,7 @@ Boston, MA 02111-1307, USA.
       exit(1);
   }
 
-  [listOfCellsWithinRange addLast: refCell];
+ // Note: KDTree includes the calling cell, so there is no need to add it to the list
 
   // Use the KDTree to find the neighbors within aRange of refCell
   kdSet = kd_nearest_range3(kdTree, [refCell getPolyCenterX], [refCell getPolyCenterY], 0.0, aRange);
