@@ -1,57 +1,53 @@
-inSTREAM Version 4.3.1a
-Readme file revised 19 June 2007, SF Railsback
+inSTREAM Version 5.0
+Readme file revised 5 Dec 2011, SF Railsback
 
-v. 4.3.1a is version 4.3a with small modifications of the software so it compiles on versions 4.0.0 and higher of the gcc Objective-C compiler, which are standard in new releases of Linux. The changes include: (1) The fish parameters are no longer declared as "CONST" in FishParams.h. (2) In SurvProb.m, the variables "isStarvProb" and "anAgentKnows" are declared as "unsigned" instead of BOOL. (3) In EcoAverager, the casting function "(IMP)" is removed everywhere it was used. The compiler still produces many warnings.
+Version 5.0 of inSTREAM is largely a major software update, with few changes in model formulation. The model formulation remains as described in the documentation for version 4.2 (Railsback, S. F., B. C. Harvey, S. K. Jackson, and R. H. Lamberson. 2009. InSTREAM: the individual-based stream trout research and environmental assessment model. PSW-GTR-218, USDA Forest Service, Pacific Southwest Research Station, Albany, California. Available at: http://www.fs.fed.us/psw/publications/documents/psw_gtr218/psw_gtr218.pdf). Changes in model formulation are:
 
-All files are in Unix format.
+1) Habitat is represented as one or more reaches of polygonal cells, instead of rectangular cells. Cells can have any number of sites. This allow fully two-dimensional representation of habitat. This is the first version that supports multiple two-dimensional reaches.
 
-This version of inSTREAM uses the same formulation for fish behavior as v. 4.2, but input from a two-dimensional hydrodynamic model to define habitat cells and model depth and velocity as a function of flow.
+2) Barriers to upstream movement are not represented in version 5.0. This change is simply because barriers are not trivial to define with the two-dimensional habitat. 
 
-This version is documented in the letter report "inSTREAM-2D: The Individual-based Stream Trout Research and Environmental Assessment Model with Two-Dimensional Habitat Simulation", prepared by: Steve Railsback, Lang, Railsback & Associates, Arcata, CA; for: USDA Forest Service, Pacific Southwest Research Station; September, 2006.
+3) The method for calculating distance from a cell to the reach's end is modified to accomodate the two-dimensional habitat representation. This method is used by fish in determining which cells in other reaches are potential movement destinations.
+
+Software changes include:
+
+1) inSTREAM is now packaged with a graphical user interface for Windows users. This GUI supports assembly and checking of input sets, setup of simulation experiments, and automated sensitivity ("limiting factors") analysis.
+
+2) The MinGW compiler is used to produce a Windows executable of the model. Hence, using inSTREAM no longer requires installation of Swarm on Windows computers. Installing the model either as a stand-alone executable or within the GUI requires only copying the necessary directories and files.
+
+3) A new approach is used by the HabitatSpace class to identify cells within a specified distance (its method getNeighborsWithin: aRange). This method uses the KD-Tree data structure instead of simply calculating the distance to each cell, and should provide faster execution. 
+
+4) Almost all input files (except Setup files) can now be in .CSV format, facilitating their preparation in Excel or other spreadsheet and statistical software. The EcoSwarm TimeSeriesInput manager was modified to read input files with values separated either by commas or white space.
+
+5) The EcoSwarm BreakoutReporter that writes output files was modified to (a) produce output in .CSV format, and (b) write output in a format with fewer columns that is more convenient for analysis via Excel's "PivotTables" and statistical software.
+
+6) Optional output is now controlled via parameters in the Observer.Setup file instead of by code statements. Hence, optional output can be turned on and off without re-compiling the software.
+
+7) A new optional output reports the state of each individual fish.
+
+8) A number of cleanups such as reorganizing the setup files to better separate observer and model parameters, and a thorough search for memory leaks.
+
+9) Four digital documents (available as PDF and HTML Help files) provide documentation of (a) the model formulation, (b) the model software, (c) the graphical user interface, and (d) the "Limiting Factors Tool" built into the GUI. These documents are included as help files in the GUI.
+
+Production of inSTREAM version 5.0 was funded via the project "Adaptation of inSTREAM for Steelhead" conducted by Lang, Railsback & Associates for Earth Systems Institute, with funding from the U.S. Forest Service. 
+
+Many of the software improvements in inSTREAM 5.0 were original made for the project "Improvement of Salmon Life-Cycle Framework Model (inSALMO)", Contract R09PS20027, conducted by Lang, Railsback & Associates and USDA Forest Service Redwood Sciences Lab, Arcata CA, for U. S. Bureau of Reclamation,  Mid-Pacific Regional Office. 
+
+inSTREAM 5.0 was developed by Steven Railsback and Bret Harvey, and software development was by Colin Sheppard, Steve Jackson, and Charles Sharpsteen.
+
 
 For information and assistance contact:
+	Steve Railsback
+	Lang, Railsback & Assoc.
+	Arcata, CA, USA 95521
+	info@LangRailsback.com
+
+ or:
+
 	Bret Harvey
 	USDA Forest Service
 	Redwood Sciences Laboratory
 	Arcata, CA, USA 95521
 	http://www.fs.fed.us/psw/rsl/
 
-or:
-	Steve Railsback
-	Lang, Railsback & Assoc.
-	Arcata, CA, USA 95521
-	LRA@Northcoast.com
-
-Changes made from version 4.3 to 4.3a: 
-
-1.) Cleanup and renaming of parameter files.
-
-2.) Implementation of a slight revision to how aquatic predation is simulated, as described in the current draft of the documentation report for inSTREAM 4.2. In previous versions, each trout with length greater than fishPiscivoryLength updated all the habitat mortality functions when it selected its cell each day. To reduce computations, now habitat mortality functions are updated only after the last such piscivorous fish completes its habitat selection ("move"). 
-
-In a test run (the example run distributed with the software), this change resulted in ~40% reduction in execution time while producing identical results. The execution speed benefit increases with the number of adult trout.
-
-The following changes were made to the software.
-
-Trout:
-
-- moveToMaximizeExpectedMaturity: When a trout has selected its destination cell, it checks whether it is piscivorous (length > fishPiscivoryLength). If so, it increments the number of piscivorous fish in its new reach. The trout then checks whether it is the smallest piscivorous trout (if(toggledFishForHabSurvUpdate == self)). If so, it tells the model swarm to execute its method updateHabSurvProbs.
-
-Trout have a new instance variable (id) toggledFishForHabSurvUpdate, which is daily set to nil in -updateFishWith:. The model swarm sets it to the trout's self (via [trout toggleFishForHabSurvUpdate]) if the trout is the smallest piscivore.
-
-TroutModelSwarm:
-
-The model swarm has a new method toggleFishForHabSurvUpdate, which is scheduled daily as one of the fish actions (in buildActions). This method loops through all the fish (in descending size order) and identifies the last fish with length >= minSpeciesMinPiscLength. This fish has its method toggleFishForHabSurvUpdate executed so it knows it is the last piscivorous fish.
-
-The variable minSpeciesMinPiscLength is the lowest value of fishPiscivoryLength among all the species being simulated. It is identified in the new model swarm method "findMinSpeciesPiscLength", which is executed once at the start.
-
-The method "updateHabSurvProbs" now tells each reach to execute its method updateHabSurvProbForAqPred.
-
-HabitatSpace:
-
-The new method updateHabSurvProbForAqPred tells each of the reach's cells to execute their (new) method updateHabSurvProbForAqPred.
-
-The existing method incrementNumPiscivorousFish no longer updates the habitat survival probs for all the reach's cells.
-
-FishCell:
-
-The new method updateHabSurvProbForAqPred simply updates all the fish survival managers to update their habitat functions. 	
+inSTREAM software and its documentation are copyright 2011 by Lang, Railsback & Associates, and distributed as free software under the GNU General Public License (see file LICENSE). 
