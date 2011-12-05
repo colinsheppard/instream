@@ -542,6 +542,8 @@ Boston, MA 02111-1307, USA.
 
    } // Build Display Objects
 
+/*  Depth and velocity histograms are commented out; they are not terribly useful.
+    This is the only block of code that needs to be restored to turn them back on.
 
   velocityHisto = [EZBin createBegin: obsZone];
   SET_WINDOW_GEOMETRY_RECORD_NAME (velocityHisto);
@@ -573,7 +575,7 @@ Boston, MA 02111-1307, USA.
   depthHisto = [depthHisto createEnd];
   [depthHisto enableDestroyNotification: self
                 notificationMethod: @selector (_depthHistoDeath_:)];
-
+*/
 
   populationHisto = [EZBin createBegin: obsZone];
   SET_WINDOW_GEOMETRY_RECORD_NAME (populationHisto);
