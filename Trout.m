@@ -1512,6 +1512,9 @@ Boston, MA 02111-1307, USA.
   // the destCellList with myCell and its adjacent cells
   // and any other cells that are within
   // maxMoveDistance.
+
+  //  Code modified 5 Dec 2011 because getNeighborsWithin: now includes the
+  //  fish's current cell.
   //
   //fprintf(stdout, "Trout >>>> moveToMaximizeExpectedMaturity >>>> maxMoveDistance = %f\n", maxMoveDistance);
    //fflush(0);
@@ -1548,11 +1551,10 @@ Boston, MA 02111-1307, USA.
 
    }  //while destNdx
 
-   if(bestDest == nil) 
+   if(bestDest == nil) // This can happen if all cells on destCellList are dry
    { 
-      fprintf(stderr, "ERROR: Trout >>>> moveToMaximizeExpectedMaturity >>>> bestDest is nil\n");
-      fflush(0);
-      exit(1);
+      // So stay put and suffer
+      bestDest = myCell;
    }
 
    // 
