@@ -1219,9 +1219,10 @@ Boston, MA 02111-1307, USA.
 
   [self addFish: aFish];
 
+  //  fprintf(stdout, "FishCell >>>> eatHere >>>> writeFoodAvailReport: %s \n",[[space getModel] getWriteFoodAvailabilityReport]);
+  //  fflush(0);
+
   if([[space getModel] getWriteFoodAvailabilityReport]){
-    //fprintf(stdout, "FishCell >>>> eatHere >>>> writeFoodAvailReport: %s \n",[[space getModel] getWriteFoodAvailabilityReport]);
-    //fflush(0);
     [self foodAvailAndConInCell: aFish];
   }
 

@@ -70,19 +70,6 @@ Boston, MA 02111-1307, USA.
   char* tagCellColor;
   char* dryCellColor;
 
-  char* writeFoodAvailabilityReport;
-  char* writeDepthReport;
-  char* writeVelocityReport;
-  char* writeDepthVelocityReport;
-  char* writeHabitatReport;
-  char* writeMoveReport;
-  char* writeReadyToSpawnReport;
-  char* writeSpawnCellReport;
-  char* writeReddSurvReport;
-  char* writeCellFishReport;
-  char* writeReddMortReport;
-  char* writeIndividualFishReport;
-  char* writeCellCentroidReport;
 
 @public
   int modelNumber;

@@ -73,6 +73,21 @@ char **speciesColor;
 
   troutModelSwarm->minSpeciesMinPiscLength = (double) LARGEINT; 
 
+  // Initialize optional output file controls
+  troutModelSwarm->writeFoodAvailabilityReport = NO;
+  troutModelSwarm->writeDepthReport = NO;
+  troutModelSwarm->writeVelocityReport = NO;
+  troutModelSwarm->writeHabitatReport = NO;
+  troutModelSwarm->writeDepthVelocityReport = NO;
+  troutModelSwarm->writeMoveReport = NO;
+  troutModelSwarm->writeReadyToSpawnReport = NO;
+  troutModelSwarm->writeSpawnCellReport = NO;
+  troutModelSwarm->writeReddSurvReport = NO;
+  troutModelSwarm->writeCellFishReport = NO;
+  troutModelSwarm->writeReddMortReport = NO;
+  troutModelSwarm->writeIndividualFishReport = NO;
+  troutModelSwarm->writeCellCentroidReport = NO;
+
 
   return troutModelSwarm;
 
@@ -175,6 +190,21 @@ char **speciesColor;
   //fprintf(stdout, "TroutModelSwarm >>>> instantiateObjects >>>> AFTER HabitatManager\n");
   //fflush(0);
 
+  // Initialize optional output file controls
+/*  writeFoodAvailabilityReport = NO;
+  writeDepthReport = NO;
+  writeVelocityReport = NO;
+  writeHabitatReport = NO;
+  writeDepthVelocityReport = NO;
+  writeMoveReport = NO;
+  writeReadyToSpawnReport = NO;
+  writeSpawnCellReport = NO;
+  writeReddSurvReport = NO;
+  writeCellFishReport = NO;
+  writeReddMortReport = NO;
+  writeIndividualFishReport = NO;
+  writeCellCentroidReport = NO;
+*/
   return self;
 
 }
@@ -218,30 +248,13 @@ char **speciesColor;
 
 /////////////////////////////////////////////////////////////////
 //
-// setWriteFoodAvailabilityReport
-//
-//////////////////////////////////////////////////////////////
-- setWriteFoodAvailabilityReport: (char *) writeFoodAvail {
-  writeFoodAvailabilityReport = (strcmp(writeFoodAvail,"YES")==0);
-  return self;
-}
-/////////////////////////////////////////////////////////////////
-//
 // getWriteFoodAvailabilityReport
 //
 //////////////////////////////////////////////////////////////
 - (BOOL) getWriteFoodAvailabilityReport {
   return writeFoodAvailabilityReport;
 }
-/////////////////////////////////////////////////////////////////
-//
-// setWriteDepthReport
-//
-//////////////////////////////////////////////////////////////
-- setWriteDepthReport: (char *) writeDepth {
-  writeDepthReport = (strcmp(writeDepth,"YES")==0);
-  return self;
-}
+
 /////////////////////////////////////////////////////////////////
 //
 // getWriteDepthReport
@@ -250,15 +263,7 @@ char **speciesColor;
 - (BOOL) getWriteDepthReport {
   return writeDepthReport;
 }
-/////////////////////////////////////////////////////////////////
-//
-// setWriteVelocityReport
-//
-//////////////////////////////////////////////////////////////
-- setWriteVelocityReport: (char *) writeVel {
-  writeVelocityReport = (strcmp(writeVel,"YES")==0);
-  return self;
-}
+
 /////////////////////////////////////////////////////////////////
 //
 // getWriteVelocityReport
@@ -267,15 +272,7 @@ char **speciesColor;
 - (BOOL) getWriteVelocityReport {
   return writeVelocityReport;
 }
-/////////////////////////////////////////////////////////////////
-//
-// setWriteDepthVelocityReport
-//
-//////////////////////////////////////////////////////////////
-- setWriteDepthVelocityReport: (char *) writeDepthVel {
-  writeDepthVelocityReport = (strcmp(writeDepthVel,"YES")==0);
-  return self;
-}
+
 /////////////////////////////////////////////////////////////////
 //
 // getWriteDepthVelocityReport
@@ -284,15 +281,7 @@ char **speciesColor;
 - (BOOL) getWriteDepthVelocityReport {
   return writeDepthVelocityReport;
 }
-/////////////////////////////////////////////////////////////////
-//
-// setWriteHabitatReport
-//
-//////////////////////////////////////////////////////////////
-- setWriteHabitatReport: (char *) writeHab {
-  writeHabitatReport = (strcmp(writeHab,"YES")==0);
-  return self;
-}
+
 /////////////////////////////////////////////////////////////////
 //
 // getWriteHabitatReport
@@ -301,15 +290,7 @@ char **speciesColor;
 - (BOOL) getWriteHabitatReport {
   return writeHabitatReport;
 }
-/////////////////////////////////////////////////////////////////
-//
-// setWriteMoveReport
-//
-//////////////////////////////////////////////////////////////
-- setWriteMoveReport: (char *) writeMove {
-  writeMoveReport = (strcmp(writeMove,"YES")==0);
-  return self;
-}
+
 /////////////////////////////////////////////////////////////////
 //
 // getWriteMoveReport
@@ -318,15 +299,7 @@ char **speciesColor;
 - (BOOL) getWriteMoveReport {
   return writeMoveReport;
 }
-/////////////////////////////////////////////////////////////////
-//
-// setWriteReadyToSpawnReport
-//
-//////////////////////////////////////////////////////////////
-- setWriteReadyToSpawnReport: (char *) writeReadyToSpawn {
-  writeReadyToSpawnReport = (strcmp(writeReadyToSpawn,"YES")==0);
-  return self;
-}
+
 /////////////////////////////////////////////////////////////////
 //
 // getWriteReadyToSpawnReport
@@ -335,15 +308,7 @@ char **speciesColor;
 - (BOOL) getWriteReadyToSpawnReport {
   return writeReadyToSpawnReport;
 }
-/////////////////////////////////////////////////////////////////
-//
-// setWriteSpawnCellReport
-//
-//////////////////////////////////////////////////////////////
-- setWriteSpawnCellReport: (char *) writeSpawnCell {
-  writeSpawnCellReport = (strcmp(writeSpawnCell,"YES")==0);
-  return self;
-}
+
 /////////////////////////////////////////////////////////////////
 //
 // getWriteSpawnCellReport
@@ -352,15 +317,7 @@ char **speciesColor;
 - (BOOL) getWriteSpawnCellReport {
   return writeSpawnCellReport;
 }
-/////////////////////////////////////////////////////////////////
-//
-// setWriteReddSurvReport
-//
-//////////////////////////////////////////////////////////////
-- setWriteReddSurvReport: (char *) writeReddSurv {
-  writeReddSurvReport = (strcmp(writeReddSurv,"YES")==0);
-  return self;
-}
+
 /////////////////////////////////////////////////////////////////
 //
 // getWriteReddSurvReport
@@ -369,15 +326,7 @@ char **speciesColor;
 - (BOOL) getWriteReddSurvReport {
   return writeReddSurvReport;
 }
-/////////////////////////////////////////////////////////////////
-//
-// setWriteCellFishReport
-//
-//////////////////////////////////////////////////////////////
-- setWriteCellFishReport: (char *) writeCellFish {
-  writeCellFishReport = (strcmp(writeCellFish,"YES")==0);
-  return self;
-}
+
 /////////////////////////////////////////////////////////////////
 //
 // getWriteCellFishReport
@@ -386,15 +335,7 @@ char **speciesColor;
 - (BOOL) getWriteCellFishReport {
   return writeCellFishReport;
 }
-/////////////////////////////////////////////////////////////////
-//
-// setWriteReddMortReport
-//
-//////////////////////////////////////////////////////////////
-- setWriteReddMortReport: (char *) writeReddMort {
-  writeReddMortReport = (strcmp(writeReddMort,"YES")==0);
-  return self;
-}
+
 /////////////////////////////////////////////////////////////////
 //
 // getWriteReddMortReport
@@ -403,15 +344,7 @@ char **speciesColor;
 - (BOOL) getWriteReddMortReport {
   return writeReddMortReport;
 }
-/////////////////////////////////////////////////////////////////
-//
-// setWriteIndividualFishReport
-//
-//////////////////////////////////////////////////////////////
-- setWriteIndividualFishReport: (char *) writeIndividualFish {
-  writeIndividualFishReport = (strcmp(writeIndividualFish,"YES")==0);
-  return self;
-}
+
 /////////////////////////////////////////////////////////////////
 //
 // getWriteIndividualFishReport
@@ -420,15 +353,7 @@ char **speciesColor;
 - (BOOL) getWriteIndividualFishReport {
   return writeIndividualFishReport;
 }
-/////////////////////////////////////////////////////////////////
-//
-// setWriteCellCentroidReport
-//
-//////////////////////////////////////////////////////////////
-- setWriteCellCentroidReport: (char *) writeCellCentroid {
-  writeCellCentroidReport = (strcmp(writeCellCentroid,"YES")==0);
-  return self;
-}
+
 /////////////////////////////////////////////////////////////////
 //
 // getWriteCellCentroidReport

@@ -601,19 +601,6 @@ Boston, MA 02111-1307, USA.
 
   subSwarm = [TroutObserverSwarm create: self];
 
-  subSwarm->writeFoodAvailabilityReport = "NO";
-  subSwarm->writeDepthReport = "NO";
-  subSwarm->writeVelocityReport = "NO";
-  subSwarm->writeHabitatReport = "NO";
-  subSwarm->writeDepthVelocityReport = "NO";
-  subSwarm->writeMoveReport = "NO";
-  subSwarm->writeReadyToSpawnReport = "NO";
-  subSwarm->writeSpawnCellReport = "NO";
-  subSwarm->writeReddSurvReport = "NO";
-  subSwarm->writeCellFishReport = "NO";
-  subSwarm->writeReddMortReport = "NO";
-  subSwarm->writeIndividualFishReport = "NO";
-
   [ObjectLoader load: subSwarm fromFileNamed: "Observer.Setup"];
 
   [parameterManager initializeModelFor: subSwarm

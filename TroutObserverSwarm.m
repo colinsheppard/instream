@@ -301,20 +301,6 @@ Boston, MA 02111-1307, USA.
   //troutModelSwarm->rasterResolutionY = rasterResolutionY;
   //troutModelSwarm->rasterColorVariable = rasterColorVariable;
 
-  [troutModelSwarm setWriteFoodAvailabilityReport: writeFoodAvailabilityReport];
-  [troutModelSwarm setWriteDepthReport: writeDepthReport];
-  [troutModelSwarm setWriteVelocityReport: writeVelocityReport];
-  [troutModelSwarm setWriteHabitatReport: writeHabitatReport];
-  [troutModelSwarm setWriteDepthVelocityReport: writeDepthVelocityReport];
-  [troutModelSwarm setWriteMoveReport: writeMoveReport];
-  [troutModelSwarm setWriteReadyToSpawnReport: writeReadyToSpawnReport];
-  [troutModelSwarm setWriteSpawnCellReport: writeSpawnCellReport];
-  [troutModelSwarm setWriteReddSurvReport: writeReddSurvReport];
-  [troutModelSwarm setWriteCellFishReport: writeCellFishReport];
-  [troutModelSwarm setWriteReddMortReport: writeReddMortReport];
-  [troutModelSwarm setWriteIndividualFishReport: writeIndividualFishReport];
-  [troutModelSwarm setWriteCellCentroidReport: writeCellCentroidReport];
-
   //
   // Instantiate the objects first;
   // this allows the experiment swarm to operate on 

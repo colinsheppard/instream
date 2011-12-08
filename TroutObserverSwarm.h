@@ -70,22 +70,6 @@ Boston, MA 02111-1307, USA.
 @public
   char*  takeRasterPictures;
 
-  char* writeFoodAvailabilityReport;
-  char* writeDepthReport;
-  char* writeVelocityReport;
-  char* writeDepthVelocityReport;
-  char* writeHabitatReport;
-  char* writeMoveReport;
-  char* writeReadyToSpawnReport;
-  char* writeSpawnCellReport;
-  char* writeReddSurvReport;
-  char* writeCellFishReport;
-  char* writeReddMortReport;
-  char* writeIndividualFishReport;
-  char* writeCellCentroidReport;
-
-
-
 @protected 
 
 //END VARIABLES INITIALIZED BY Observer.Setup

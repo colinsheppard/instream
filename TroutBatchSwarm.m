@@ -49,20 +49,6 @@ Boston, MA 02111-1307, USA.
   fprintf(stdout, "TroutBatchSwarm >>>> create >>>> BEGIN\n");
   fflush(0);
 
-  tbs->writeFoodAvailabilityReport = "NO";
-  tbs->writeDepthReport = "NO";
-  tbs->writeVelocityReport = "NO";
-  tbs->writeHabitatReport = "NO";
-  tbs->writeDepthVelocityReport = "NO";
-  tbs->writeMoveReport = "NO";
-  tbs->writeReadyToSpawnReport = "NO";
-  tbs->writeSpawnCellReport = "NO";
-  tbs->writeReddSurvReport = "NO";
-  tbs->writeCellFishReport = "NO";
-  tbs->writeReddMortReport = "NO";
-  tbs->writeIndividualFishReport = "NO";
-  tbs->writeCellCentroidReport = "NO";
-
   [ObjectLoader load: tbs fromFileNamed: "Observer.Setup"];
 
   fprintf(stdout, "TroutBatchSwarm >>>> create >>>> END\n");
@@ -130,20 +116,6 @@ Boston, MA 02111-1307, USA.
   //troutModelSwarm->rasterResolutionY = rasterResolutionY;
   //troutModelSwarm->rasterColorVariable = rasterColorVariable;
   
-  [troutModelSwarm setWriteFoodAvailabilityReport: writeFoodAvailabilityReport];
-  [troutModelSwarm setWriteDepthReport: writeDepthReport];
-  [troutModelSwarm setWriteVelocityReport: writeVelocityReport];
-  [troutModelSwarm setWriteHabitatReport: writeHabitatReport];
-  [troutModelSwarm setWriteDepthVelocityReport: writeDepthVelocityReport];
-  [troutModelSwarm setWriteMoveReport: writeMoveReport];
-  [troutModelSwarm setWriteReadyToSpawnReport: writeReadyToSpawnReport];
-  [troutModelSwarm setWriteSpawnCellReport: writeSpawnCellReport];
-  [troutModelSwarm setWriteReddSurvReport: writeReddSurvReport];
-  [troutModelSwarm setWriteCellFishReport: writeCellFishReport];
-  [troutModelSwarm setWriteReddMortReport: writeReddMortReport];
-  [troutModelSwarm setWriteIndividualFishReport: writeIndividualFishReport];
-  [troutModelSwarm setWriteCellCentroidReport: writeCellCentroidReport];
-
   //fprintf(stderr,"modelSetupFile = %s \n", modelSetupFile);
   //fflush(stderr);
 
