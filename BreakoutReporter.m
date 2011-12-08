@@ -1124,15 +1124,13 @@ with model input.
                       } //if useCSV
 
                       // And finally end the line
-                      fprintf(filePtr, "\n");                        }                           
+                      fprintf(filePtr, "\n");
 
                    }  //level5Ndx
                 }  //level4Ndx
              }  //level3Ndx
           }  //level2Ndx
-
-   //   } //while ndx
-
+       } //level1Ndx
 
       fflush(filePtr);
 
