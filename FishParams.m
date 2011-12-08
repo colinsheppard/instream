@@ -392,12 +392,7 @@ Boston, MA 02111-1307, USA.
 - (void) drop
 {
 
-  /*
-
-  commented out 12/21/2009 SKJ 
-  as in the debugged 4.2.1a code set
-
-  id <MapIndex> mapNdx = [(id <Map>) probeMap begin: scratchZone];
+  id <Index> mapNdx = [(id <Map>) probeMap begin: scratchZone];
   id aProbe = nil;
 
   [mapNdx setLoc: Start];
@@ -408,7 +403,7 @@ Boston, MA 02111-1307, USA.
   }
 
   [mapNdx drop];
-  */
+  
 
    [probeMap drop];
    probeMap = nil;
