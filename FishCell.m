@@ -2167,6 +2167,9 @@ Boston, MA 02111-1307, USA.
    [survMgrReddMap drop];
    survMgrReddMap = nil;
 
+   [velocityInterpolator drop];
+   [depthInterpolator drop];
+
    [super drop];
    self = nil;
 
