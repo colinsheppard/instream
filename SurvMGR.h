@@ -58,10 +58,6 @@ unsigned managerNdx;
 
 id <Zone> mgrZone;
 
-id <Symbol> ANIMAL;
-id <Symbol> HABITAT;
-
-
 
 //
 // myCurrentAnimal will change depending
@@ -120,9 +116,6 @@ char** formatString;
 
 - setTestOutputOnWithFileName: (char *) aFileName;
 
-- (id <Symbol>) getANIMALSYMBOL;
-- (id <Symbol>) getHABITATSYMBOL;
-
 - (int) getNumberOfProbs;
 - getHabitatObject;
 - getCurrentAnimal;
@@ -133,14 +126,14 @@ char** formatString;
    withIsStarvProb: (BOOL) isAStarvProb;
 
 - addBoolSwitchFuncToProbWithSymbol: (id <Symbol>) aProbSymbol
-          withInputObjectType: (id <Symbol>) objType
+          withInputObjectType: (BOOL) isAnimal
                withInputSelector: (SEL) aSelector
                   withYesValue: (double) aYesValue   //FIX
                    withNoValue: (double) aNoValue;
 
 
 - addLogisticFuncToProbWithSymbol: (id <Symbol>) aProbSymbol
-         withInputObjectType: (id <Symbol>) objType
+         withInputObjectType: (BOOL) isAnimal
               withInputSelector: (SEL) aSelector
                   withXValue1: (double) xValue1
                   withYValue1: (double) yValue1
@@ -155,12 +148,12 @@ char** formatString;
 
 - addCustomFuncToProbWithSymbol: (id <Symbol>) aProbSymbol
                   withClassName: (char *) className
-            withInputObjectType: (id <Symbol>) objType
+            withInputObjectType: (BOOL) isAnimal
               withInputSelector: (SEL) aObjSelector;
 
 
 - addObjectValueFuncToProbWithSymbol: (id <Symbol>) aProbSymbol
-                 withInputObjectType: (id <Symbol>) objType
+                 withInputObjectType: (BOOL) isAnimal
                    withInputSelector: (SEL) aObjSelector;
                   
 

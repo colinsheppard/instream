@@ -53,7 +53,7 @@ Boston, MA 02111-1307, USA.
 
   strncpy(fishParams->anInitString, "nil", 3);
   *(fishParams->anInitInt) = -LARGEINT;
-  *(fishParams->anInitFloat) = (double) -LARGEINT;
+  *(fishParams->anInitFloat) = (float) -LARGEINT;
   *(fishParams->anInitDouble) = (double) -LARGEINT;
 
   superClass = [[fishParams getClass] getSuperclass];
