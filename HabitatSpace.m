@@ -1795,10 +1795,12 @@ Boston, MA 02111-1307, USA.
 /////////////////////////////////////////////
 - outputCellCentroidRpt{
     FILE* fptr = NULL;
-    char* fileName = [self getReachName];
-    strcat(fileName,"_Cell_Centroids_Out.csv");
     id <ListIndex> ndx = nil;
     FishCell* fishCell = nil;
+    char* fileName = [habitatZone alloc: (strlen(reachName) + strlen("_Cell_Centroids_Out.csv") + 1)];
+
+    strcpy(fileName, reachName);
+    strcat(fileName, "_Cell_Centroids_Out.csv"); 
 
     const char* dataFmt = "%d,%f,%f\n";
 

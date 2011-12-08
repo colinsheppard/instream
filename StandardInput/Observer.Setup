@@ -11,7 +11,7 @@ rasterResolutionY           40
 maxShadeVelocity 	    100
 maxShadeDepth 	            250
 
-tagFishColor                 tomato
+tagFishColor                 Chartreuse
 tagCellColor                 DeepPink1
 dryCellColor                 white
 
@@ -27,15 +27,7 @@ writeReddSurvReport	      NO
 writeReddMortReport	      NO
 writeCellFishReport	      NO
 writeIndividualFishReport     NO
-writeCellCentroidReport	      NO
+writeCellCentroidReport	      YES
 
 @end
-
-
-
-
-@end
-
-
-
 
