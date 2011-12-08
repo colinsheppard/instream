@@ -21,7 +21,7 @@ Software changes include:
 
 5) The EcoSwarm BreakoutReporter that writes output files was modified to (a) produce output in .CSV format, and (b) write output in a format with fewer columns that is more convenient for analysis via Excel's "PivotTables" and statistical software.
 
-6) Optional output is now controlled via parameters in the Observer.Setup file instead of by code statements. Hence, optional output can be turned on and off without re-compiling the software.
+6) Optional output is now controlled via (optional) parameters in the Model.Setup file instead of by code statements. Hence, optional output can be turned on and off without re-compiling the software.
 
 7) A new optional output reports the state of each individual fish.
 
