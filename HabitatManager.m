@@ -420,19 +420,19 @@ Boston, MA 02111-1307, USA.
 
    if(aStartFlag == NO)
    {
-      if([model getWriteDepthReport]){
+      if([model getWriteDepthReport] == YES){
         [self printCellDepthReport];
       }
 
-      if([model getWriteVelocityReport]){
+      if([model getWriteVelocityReport] == YES){
         [self printCellVelocityReport];
       }
 
-      if([model getWriteHabitatReport]){
+      if([model getWriteHabitatReport] == YES){
         [self printHabitatReport];
       }
 
-      if([model getWriteDepthVelocityReport]){
+      if([model getWriteDepthVelocityReport] == YES){
         [self printCellAreaDepthVelocityRpt];
       }
 
