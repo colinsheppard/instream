@@ -44,9 +44,6 @@ Boston, MA 02111-1307, USA.
   aSurvMgr->managerNdx = anNdx++;
 
   aSurvMgr->mgrZone = [Zone create: aZone];
-  aSurvMgr->ANIMAL = [Symbol create: aSurvMgr->mgrZone setName: "ANIMAL"];
-  aSurvMgr->HABITAT = [Symbol create: aSurvMgr->mgrZone setName: "HABITAT"];
-
 
   aSurvMgr->starvSurvivalProb = nil;
   aSurvMgr->listOfSurvProbs = nil;
@@ -182,34 +179,6 @@ Boston, MA 02111-1307, USA.
 }
 
 
-- (id <Symbol>) getANIMALSYMBOL
-{
-
-   if(ANIMAL == nil)
-   {
-      fprintf(stderr,"ERROR: SurvMgr >>>> ANIMAL Symbol is nil\n");
-      fflush(0);
-      exit(1);
-   }
-
-   return ANIMAL;
-}
-
-- (id <Symbol>) getHABITATSYMBOL
-{
-
-   if(HABITAT == nil)
-   {
-      fprintf(stderr,"ERROR: SurvMgr >>>> HABITAT Symbol is nil\n");
-      fflush(0);
-      exit(1);
-   }
-
-
-   return HABITAT;
-}
-
-
 - (int) getNumberOfProbs
 {
   return numberOfProbs;
@@ -307,7 +276,7 @@ Boston, MA 02111-1307, USA.
 
 
 - addBoolSwitchFuncToProbWithSymbol: (id <Symbol>) aProbSymbol
-          withInputObjectType: (id <Symbol>) objType
+          withInputObjectType: (BOOL) isAnimal
                withInputSelector: (SEL) aSelector
                   withYesValue: (double) aYesValue
                    withNoValue: (double) aNoValue
@@ -329,19 +298,10 @@ Boston, MA 02111-1307, USA.
                                         withYesValue: aYesValue
                                          withNoValue: aNoValue];
 
-
-
-         if(objType == HABITAT)
-         {
-             [listOfHabitatUpdateFuncs addLast: aFunc];
-         }
-         else if(objType == ANIMAL)
-         {
+         if(isAnimal){
              [listOfAnimalUpdateFuncs addLast: aFunc];
-         }
-         else
-         {
-            break;  //an error occurred 
+	 }else{
+             [listOfHabitatUpdateFuncs addLast:  aFunc];
          }
 
          ERROR = FALSE;
@@ -366,7 +326,7 @@ Boston, MA 02111-1307, USA.
 
 
 - addLogisticFuncToProbWithSymbol: (id <Symbol>) aProbSymbol
-         withInputObjectType: (id <Symbol>) objType
+         withInputObjectType: (BOOL) isAnimal
               withInputSelector: (SEL) aSelector
                   withXValue1: (double) xValue1
                   withYValue1: (double) yValue1
@@ -388,24 +348,15 @@ Boston, MA 02111-1307, USA.
      {
 
         aFunc = [aProb createLogisticFuncWithInputMethod: aSelector
-                              withInputObjectType: objType
                                        andXValue1: xValue1
                                        andYValue1: yValue1
                                        andXValue2: xValue2
                                        andYValue2: yValue2];
 
-
-         if(objType == HABITAT)
-         {
-             [listOfHabitatUpdateFuncs addLast:  aFunc];
-         }
-         else if(objType == ANIMAL)
-         {
+         if(isAnimal){
              [listOfAnimalUpdateFuncs addLast: aFunc];
-         }
-         else
-         {
-            break;  //an error occurred 
+	 }else{
+             [listOfHabitatUpdateFuncs addLast:  aFunc];
          }
 
          ERROR = FALSE;
@@ -501,7 +452,7 @@ Boston, MA 02111-1307, USA.
 
 - addCustomFuncToProbWithSymbol: (id <Symbol>) aProbSymbol
                   withClassName: (char *) className
-            withInputObjectType: (id <Symbol>) objType
+            withInputObjectType: (BOOL) isAnimal
               withInputSelector: (SEL) anInputSelector
 {
 
@@ -518,20 +469,12 @@ Boston, MA 02111-1307, USA.
          id aFunc = nil;
 
          aFunc = [aProb createCustomFuncWithClassName: className
-                                       withInputSelector: anInputSelector
-                                     withInputObjectType: objType];
+                                       withInputSelector: anInputSelector];
 
-         if(objType == HABITAT)
-         {
-             [listOfHabitatUpdateFuncs addLast: aFunc];
-         }
-         else if(objType == ANIMAL)
-         {
+         if(isAnimal){
              [listOfAnimalUpdateFuncs addLast: aFunc];
-         }
-         else
-         {
-            break;  //an error occurred 
+	 }else{
+             [listOfHabitatUpdateFuncs addLast:  aFunc];
          }
 
          ERROR = FALSE;
@@ -559,7 +502,7 @@ Boston, MA 02111-1307, USA.
 
 
 - addObjectValueFuncToProbWithSymbol: (id <Symbol>) aProbSymbol
-                 withInputObjectType: (id <Symbol>) objType
+                 withInputObjectType: (BOOL) isAnimal
                    withInputSelector: (SEL) anObjSelector
 {
 
@@ -575,21 +518,12 @@ Boston, MA 02111-1307, USA.
      if(aProbSymbol == [aProb getProbSymbol])
      {
 
-        aFunc = [aProb createObjectValueFuncWithInputSelector: anObjSelector
-                                        withInputObjectType: objType];
+        aFunc = [aProb createObjectValueFuncWithInputSelector: anObjSelector];
 
-
-         if(objType == HABITAT)
-         {
-             [listOfHabitatUpdateFuncs addLast:  aFunc];
-         }
-         else if(objType == ANIMAL)
-         {
+         if(isAnimal){
              [listOfAnimalUpdateFuncs addLast: aFunc];
-         }
-         else
-         {
-            break;  //an error occurred 
+	 }else{
+             [listOfHabitatUpdateFuncs addLast:  aFunc];
          }
 
          ERROR = FALSE;
@@ -721,7 +655,7 @@ Boston, MA 02111-1307, USA.
       if(isnan(aSurvProb) || isinf(aSurvProb))
       {
          fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> aSurvProb = %f\n", aSurvProb);
-         fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> SurvivalProb = %s\n", [aProb getName]);
+         fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> SurvivalProb = %s\n", [[aProb getProbSymbol] getName]);
          fflush(0);
          exit(1);
       }
@@ -729,7 +663,7 @@ Boston, MA 02111-1307, USA.
       if(isnan(totalSurvivalProb) || isinf(totalSurvivalProb))
       {
          fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> totalSurvivalProb = %f\n", totalSurvivalProb);
-         fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> SurvivalProb = %s\n", [aProb getName]);
+         fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> SurvivalProb = %s\n", [[aProb getProbSymbol] getName]);
          fflush(0);
          exit(1);
       }
@@ -766,7 +700,7 @@ Boston, MA 02111-1307, USA.
       if(isnan(aSurvProb) || isinf(aSurvProb))
       {
          fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> getTotalKnownNonStarvSurvivalProbFor >>>> aSurvProb = %f\n", aSurvProb);
-         fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> getTotalKnownNonStarvSurvivalProbFor >>>> SurvivalProb = %s\n", [aProb getName]);
+         fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> getTotalKnownNonStarvSurvivalProbFor >>>> SurvivalProb = %s\n", [[aProb getProbSymbol] getName]);
          fflush(0);
          exit(1);
       }
@@ -774,7 +708,7 @@ Boston, MA 02111-1307, USA.
       if(isnan(totalKnownNonStarvSurvivalProb) || isinf(totalKnownNonStarvSurvivalProb))
       {
          fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> getTotalKnownNonStarvSurvivalProbFor >>>> totalKnownNonStarvSurvivalProb = %f\n", totalKnownNonStarvSurvivalProb);
-         fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> SurvivalProb = %s\n", [aProb getName]);
+         fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> SurvivalProb = %s\n", [[aProb getProbSymbol] getName]);
          fflush(0);
          exit(1);
       }
@@ -800,17 +734,45 @@ Boston, MA 02111-1307, USA.
 }
 
 
-
-
-
-
+/////////////////////////////////////////
+//
+// drop
+//
+////////////////////////////////////////
 
 - (void) drop
 {
-     [listOfSurvProbs deleteAll];
-     [mgrZone drop];
-     [super drop];
- 
+    [listOfSurvProbs deleteAll];
+    [listOfSurvProbs drop];
+    listOfSurvProbs = nil;
+    
+    [survProbLstNdx drop];
+    survProbLstNdx = nil;
+
+    if(listOfKnownNonStarvSurvProbs!=nil){
+      [listOfKnownNonStarvSurvProbs drop];
+      listOfKnownNonStarvSurvProbs = nil;
+    }
+
+    if(knownNonStarvSurvProbLstNdx!=nil){
+      [knownNonStarvSurvProbLstNdx drop];
+      knownNonStarvSurvProbLstNdx = nil;
+    }
+
+    if(listOfAnimalUpdateFuncs!=nil){
+      [listOfAnimalUpdateFuncs deleteAll];
+      [listOfAnimalUpdateFuncs drop];
+      listOfAnimalUpdateFuncs = nil;
+    }
+    if(listOfHabitatUpdateFuncs!=nil){
+      [listOfHabitatUpdateFuncs deleteAll];
+      [listOfHabitatUpdateFuncs drop];
+      listOfHabitatUpdateFuncs = nil;
+    }
+
+    [mgrZone drop];
+    [super drop];
+    self = nil;
 }
 
 
@@ -1019,7 +981,7 @@ Boston, MA 02111-1307, USA.
 
       while(([probLstNdx getLoc] != End) && ((aProb = [probLstNdx next]) != nil)) 
       {
-          char* aProbName = (char *) [aProb getName];
+          char* aProbName = (char *) [[aProb getProbSymbol] getName];
           size_t probNameLength;
           size_t minLength = 17;
           char aFormat[10];
