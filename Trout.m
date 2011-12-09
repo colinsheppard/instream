@@ -1980,7 +1980,7 @@ Boston, MA 02111-1307, USA.
        {
             if([dieDist getDoubleSample] > [aProb getSurvivalProb]) 
             {
-                 char* deathName = (char *) [aProb getName];
+                 char* deathName = (char *) [[aProb getProbSymbol] getName];
                  size_t strLen = strlen(deathName) + 1;
                  causeOfDeath = [aProb getProbSymbol];
                  deathCausedBy = (char *) [troutZone alloc: strLen*sizeof(char)];

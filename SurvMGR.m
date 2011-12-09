@@ -655,7 +655,7 @@ Boston, MA 02111-1307, USA.
       if(isnan(aSurvProb) || isinf(aSurvProb))
       {
          fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> aSurvProb = %f\n", aSurvProb);
-         fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> SurvivalProb = %s\n", [aProb getName]);
+         fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> SurvivalProb = %s\n", [[aProb getProbSymbol] getName]);
          fflush(0);
          exit(1);
       }
@@ -663,7 +663,7 @@ Boston, MA 02111-1307, USA.
       if(isnan(totalSurvivalProb) || isinf(totalSurvivalProb))
       {
          fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> totalSurvivalProb = %f\n", totalSurvivalProb);
-         fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> SurvivalProb = %s\n", [aProb getName]);
+         fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> SurvivalProb = %s\n", [[aProb getProbSymbol] getName]);
          fflush(0);
          exit(1);
       }
@@ -700,7 +700,7 @@ Boston, MA 02111-1307, USA.
       if(isnan(aSurvProb) || isinf(aSurvProb))
       {
          fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> getTotalKnownNonStarvSurvivalProbFor >>>> aSurvProb = %f\n", aSurvProb);
-         fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> getTotalKnownNonStarvSurvivalProbFor >>>> SurvivalProb = %s\n", [aProb getName]);
+         fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> getTotalKnownNonStarvSurvivalProbFor >>>> SurvivalProb = %s\n", [[aProb getProbSymbol] getName]);
          fflush(0);
          exit(1);
       }
@@ -708,7 +708,7 @@ Boston, MA 02111-1307, USA.
       if(isnan(totalKnownNonStarvSurvivalProb) || isinf(totalKnownNonStarvSurvivalProb))
       {
          fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> getTotalKnownNonStarvSurvivalProbFor >>>> totalKnownNonStarvSurvivalProb = %f\n", totalKnownNonStarvSurvivalProb);
-         fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> SurvivalProb = %s\n", [aProb getName]);
+         fprintf(stderr, "ERROR: Trout >>>> SurvMGR >>>> SurvivalProb = %s\n", [[aProb getProbSymbol] getName]);
          fflush(0);
          exit(1);
       }
@@ -981,7 +981,7 @@ Boston, MA 02111-1307, USA.
 
       while(([probLstNdx getLoc] != End) && ((aProb = [probLstNdx next]) != nil)) 
       {
-          char* aProbName = (char *) [aProb getName];
+          char* aProbName = (char *) [[aProb getProbSymbol] getName];
           size_t probNameLength;
           size_t minLength = 17;
           char aFormat[10];

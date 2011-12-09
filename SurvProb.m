@@ -120,7 +120,7 @@ Boston, MA 02111-1307, USA.
 
 - (const char *) getName
 {
-   return probName;
+  return [probSymbol getName];
 }
 
 
@@ -282,6 +282,13 @@ Boston, MA 02111-1307, USA.
 }
 
 
+- (void) drop {
+  //fprintf(stdout, "SurvProb >>>> drop BEGIN\n");
+  //fflush(0);
+  if(probName != nil)[scratchZone free: probName];
+  //fprintf(stdout, "SurvProb >>>> drop END\n");
+  //fflush(0);
+}
 
 
 @end
