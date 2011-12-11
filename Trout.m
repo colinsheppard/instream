@@ -311,10 +311,10 @@ Boston, MA 02111-1307, USA.
 
   if (age > 0)
   {
-  [aRaster fillRectangleX0: anX - 4 
-                  Y0: aY - 2 
-                  X1: anX + 4 
-                  Y1: aY + 2 
+  [aRaster fillRectangleX0: anX - (2 * age) 
+                  Y0: aY - age 
+                  X1: anX + (2 * age) 
+                  Y1: aY + age
            //    Width: 3 
                Color: myColor];  
   }
