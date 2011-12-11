@@ -67,19 +67,19 @@ Boston, MA 02111-1307, USA.
 
 - switchColorRepFor: aHabitatSpace;
 
-- (char *) getWriteFoodAvailabilityReport;
-- (char *) getWriteDepthReport;
-- (char *) getWriteVelocityReport;
-- (char *) getWriteDepthVelocityReport;
-- (char *) getWriteHabitatReport;
-- (char *) getWriteMoveReport;
-- (char *) getWriteReadyToSpawnReport;
-- (char *) getWriteSpawnCellReport;
-- (char *) getWriteReddSurvReport;
-- (char *) getWriteCellFishReport;
-- (char *) getWriteReddMortReport;
-- (char *) getWriteIndividualFishReport;
-- (char *) getWriteCellCentroidReport;
+- (BOOL) getWriteFoodAvailabilityReport;
+- (BOOL) getWriteDepthReport;
+- (BOOL) getWriteVelocityReport;
+- (BOOL) getWriteDepthVelocityReport;
+- (BOOL) getWriteHabitatReport;
+- (BOOL) getWriteMoveReport;
+- (BOOL) getWriteReadyToSpawnReport;
+- (BOOL) getWriteSpawnCellReport;
+- (BOOL) getWriteReddSurvReport;
+- (BOOL) getWriteCellFishReport;
+- (BOOL) getWriteReddMortReport;
+- (BOOL) getWriteIndividualFishReport;
+- (BOOL) getWriteCellCentroidReport;
 @end
 
 @class TroutModelSwarm;

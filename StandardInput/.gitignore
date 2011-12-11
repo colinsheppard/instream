@@ -5,3 +5,5 @@ instream
 *.Setup
 LFT_Output.rpt
 lowpop.Data
+massif*
+val*

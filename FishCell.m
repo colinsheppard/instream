@@ -1219,8 +1219,8 @@ Boston, MA 02111-1307, USA.
 
   [self addFish: aFish];
 
-  //  fprintf(stdout, "FishCell >>>> eatHere >>>> writeFoodAvailReport: %s \n",[[space getModel] getWriteFoodAvailabilityReport]);
-  //  fflush(0);
+    //fprintf(stdout, "FishCell >>>> eatHere >>>> writeFoodAvailReport: %s \n",([[space getModel] getWriteFoodAvailabilityReport])?"YES":"NO");
+    //fflush(0);
 
   if([[space getModel] getWriteFoodAvailabilityReport]){
     [self foodAvailAndConInCell: aFish];
@@ -1504,9 +1504,6 @@ Boston, MA 02111-1307, USA.
 
      [survMgrMap at: species  insert: survMgr];
 
-     ANIMAL = [survMgr getANIMALSYMBOL];
-     HABITAT = [survMgr getHABITATSYMBOL];
-
       //
       // High Temperature
       //
@@ -1517,7 +1514,7 @@ Boston, MA 02111-1307, USA.
                  withIsStarvProb: NO];
 
       [survMgr addLogisticFuncToProbWithSymbol: [model getFishMortalitySymbolWithName: "HighTemperature"] 
-                           withInputObjectType: HABITAT
+                           withInputObjectType: 0
                              withInputSelector: M(getTemperature)
                                    withXValue1: fishParams->mortFishHiTT9
                                    withYValue1: 0.9
@@ -1531,7 +1528,7 @@ Boston, MA 02111-1307, USA.
                  withIsStarvProb: NO];
 
       [survMgr addLogisticFuncToProbWithSymbol: [model getFishMortalitySymbolWithName: "Velocity"] 
-                           withInputObjectType: ANIMAL
+                           withInputObjectType: 1 
                              withInputSelector: M(getSwimSpeedMaxSwimSpeedRatio)
                                    withXValue1: fishParams->mortFishVelocityV9
                                    withYValue1: 0.9
@@ -1544,7 +1541,7 @@ Boston, MA 02111-1307, USA.
                  withIsStarvProb: NO];
 
       [survMgr addLogisticFuncToProbWithSymbol: [model getFishMortalitySymbolWithName: "Stranding"] 
-                           withInputObjectType: ANIMAL
+                           withInputObjectType: 1
                              withInputSelector: M(getDepthLengthRatioForCell)
                                    withXValue1: fishParams->mortFishStrandD1
                                    withYValue1: 0.1
@@ -1561,7 +1558,7 @@ Boston, MA 02111-1307, USA.
                 withIsStarvProb: YES];
 
      [survMgr addLogisticFuncToProbWithSymbol: [model getFishMortalitySymbolWithName: "PoorCondition"] 
-                          withInputObjectType: ANIMAL
+                          withInputObjectType: 1
                             withInputSelector: M(getFishCondition)
                                   withXValue1: fishParams->mortFishConditionK1
                                   withYValue1: 0.1
@@ -1581,7 +1578,7 @@ Boston, MA 02111-1307, USA.
                           withValue: fishParams->mortFishTerrPredMin];
 
      [survMgr addLogisticFuncToProbWithSymbol: [model getFishMortalitySymbolWithName: "TerrestialPredation"] 
-                          withInputObjectType: HABITAT
+                          withInputObjectType: 0
                             withInputSelector: M(getPolyCellDepth)
                                   withXValue1: fishParams->mortFishTerrPredD1
                                   withYValue1: 0.1
@@ -1589,7 +1586,7 @@ Boston, MA 02111-1307, USA.
                                   withYValue2: 0.9];
 
      [survMgr addLogisticFuncToProbWithSymbol: [model getFishMortalitySymbolWithName: "TerrestialPredation"] 
-                          withInputObjectType: HABITAT
+                          withInputObjectType: 0
                             withInputSelector: M(getTurbidity)
                                   withXValue1: fishParams->mortFishTerrPredT1
                                   withYValue1: 0.1
@@ -1597,7 +1594,7 @@ Boston, MA 02111-1307, USA.
                                   withYValue2: 0.9];
 
      [survMgr addLogisticFuncToProbWithSymbol: [model getFishMortalitySymbolWithName: "TerrestialPredation"] 
-                          withInputObjectType: ANIMAL
+                          withInputObjectType: 1
                             withInputSelector: M(getFishLength)
                                   withXValue1: fishParams->mortFishTerrPredL9
                                   withYValue1: 0.9
@@ -1605,7 +1602,7 @@ Boston, MA 02111-1307, USA.
                                   withYValue2: 0.1];
 
      [survMgr addLogisticFuncToProbWithSymbol: [model getFishMortalitySymbolWithName: "TerrestialPredation"] 
-                          withInputObjectType: ANIMAL
+                          withInputObjectType: 1
                             withInputSelector: M(getFeedTimeForCell)
                                   withXValue1: fishParams->mortFishTerrPredF9
                                   withYValue1: 0.9
@@ -1613,7 +1610,7 @@ Boston, MA 02111-1307, USA.
                                   withYValue2: 0.1];
 
      [survMgr addLogisticFuncToProbWithSymbol: [model getFishMortalitySymbolWithName: "TerrestialPredation"] 
-                          withInputObjectType: HABITAT
+                          withInputObjectType: 0
                             withInputSelector: M(getPolyCellVelocity)
                                   withXValue1: fishParams->mortFishTerrPredV1
                                   withYValue1: 0.1
@@ -1621,7 +1618,7 @@ Boston, MA 02111-1307, USA.
                                   withYValue2: 0.9];
 
      [survMgr addLogisticFuncToProbWithSymbol: [model getFishMortalitySymbolWithName: "TerrestialPredation"] 
-                          withInputObjectType: HABITAT
+                          withInputObjectType: 0
                             withInputSelector: M(getDistanceToHide)
                                   withXValue1: fishParams->mortFishTerrPredH9
                                   withYValue1: 0.9
@@ -1645,7 +1642,7 @@ Boston, MA 02111-1307, USA.
                           withValue: fishParams->mortFishAqPredMin];
 
      [survMgr addLogisticFuncToProbWithSymbol: [model getFishMortalitySymbolWithName: "AquaticPredation"] 
-                          withInputObjectType: HABITAT
+                          withInputObjectType: 0
                             withInputSelector: M(getPolyCellDepth)
                                   withXValue1: fishParams->mortFishAqPredD9
                                   withYValue1: 0.9
@@ -1655,7 +1652,7 @@ Boston, MA 02111-1307, USA.
 
 
      [survMgr addLogisticFuncToProbWithSymbol: [model getFishMortalitySymbolWithName: "AquaticPredation"] 
-                          withInputObjectType: ANIMAL
+                          withInputObjectType: 1
                             withInputSelector: M(getFishLength)
                                   withXValue1: fishParams->mortFishAqPredL1
                                   withYValue1: 0.1
@@ -1664,7 +1661,7 @@ Boston, MA 02111-1307, USA.
 
 
      [survMgr addLogisticFuncToProbWithSymbol: [model getFishMortalitySymbolWithName: "AquaticPredation"] 
-                          withInputObjectType: ANIMAL
+                          withInputObjectType: 1
                             withInputSelector: M(getFeedTimeForCell)
                                   withXValue1: fishParams->mortFishAqPredF9
                                   withYValue1: 0.9
@@ -1672,7 +1669,7 @@ Boston, MA 02111-1307, USA.
                                   withYValue2: 0.1];
 
      [survMgr addLogisticFuncToProbWithSymbol: [model getFishMortalitySymbolWithName: "AquaticPredation"] 
-                          withInputObjectType: HABITAT
+                          withInputObjectType: 0
                             withInputSelector: M(getPiscivorousFishDensity)
                                   withXValue1: fishParams->mortFishAqPredP9
                                   withYValue1: 0.9
@@ -1681,7 +1678,7 @@ Boston, MA 02111-1307, USA.
 
 
      [survMgr addLogisticFuncToProbWithSymbol: [model getFishMortalitySymbolWithName: "AquaticPredation"] 
-                          withInputObjectType: HABITAT
+                          withInputObjectType: 0
                             withInputSelector: M(getTurbidity)
                                   withXValue1: fishParams->mortFishAqPredU1
                                   withYValue1: 0.1
@@ -1690,7 +1687,7 @@ Boston, MA 02111-1307, USA.
 
 
      [survMgr addLogisticFuncToProbWithSymbol: [model getFishMortalitySymbolWithName: "AquaticPredation"] 
-                          withInputObjectType: HABITAT
+                          withInputObjectType: 0
                             withInputSelector: M(getTemperature)
                                   withXValue1: fishParams->mortFishAqPredT9
                                   withYValue1: 0.9
@@ -1718,9 +1715,6 @@ Boston, MA 02111-1307, USA.
 
      [survMgrReddMap at: species insert: survMgr];
 
-     ANIMAL = [survMgr getANIMALSYMBOL];
-     HABITAT = [survMgr getHABITATSYMBOL];
-
     //
     // Dewatering
     //
@@ -1730,7 +1724,7 @@ Boston, MA 02111-1307, USA.
                withIsStarvProb: NO];
 
     [survMgr addBoolSwitchFuncToProbWithSymbol: [model getReddMortalitySymbolWithName: "ReddDewater"]
-                           withInputObjectType: HABITAT
+                           withInputObjectType: 0
                              withInputSelector: M(isDepthGreaterThan0)
                                   withYesValue: 1.0
 		                   withNoValue: fishParams->mortReddDewaterSurv];
@@ -1747,7 +1741,7 @@ Boston, MA 02111-1307, USA.
    
      [survMgr addCustomFuncToProbWithSymbol: [model getReddMortalitySymbolWithName: "ReddScour"] 
                               withClassName: "ReddScourFunc"
-                        withInputObjectType: ANIMAL
+                        withInputObjectType: 1
                           withInputSelector: M(getCell)];
 
 
@@ -1761,7 +1755,7 @@ Boston, MA 02111-1307, USA.
 
 
      [survMgr addLogisticFuncToProbWithSymbol: [model getReddMortalitySymbolWithName: "LowTemperature"] 
-                          withInputObjectType: HABITAT
+                          withInputObjectType: 0
                             withInputSelector: M(getTemperature)
                                   withXValue1: fishParams->mortReddLoTT1
                                   withYValue1: 0.1
@@ -1781,7 +1775,7 @@ Boston, MA 02111-1307, USA.
 
 
      [survMgr addLogisticFuncToProbWithSymbol: [model getReddMortalitySymbolWithName: "HighTemperature"] 
-                          withInputObjectType: HABITAT
+                          withInputObjectType: 0
                             withInputSelector: M(getTemperature)
                                   withXValue1: fishParams->mortReddHiTT9
                                   withYValue1: 0.9
@@ -1800,7 +1794,7 @@ Boston, MA 02111-1307, USA.
    
       [survMgr addCustomFuncToProbWithSymbol: [model getReddMortalitySymbolWithName: "ReddSuperimp"] 
                                withClassName: "ReddSuperimpFunc"
-                         withInputObjectType: ANIMAL
+                         withInputObjectType: 1
                            withInputSelector: M(getCell)];
 
 
@@ -2173,6 +2167,9 @@ Boston, MA 02111-1307, USA.
    [survMgrReddMap deleteAll];
    [survMgrReddMap drop];
    survMgrReddMap = nil;
+
+   [velocityInterpolator drop];
+   [depthInterpolator drop];
 
    [super drop];
    self = nil;

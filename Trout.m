@@ -970,12 +970,12 @@ Boston, MA 02111-1307, USA.
   }
   //fprintf(stdout,"Trout >>>> spawn >>>> isFemaleReadyToSpawn = %d\n",[self isFemaleReadyToSpawn]);
   if([self isFemaleReadyToSpawn] == NO){
-    if([model getWriteReadyToSpawnReport]){
+    if([model getWriteReadyToSpawnReport] == YES){
       [self printReadyToSpawnRpt: NO];
     }
     return self;
   }
-  if([model getWriteReadyToSpawnReport]){
+  if([model getWriteReadyToSpawnReport] == YES){
       [self printReadyToSpawnRpt: YES];
   }
   if((spawnCell = [self findCellForNewRedd]) == nil) {
@@ -1247,7 +1247,7 @@ Boston, MA 02111-1307, USA.
   [myCell getNeighborsWithin: maxMoveDistance
                     withList: potentialReddCells]; 
 
-  if([model getWriteSpawnCellReport]){
+  if([model getWriteSpawnCellReport] == YES){
      [self printSpawnCellRpt: potentialReddCells];
   }
 
@@ -1720,7 +1720,7 @@ Boston, MA 02111-1307, USA.
    prevReach = reach;
 
   //PRINT THE MOVE REPORT
-  if([model getWriteMoveReport]){
+  if([model getWriteMoveReport] == YES){
     [self moveReport: bestDest];
   }
 
@@ -1980,7 +1980,7 @@ Boston, MA 02111-1307, USA.
        {
             if([dieDist getDoubleSample] > [aProb getSurvivalProb]) 
             {
-                 char* deathName = (char *) [aProb getName];
+                 char* deathName = (char *) [[aProb getProbSymbol] getName];
                  size_t strLen = strlen(deathName) + 1;
                  causeOfDeath = [aProb getProbSymbol];
                  deathCausedBy = (char *) [troutZone alloc: strLen*sizeof(char)];

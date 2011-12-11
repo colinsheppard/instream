@@ -503,7 +503,7 @@ char **speciesColor;
 
   [habitatManager buildObjects];
   
-  if(writeCellFishReport){
+  if(writeCellFishReport == YES){
       [habitatManager buildHabSpaceCellFishInfoReporter];
   }
 
@@ -562,10 +562,10 @@ char **speciesColor;
   reddBinomialDist = [BinomialDist create: modelZone setGenerator: randGen];
 
   [self openReddSummaryFilePtr];
-  if(writeReddMortReport){
+  if(writeReddMortReport == YES){
     [self openReddReportFilePtr];
   }
-  if(writeIndividualFishReport){
+  if(writeIndividualFishReport == YES){
     [self openIndividualFishReportFilePtr];
   }
 
@@ -1367,7 +1367,7 @@ char **speciesColor;
   reddActions = [ActionGroup createBegin: modelZone];
   reddActions = [reddActions createEnd];
 
-  if(writeCellFishReport){
+  if(writeCellFishReport == YES){
       printCellFishAction = [ActionGroup createBegin: modelZone];
       printCellFishAction = [printCellFishAction createEnd];
   }
@@ -1418,7 +1418,7 @@ char **speciesColor;
                message: M(emerge)];
 
 
-  if(writeCellFishReport){
+  if(writeCellFishReport == YES){
       [printCellFishAction createActionTo: habitatManager message: M(outputCellFishInfoReport)];
   }
 
@@ -1447,7 +1447,7 @@ char **speciesColor;
   [printSchedule setRepeatInterval: fileOutputFrequency];
   printSchedule = [printSchedule createEnd];
   [printSchedule createActionTo: self message: M(outputBreakoutReports)];
-  if(writeCellFishReport){
+  if(writeCellFishReport == YES){
      [printSchedule createAction: printCellFishAction];
   }
 
@@ -1612,7 +1612,7 @@ char **speciesColor;
   if(simCounter >= numSimDays){
     STOP = YES;
 
-    if(writeReddSurvReport){
+    if(writeReddSurvReport == YES){
       [self printReddSurvReport];
     }
     [self writeLFTOutput];
@@ -2844,7 +2844,7 @@ char **speciesColor;
 
    [deadFish deleteAll];
    
-   if(writeIndividualFishReport){
+   if(writeIndividualFishReport == YES){
       [self printIndividualFishReport];
    }
 
@@ -3258,7 +3258,7 @@ char **speciesColor;
      [updateLFTAction drop];
      updateLFTAction = nil;
 
-    if(writeCellFishReport){
+    if(writeCellFishReport == YES){
        [printCellFishAction drop];
        printCellFishAction = nil;
     }
