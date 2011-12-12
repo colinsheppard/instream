@@ -426,8 +426,6 @@ Boston, MA 02111-1307, USA.
       minDisplayX = (minDisplayX < ppDisplayX) ? minDisplayX : ppDisplayX;
       minDisplayY = (minDisplayY < ppDisplayY) ? minDisplayY : ppDisplayY;
   }
-  [ndx drop];
-  ndx = nil;
 
   pixelCount = 0;
   for(aDisplayX = minDisplayX; aDisplayX <= maxDisplayX; aDisplayX++)
@@ -464,11 +462,34 @@ Boston, MA 02111-1307, USA.
              }
          }
      }
-   }
+   }  // if(pixelCount
+
+   else   // Zero pixels; possible for small cells and high resolution
+   {      // So at least make each corner a pixel.
+     pixelCount = [polyPointList getCount];
+     polyCellPixels = (PolyPixelCoord **) [cellZone alloc: pixelCount * sizeof(PolyPixelCoord *)];
+
+     [ndx setLoc: Start];
+     i = 0;
+     while(([ndx getLoc] != End) && ((polyPoint = [ndx next]) != nil))
+     {
+        long int ppDisplayX = [polyPoint getDisplayX];
+        long int ppDisplayY = [polyPoint getDisplayY];
   
-  //fprintf(stdout, "PolyCell >>>> createPolyCellPixels >>>> END\n");
+        polyCellPixels[i] = (PolyPixelCoord *) [cellZone alloc: sizeof(PolyPixelCoord)];
+  
+        polyCellPixels[i]->pixelX = ppDisplayX;
+        polyCellPixels[i]->pixelY = ppDisplayY;
+        i++;
+     } // while
+   }   // else zero pixels
+  
+  //fprintf(stdout, "PolyCell >>>> createPolyCellPixels >>>> created %d pixels\n",pixelCount);
   //fflush(0);
   
+  [ndx drop];
+  ndx = nil;
+
   return self;
 } 
 
