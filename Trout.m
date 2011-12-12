@@ -340,9 +340,9 @@ Boston, MA 02111-1307, USA.
 /////////////////////////////////////////////////////////////////////
 - tagFish 
 {
-  fprintf(stdout, "Trout >>>> tagFish >>>> BEGIN\n");
-  fprintf(stdout, "Trout >>>> tagFish >>>> trout = %p\n", self);
-  fflush(0);
+  //fprintf(stdout, "Trout >>>> tagFish >>>> BEGIN\n");
+  //fprintf(stdout, "Trout >>>> tagFish >>>> trout = %p\n", self);
+  //fflush(0);
 
   if(reach == nil)
   {
@@ -354,9 +354,9 @@ Boston, MA 02111-1307, USA.
   [self setFishColor: (Color) TAG_FISH_COLOR];
   [model updateTkEventsFor: reach];
 
-  fprintf(stdout, "Trout >>>> tagFish >>>> trout = %p\n", self);
-  fprintf(stdout, "Trout >>>> tagFish >>>> END\n");
-  fflush(0);
+  //fprintf(stdout, "Trout >>>> tagFish >>>> trout = %p\n", self);
+  //fprintf(stdout, "Trout >>>> tagFish >>>> END\n");
+  //fflush(0);
   return self;
 }
 
