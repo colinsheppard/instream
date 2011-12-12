@@ -1,3 +1,6 @@
+# Example trout parameter file for inSTREAM 5.0
+# These parameters represent relatively small stream trout
+
 @begin
 
 fishCaptureParam1                  1.6

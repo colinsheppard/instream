@@ -1,4 +1,4 @@
-Reach.Setup file.  Example for inSTREAM 4.5   SFR 12/20/2010
+Reach.Setup file.  Example for inSTREAM 5.0
 Provide one block of setup information for each reach:
 Reach name, parameter file name, junction numbers, and input file names.
 
@@ -14,9 +14,9 @@ habUpstreamJunctionNumber         1
 cellGeomFile                      ExampleSiteA-Geom.Data
 cellHydraulicFile                 ExampleSiteA-Hyd.csv
 flowFile                          ExampleFlowInput.csv
-temperatureFile                   ExampleSiteTemp.csv
-turbidityFile                     ExampleSiteTurb.csv
-cellHabVarsFile                   ExampleSiteA-Cell.Data
+temperatureFile                   ExampleTemperatureInput.csv
+turbidityFile                     ExampleTurbidityInput.csv
+cellHabVarsFile                   ExampleSiteA-Cell.csv
 
 REACHEND
 
@@ -32,9 +32,9 @@ habUpstreamJunctionNumber         2
 cellGeomFile                      ExampleSiteC-Geom.Data
 cellHydraulicFile                 ExampleSiteC-Hyd.csv
 flowFile                          ExampleFlowInput.csv
-temperatureFile                   ExampleSiteTemp.csv
-turbidityFile                     ExampleSiteTurb.csv
-cellHabVarsFile                   ExampleSiteC-Cell.Data
+temperatureFile                   ExampleTemperatureInput.csv
+turbidityFile                     ExampleTurbidityInput.csv
+cellHabVarsFile                   ExampleSiteC-Cell.csv
 
 REACHEND
 

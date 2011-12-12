@@ -1,19 +1,19 @@
 @begin
-#
+# Observer setup file for inSTREAM 5.0
 # Make sure there are no trailing spaces
 # following text input!
 #
 
 rasterColorVariable         velocity
 takeRasterPictures          NO
+
 rasterResolutionX           40
 rasterResolutionY           40
-maxShadeVelocity 	    100
-maxShadeDepth 	            250
+maxShadeVelocity 	          100
+maxShadeDepth 	          250
 
-tagFishColor                 Chartreuse
-tagCellColor                 DeepPink1
-dryCellColor                 white
+tagFishColor                tomato
+tagCellColor                DeepPink1
+dryCellColor                white
 
 @end
-

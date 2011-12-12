@@ -1,3 +1,6 @@
+# Habitat parameters for example site C
+# inSTREAM 5.0
+
 @begin
 habDriftConc               6.50E-10
 habDriftRegenDist              1000
