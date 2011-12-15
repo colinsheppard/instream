@@ -172,6 +172,9 @@ Boston, MA 02111-1307, USA.
   id habitatSetup = nil;
   int habIndex = -1;
 
+  int reachReadState = 0; // 0 before a REACHBEGIN is encountered, 
+			  // 1 if REACHBEGIN has been encountered
+
   fprintf(stdout, "HabitatManager >>>> readReachSetupFile >>>> BEGIN\n");
   fflush(0);
   
@@ -188,6 +191,13 @@ Boston, MA 02111-1307, USA.
 
   while(fscanf(reachFilePtr,"%s", reachVarName) != EOF){
     if(strcmp(reachVarName, "REACHBEGIN") == 0){
+      if(reachReadState==1){ // we hit a new REACHBEGIN before hitting REACHEND
+        fprintf(stderr, "ERROR: HabitatManager >>>> Unexpected REACHBEGIN found in Reach.Setup, was expecting a REACHEND \n" );
+        fflush(0);
+        exit(1);
+      }else{
+	reachReadState = 1;
+      }
        //fprintf(stdout, "HABITATMANAGER >>>> if reach begin >>>>\n");
        //fflush(0);
        habitatSetup = [HabitatSetup createBegin: habManagerZone]; 
@@ -199,7 +209,10 @@ Boston, MA 02111-1307, USA.
        continue;
     }
     if(strcmp(reachVarName, "REACHEND") == 0){
-       continue;
+      reachReadState = 0;
+    }
+    if(reachReadState==0){
+      continue;
     }
     if(fscanf(reachFilePtr,"%s", reachVar) == EOF){
         fprintf(stderr, "ERROR: HabitatManager >>>> End of file >>>> Please check the Habitat Manager Setup file\n");
@@ -284,6 +297,12 @@ Boston, MA 02111-1307, USA.
     //fflush(0);
   }
   fclose(reachFilePtr);
+
+  if(reachReadState==1){ // we ended the file without hitting REACHEND
+    fprintf(stderr, "ERROR: HabitatManager >>>> Unexpected end of file Reach.Setup, was expecting a REACHEND \n");
+    fflush(0);
+    exit(1);
+  }
 
   numHabitatSpaces = [habitatSetupList getCount];
 
