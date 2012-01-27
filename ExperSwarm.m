@@ -309,8 +309,8 @@ Boston, MA 02111-1307, USA.
                        paramType = _C_INT;
                    }else if(strcmp(valueType, "BOOL") == 0) {
                        int i;
-                       if(strcmp(value, "NO") == 0) i = (BOOL) 0;
-                       if(strcmp(value, "YES")  == 0) i = (BOOL) 1;
+                       if(strcmp(value, "0") == 0) i = (BOOL) 0;
+                       if(strcmp(value, "1")  == 0) i = (BOOL) 1;
                        aValue = (void *) &i;   
                        paramType = _C_UCHR;
                     }else if(strcmp(valueType, "float") == 0) {
@@ -1069,7 +1069,7 @@ Boston, MA 02111-1307, USA.
 
         ERROR = YES;
    
-        if((strncmp(varValue, "YES", strlen("YES")) == 0) || (strncmp(varValue, "NO", strlen("NO")) == 0))
+        if((strncmp(varValue, "1", strlen("1")) == 0) || (strncmp(varValue, "0", strlen("0")) == 0))
         {
             ERROR = NO;
         }
