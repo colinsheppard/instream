@@ -3141,8 +3141,8 @@ char **speciesColor;
 //////////////////////////////////////////////////////////
 - (void) drop 
 {
-  //fprintf(stderr, "TroutModelSwarm >>>> drop >>>> BEGIN\n");
-  //fflush(0);
+//  fprintf(stderr, "TroutModelSwarm >>>> drop >>>> BEGIN\n");
+//  fflush(0);
 
   if(reddSummaryFilePtr != NULL){
       fclose(reddSummaryFilePtr);
@@ -3151,9 +3151,6 @@ char **speciesColor;
       fclose(reddRptFilePtr);
   }
   if(timeManager){
-    //  fprintf(stderr, "TroutModelSwarm >>>> drop >>>> dropping timeManager\n");
-    //  fflush(0);
-
       [timeManager drop];
       timeManager = nil;
   }
@@ -3181,8 +3178,6 @@ char **speciesColor;
   }
   if(modelZone != nil){
       int speciesIDX = 0;
-      //fprintf(stderr, "TroutModelSwarm >>>> drop >>>> dropping objects in  modelZone >>>> BEGIN\n");
-      //fflush(0);
  
       [modelZone free: mySpecies];
       [modelZone free: modelDate];
@@ -3215,13 +3210,6 @@ char **speciesColor;
      //
      // End drop interpolation tables
      //
-    //fprintf(stdout, "After drop interpolationTables\n");
-    //fflush(0);
-
-
-    //fprintf(stdout, "Before drop capture logistic\n");
-    //fflush(0);
-     //
      // drop capture logistics
      //
     [captureLogisticMap deleteAll];
@@ -3230,8 +3218,6 @@ char **speciesColor;
      //
      // drop capture logistics
      //
-    //fprintf(stdout, "After drop capture logistic\n");
-    //fflush(0);
 
      [mortalityCountLstNdx drop];
      mortalityCountLstNdx = nil;
@@ -3283,7 +3269,6 @@ char **speciesColor;
      [killedFish deleteAll];
      [killedFish drop];
      killedFish = nil;
-
 
      [reddRemovedList deleteAll];
      [reddRemovedList drop];
@@ -3346,14 +3331,14 @@ char **speciesColor;
      [modelZone drop];
      modelZone = nil;
 
-     //fprintf(stdout, "TroutModelSwarm >>>> drop >>>> dropping modelZone >>>> END\n");
-     //fflush(0);
+//     fprintf(stdout, "TroutModelSwarm >>>> drop >>>> dropping modelZone >>>> END\n");
+//     fflush(0);
   }
   
   [super drop];
 
-  //fprintf(stdout, "TroutModelSwarm >>>> drop >>>> END\n");
-  //fflush(0);
+//  fprintf(stdout, "TroutModelSwarm >>>> drop >>>> END\n");
+//  fflush(0);
 
   //exit(0);
 
@@ -3471,14 +3456,14 @@ char **speciesColor;
          [catC drop];
     }
 
-    fprintf(zout, "TroutModelSwarm >>>> outputModelZone >>>> END\n\n\n");
-    fflush(0);
+//    fprintf(zout, "TroutModelSwarm >>>> outputModelZone >>>> END\n\n\n");
+//    fflush(0);
     fclose(zout);
 
 
 
-    fprintf(stdout, "TroutModelSwarm >>>> outputModelZone >>>> END\n\n\n");
-    fflush(0);
+//    fprintf(stdout, "TroutModelSwarm >>>> outputModelZone >>>> END\n\n\n");
+//    fflush(0);
 
 
    return self;

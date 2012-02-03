@@ -240,13 +240,21 @@ Boston, MA 02111-1307, USA.
 
 - (void) drop
 {
+  int i;
+  int* simYear;
+
+//  fprintf(stdout, "YearShuffler >>>> drop >>>> BEGIN");
+//  fflush(0);
+
    if(listOfRandomizedYears != nil)
    {
-       [listOfRandomizedYears deleteAll];
+       for(i=0; i< [listOfRandomizedYears getCount]; i++){
+         simYear = (int *) [listOfRandomizedYears atOffset: i];
+         [ysZone free: simYear];
+       }
        [listOfRandomizedYears drop];
        listOfRandomizedYears = nil;
    }
-
    if(randGen != nil)
    {
       [randGen drop];
@@ -258,6 +266,8 @@ Boston, MA 02111-1307, USA.
        [ysZone drop];
        ysZone = nil;
    }
+  //fprintf(stdout, "YearShuffler >>>> drop >>>> END");
+  //fflush(0);
    
 }
 @end

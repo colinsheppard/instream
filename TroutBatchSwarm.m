@@ -220,14 +220,16 @@ Boston, MA 02111-1307, USA.
 - (void) drop 
 {
 
- // fprintf(stderr,"TroutBatchSwarm >>>> drop >>>> BEGIN\n");
- // fflush(stderr);
+//  fprintf(stderr,"TroutBatchSwarm >>>> drop >>>> BEGIN\n");
+//  fflush(stderr);
 
   if(troutModelSwarm != nil) 
   {
       [troutModelSwarm drop];
       troutModelSwarm = nil;
   }
+//  fprintf(stderr,"TroutBatchSwarm >>>> drop >>>> after troutModelSwarm drop\n");
+//  fflush(stderr);
 
   if(obsZone) 
   {
@@ -235,11 +237,13 @@ Boston, MA 02111-1307, USA.
       obsZone = nil;
   }
 
+//  fprintf(stderr,"TroutBatchSwarm >>>> drop >>>> after after obsZone drop\n");
+//  fflush(stderr);
 
   [super drop];
 
- // fprintf(stderr,"TroutBatchSwarm >>>> drop >>>> END\n");
- // fflush(stderr);
+//  fprintf(stderr,"TroutBatchSwarm >>>> drop >>>> END\n");
+//  fflush(stderr);
 }
 
 
