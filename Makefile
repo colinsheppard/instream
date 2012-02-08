@@ -22,8 +22,6 @@ OBJECTS=Trout.o \
         TroutBatchSwarm.o \
 \
         Cutthroat.o \
-        Spawner.o \
-        Steelhead.o \
 \
         HabitatManager.o \
         HabitatSetup.o \
@@ -67,7 +65,7 @@ OBJECTS=Trout.o \
 	KDTree.o
 
 
-OTHERCLEAN= instream-2d.exe.core instream-2d.exe unhappiness.output
+OTHERCLEAN= instream.exe.core instream.exe unhappiness.output
 
 include $(SWARMHOME)/etc/swarm/Makefile.appl
 
@@ -78,7 +76,7 @@ SurvivalProb.o: SurvivalProb.[hm] globals.h DEBUGFLAGS.h
 HabitatSpace.o: HabitatSpace.[hm] globals.h DEBUGFLAGS.h
 FishParams.o: FishParams.[hm] DEBUGFLAGS.h
 TroutModelSwarm.o: TroutModelSwarm.[hm] globals.h Cutthroat.h \
-	HabitatSpace.h FishParams.h SpawnerParams.h DEBUGFLAGS.h
+	HabitatSpace.h FishParams.h DEBUGFLAGS.h
 TroutObserverSwarm.o: TroutObserverSwarm.[hm] TroutModelSwarm.h  globals.h
 SearchElement.o: SearchElement.[hm]
 ScenarioIterator.o: ScenarioIterator.[hm] SearchElement.h
@@ -90,14 +88,9 @@ ExperBatchSwarm.o : ExperBatchSwarm.[hm]
 TroutBatchSwarm.o : TroutBatchSwarm.[hm]
 #
 Cutthroat.o : Cutthroat.[hm] DEBUGFLAGS.h
-Spawner.o : Spawner.[hm] DEBUGFLAGS.h
-Steelhead.o : Steelhead.[hm] DEBUGFLAGS.h
 #
 HabitatManager.o : HabitatManager.[hm]
 HabitatSetup.o : HabitatSetup.[hm]
-#
-#TroutOutputLive.o : TroutOutputLive.[hm]
-#TroutOutputDead.o : TroutOutputDead.[hm]
 #
 SurvProb.o : SurvProb.[hm]
 SingleFuncProb.o : SingleFuncProb.[hm] globals.h
