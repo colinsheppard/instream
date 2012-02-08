@@ -1,12 +1,12 @@
 /*
-EcoSwarm library for individual-based modeling, last revised October 2011.
+EcoSwarm library for individual-based modeling, last revised October 2012.
 Developed and maintained by Steve Railsback, Lang, Railsback & Associates, 
 Steve@LangRailsback.com; Colin Sheppard, critter@stanfordalumni.org; and
 Steve Jackson, Jackson Scientific Computing, McKinleyville, California.
 Development sponsored by US Bureau of Reclamation under the 
 Central Valley Project Improvement Act, EPRI, USEPA, USFWS,
 USDA Forest Service, and others.
-Copyright (C) 2011 Lang, Railsback & Associates.
+Copyright (C) 2004-2012 Lang, Railsback & Associates.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

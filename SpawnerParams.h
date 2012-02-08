@@ -1,9 +1,11 @@
 /*
-inSTREAM Version 4.3, October 2006.
-Individual-based stream trout modeling software. Developed and maintained by Steve Railsback (Lang, Railsback & Associates, Arcata, California) and
-Steve Jackson (Jackson Scientific Computing, McKinleyville, California).
+inSTREAM Version 5.0, February 2012.
+Individual-based stream trout modeling software. Developed and maintained 
+by Steve Railsback (Lang, Railsback & Associates, Arcata, California),
+Steve Jackson (Jackson Scientific Computing, McKinleyville, California), and
+Colin Sheppard (Arcata, California). For information contact info@LangRailsback.com
 Development sponsored by EPRI, US EPA, USDA Forest Service, and others.
-Copyright (C) 2004 Lang, Railsback & Associates.
+Copyright (C) 2004-2012 Lang, Railsback & Associates.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
