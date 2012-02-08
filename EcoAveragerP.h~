@@ -1,5 +1,3 @@
-// EcoAverager is a slight modification's of Swarm's "Averager" class.
-
 #import <gui.h> // GraphElement
 
 @protocol EcoAverager <MessageProbe, CREATABLE>
