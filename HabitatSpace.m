@@ -1291,11 +1291,11 @@ Boston, MA 02111-1307, USA.
 ///////////////////////////////////////////
 - createPolyInterpolationTables {
   FILE* dataPtr = NULL;
-  int strArraySize = 1501;
+  int strArraySize = 5001;
   char inputString[strArraySize];
   char delimiters[5] = " \t\n,";
   char * token;
-  int numFlowsInFile=0,flowDataPos,polyID,flowNdx;
+  int numFlowsInFile=0,flowDataPos,polyID,flowNdx,lineNum=0;
   double * flows;
   double depth,velocity;
   id <InterpolationTable> depthInterpolator = nil,velocityInterpolator = nil;
@@ -1308,7 +1308,7 @@ Boston, MA 02111-1307, USA.
     fflush(0);
     exit(1);
   }
-
+  //
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // First count the number of flows in the hydraulic file
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1361,9 +1361,15 @@ Boston, MA 02111-1307, USA.
   // Now start reading the hydraulic data, inserting into interpolation tables associated with the appropriate cell
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   (void) fgets(inputString, strArraySize, dataPtr); // skip line with column names 
+  lineNum = 4;
   while(feof(dataPtr) == 0){
+    lineNum++;
     inputString[0] = '\0';
     (void) fgets(inputString, strArraySize, dataPtr); 
+    if(strchr(inputString,'\n')==NULL && !feof(dataPtr)){
+      fprintf(stderr, "ERROR: HabitatSpace >>>> createPolyInterpolationTables >>>> Illegal number of characters on line %d of file %s, should have < %d.\n", lineNum, hydraulicFile, strArraySize); fflush(0); exit(1);
+      //fprintf(stderr, "ERROR: HabitatSpace >>>> createPolyInterpolationTables >>>> Illegal number of characters on line %d of file %s, should have < %d.\n", lineNum, inputString, strArraySize); fflush(0); exit(1);
+    }
     if((token =  strtok(inputString,delimiters))==NULL) continue;
     [HabitatSpace unQuote: token];
     // Find the poly cell associated with the first token
