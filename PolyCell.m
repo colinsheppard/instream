@@ -165,6 +165,11 @@ Boston, MA 02111-1307, USA.
 {
      int i;
 
+  if(aPolyCoordX < 0.0 || aPolyCoordY < 0.0){
+    fprintf(stderr, "ERROR: PolyCell >>>> setPolyCoordsWith >>>> attempted to set X,Y coordinate to value of %f, %f but coordinates must be positive\n", aPolyCoordX, aPolyCoordY);
+    fflush(0);
+    exit(1);
+  }
      //fprintf(stdout, "PolyCell >>>> setPolyCoordsWith >>>>  polyCellNumber = %d\n", polyCellNumber);
      //fprintf(stdout, "PolyCell >>>> setPolyCoordsWith >>>>  numPolyCoords = %d\n", numPolyCoords);
      //fprintf(stdout, "PolyCell >>>> setPolyCoordsWith >>>> X = %f >>>> Y = %f\n", aPolyCoordX, aPolyCoordY);

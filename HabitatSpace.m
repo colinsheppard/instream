@@ -908,7 +908,7 @@ Boston, MA 02111-1307, USA.
     id <ListIndex> polyCellNdx = nil;
     PolyCell* polyCell = (PolyCell *) nil;
 
-    //fprintf(stdout, "HabitatSpace >>>> read2DGeometryFile >>>> BEGIN\n");
+    //fprintf(stdout, "HabitatSpace >>>> read2DGeometryFile >>>> BEGIN : %s \n", polyCellGeomFile);
     //fflush(0);
 
     if((dataFPTR = fopen(polyCellGeomFile, "r")) == NULL)
@@ -1013,13 +1013,6 @@ Boston, MA 02111-1307, USA.
     {
 
           (void) fgets(inputString, 300, dataFPTR);
-
-          if(strchr(inputString, '-') != NULL)
-          { 
-                 isNewCell = NO;
-                 isDataValid = NO;
-                 continue;
-          }
 
           if(strncmp(inputString, "END", 3) == 0)
           { 
