@@ -1168,6 +1168,9 @@ char **speciesColor;
   double stdDevLength;
   char reach[35];
   char prevReach[35];
+  char inputString[400];
+  char * token;
+  char delimiters[5] = " \t\n,";
 
   int numRecords;
   int recordNdx;
@@ -1195,8 +1198,56 @@ char **speciesColor;
       strcpy(prevDate,"00/00/0000");
       strcpy(prevReach,"NOREACH");
 
-      while(fscanf(speciesPopFP,"%11s %d %d %lf %lf %35s", date, &age, &number, &meanLength, &stdDevLength, reach) != EOF)
-      {
+      while(fgets(inputString,400,speciesPopFP) != NULL){
+	token =  strtok(inputString,delimiters);
+  	[HabitatSpace unQuote: token];
+	if(token==NULL){
+	  fprintf(stdout, "ERROR: TroutModelSwarm >>>> readFishInitializationFiles >>>> inputString: %s missing value where date expected\n", inputString);
+          fflush(0);
+	  exit(1);
+	}
+	strcpy(date,token);
+	token =  strtok(NULL,delimiters);
+  	[HabitatSpace unQuote: token];
+	if(token==NULL){
+	  fprintf(stdout, "ERROR: TroutModelSwarm >>>> readFishInitializationFiles >>>> inputString: %s missing value where age expected\n", inputString);
+          fflush(0);
+	  exit(1);
+	}
+	age = atoi(token);
+	token =  strtok(NULL,delimiters);
+  	[HabitatSpace unQuote: token];
+	if(token==NULL){
+	  fprintf(stdout, "ERROR: TroutModelSwarm >>>> readFishInitializationFiles >>>> inputString: %s missing value where number expected\n", inputString);
+          fflush(0);
+	  exit(1);
+	}
+	number = atoi(token);
+	token =  strtok(NULL,delimiters);
+  	[HabitatSpace unQuote: token];
+	if(token==NULL){
+	  fprintf(stdout, "ERROR: TroutModelSwarm >>>> readFishInitializationFiles >>>> inputString: %s missing value where mean length expected\n", inputString);
+          fflush(0);
+	  exit(1);
+	}
+	meanLength = atof(token);
+	token =  strtok(NULL,delimiters);
+  	[HabitatSpace unQuote: token];
+	if(token==NULL){
+	  fprintf(stdout, "ERROR: TroutModelSwarm >>>> readFishInitializationFiles >>>> inputString: %s missing value where std. dev. length expected\n", inputString);
+          fflush(0);
+	  exit(1);
+	}
+	stdDevLength = atof(token);
+	token =  strtok(NULL,delimiters);
+  	[HabitatSpace unQuote: token];
+	if(token==NULL){
+	  fprintf(stdout, "ERROR: TroutModelSwarm >>>> readFishInitializationFiles >>>> inputString: %s missing value where reach expected\n", inputString);
+          fflush(0);
+	  exit(1);
+	}
+	strcpy(reach,token);
+
            TroutInitializationRecord*  fishRecord;
 
            fishRecord = (TroutInitializationRecord *) [modelZone alloc: sizeof(TroutInitializationRecord)];
@@ -1209,7 +1260,6 @@ char **speciesColor;
            {
               strcpy(prevReach, reach);
            }
-
 
            fishRecord->speciesNdx = numSpeciesNdx;
            fishRecord->mySpecies = mySpecies[numSpeciesNdx];
@@ -1227,17 +1277,16 @@ char **speciesColor;
            
            //fprintf(stdout, "TroutModelSwarm >>>> checking fish records >>>>>\n");
            //fprintf(stdout, "speciesNdx = %d speciesName = %s date = %s initTime = %ld age = %d number = %d meanLength = %f stdDevLength = %f reach = %s\n",
-                                           //fishRecord->speciesNdx,
-                                           //[fishRecord->mySpecies getName],
-                                           //fishRecord->date,
-                                           //(long) fishRecord->initTime,
-                                           //fishRecord->age,
-                                           //fishRecord->number,
-                                           //fishRecord->meanLength,
-                                           //fishRecord->stdDevLength,
-                                           //fishRecord->reach);
+           //                                fishRecord->speciesNdx,
+           //                                [fishRecord->mySpecies getName],
+           //                                fishRecord->date,
+           //                                (long) fishRecord->initTime,
+           //                                fishRecord->age,
+           //                                fishRecord->number,
+           //                                fishRecord->meanLength,
+           //                                fishRecord->stdDevLength,
+           //                                fishRecord->reach);
            //fflush(0);
-
 
           if(strcmp(prevReach, reach) == 0)
           {
@@ -1265,7 +1314,6 @@ char **speciesColor;
           }
 
           [fishInitializationRecords addLast: (void *) fishRecord];
-
       }
 
       if(POPINITDATEOK == NO)
