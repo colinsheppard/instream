@@ -3,7 +3,7 @@ For inSTREAM 5.0,,Save in .csv format,,
 Cell#,FracVelocityShelter,DistToHidingCover,FracSpawnGravel,ReachEndCode
 2,0,2.5,0,I
 3,0,8,0.2,I
-4,5,0.5,0,I
+4,1,0.5,0,I
 5,0,9,0,D
 6,0.05,0.5,0,I
 7,0,4,0.1,D
