@@ -555,7 +555,12 @@ Boston, MA 02111-1307, USA.
 {
    if(polyCellVelocity < 0.0)
    {
-         fprintf(stderr, "ERROR: FishCell >>>> getPolyCellVelocity >>>> polyCellVelocity is negative\n");
+         fprintf(stderr, "ERROR: FishCell >>>> %d  reach = %s flow = %f velocity = %f date = %s >>>> getPolyCellVelocity >>>> polyCellVelocity is negative\n", 
+                                polyCellNumber, 
+                                [reach getReachName], 
+                                [reach getRiverFlow], 
+                                polyCellVelocity,
+                                [timeManager getDateWithTimeT: [reach getModelTime]]) ;
          fflush(0);
          exit(1);
    }
