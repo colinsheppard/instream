@@ -60,8 +60,6 @@ Boston, MA 02111-1307, USA.
   double fishWeight;  // grams
   double fishCondition;
   double domValue;
-  double searchParameter; // cm/hr
-  double territorySize;   // cm2
   double shelterArea; //Doesn't mean that a fish has a shelter
 
 
