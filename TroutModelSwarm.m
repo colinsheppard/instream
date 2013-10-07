@@ -1057,32 +1057,32 @@ char **speciesColor;
              {
 	         fprintf(stderr, "WARNING: TroutModelSwarm >>>> createInitialFish >>>> Failed to put fish in cell with acceptable depth and velocity after %d attempts, for fish with length %f\nWill put fish in any cell with non-zero depth\n", counter, length);
                  fflush(0);
-             }
  
              //
              // So..., if we can't find a cell with BOTH non-zero depth and acceptable velocity
              // just find a cell with non-zero depth and put the fish in it...
              //
              //
-	     for(counter=0; counter <= MAX_COUNT; counter++) 
-             {
-	         randSelectedCell = [polyCellList atOffset: [randCellDist getIntegerSample]];
+			 for(counter=0; counter <= MAX_COUNT; counter++) 
+				 {
+				 randSelectedCell = [polyCellList atOffset: [randCellDist getIntegerSample]];
 
-	         if(randSelectedCell != nil)
-	         {
-                     if([randSelectedCell getPolyCellDepth] > 0.0)
-		     {
-		        [randSelectedCell addFish: newFish];
-		        numFish++;
-		        break;                      //break out of the for MAX_COUNT statement
-		     }
-	         }
-	         else
-	         {
-	            continue;
-	         }
+				 if(randSelectedCell != nil)
+				 {
+						 if([randSelectedCell getPolyCellDepth] > 0.0)
+				 {
+					[randSelectedCell addFish: newFish];
+					numFish++;
+					break;                      //break out of the for MAX_COUNT statement
+				 }
+				 }
+				 else
+				 {
+					continue;
+				 }
 
-	     } //for MAX_COUNT
+			 } //for MAX_COUNT
+             }
 
 	     if(counter >= MAX_COUNT)
              {
