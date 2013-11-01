@@ -28,9 +28,9 @@ Boston, MA 02111-1307, USA.
 
 
 #import "globals.h"
-#import "Cutthroat.h"
+#import "Cutthroat2.h"
 
-@implementation Cutthroat
+@implementation Cutthroat2
 
 + createBegin: aZone 
 {

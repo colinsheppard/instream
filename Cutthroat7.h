@@ -25,18 +25,13 @@ Boston, MA 02111-1307, USA.
 */
 
 
-
-
-#import "globals.h"
-#import "Cutthroat.h"
-
-@implementation Cutthroat
-
-+ createBegin: aZone 
+#import "FishParams.h"
+#import "Trout.h"
+@interface Cutthroat7 : Trout 
 {
-   return [super createBegin: aZone];
-}
 
+}
++ createBegin: aZone;
 
 @end
 

@@ -22,6 +22,17 @@ OBJECTS=Trout.o \
         TroutBatchSwarm.o \
 \
         Cutthroat.o \
+        Cutthroat2.o \
+        Cutthroat3.o \
+        Cutthroat4.o \
+        Cutthroat5.o \
+        Cutthroat6.o \
+        Cutthroat7.o \
+        Cutthroat8.o \
+        Cutthroat9.o \
+        Cutthroat10.o \
+        Cutthroat11.o \
+        Cutthroat12.o \
 \
         HabitatManager.o \
         HabitatSetup.o \
@@ -76,7 +87,8 @@ SurvivalProb.o: SurvivalProb.[hm] globals.h DEBUGFLAGS.h
 HabitatSpace.o: HabitatSpace.[hm] globals.h DEBUGFLAGS.h
 FishParams.o: FishParams.[hm] DEBUGFLAGS.h
 TroutModelSwarm.o: TroutModelSwarm.[hm] globals.h Cutthroat.h \
-	HabitatSpace.h FishParams.h DEBUGFLAGS.h
+	HabitatSpace.h FishParams.h DEBUGFLAGS.h Cutthroat2.h Cutthroat3.h Cutthroat4.h Cutthroat5.h \
+	Cutthroat6.h Cutthroat7.h Cutthroat8.h Cutthroat9.h Cutthroat10.h Cutthroat11.h Cutthroat12.h
 TroutObserverSwarm.o: TroutObserverSwarm.[hm] TroutModelSwarm.h  globals.h
 SearchElement.o: SearchElement.[hm]
 ScenarioIterator.o: ScenarioIterator.[hm] SearchElement.h
@@ -88,6 +100,17 @@ ExperBatchSwarm.o : ExperBatchSwarm.[hm]
 TroutBatchSwarm.o : TroutBatchSwarm.[hm]
 #
 Cutthroat.o : Cutthroat.[hm] DEBUGFLAGS.h
+Cutthroat2.o : Cutthroat2.[hm] DEBUGFLAGS.h
+Cutthroat3.o : Cutthroat3.[hm] DEBUGFLAGS.h
+Cutthroat4.o : Cutthroat4.[hm] DEBUGFLAGS.h
+Cutthroat5.o : Cutthroat5.[hm] DEBUGFLAGS.h
+Cutthroat6.o : Cutthroat6.[hm] DEBUGFLAGS.h
+Cutthroat7.o : Cutthroat7.[hm] DEBUGFLAGS.h
+Cutthroat8.o : Cutthroat8.[hm] DEBUGFLAGS.h
+Cutthroat9.o : Cutthroat9.[hm] DEBUGFLAGS.h
+Cutthroat10.o : Cutthroat10.[hm] DEBUGFLAGS.h
+Cutthroat11.o : Cutthroat11.[hm] DEBUGFLAGS.h
+Cutthroat12.o : Cutthroat12.[hm] DEBUGFLAGS.h
 #
 HabitatManager.o : HabitatManager.[hm]
 HabitatSetup.o : HabitatSetup.[hm]
