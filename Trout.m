@@ -1191,7 +1191,7 @@ Boston, MA 02111-1307, USA.
    {
        return NO;
    }
-   if([aTrout getFishCondition] > fishParams->fishSpawnMinCond) 
+   if([aTrout getFishCondition] < fishParams->fishSpawnMinCond) 
    {
        return NO;
    }
@@ -1475,7 +1475,6 @@ Boston, MA 02111-1307, USA.
   double expectedMaturityAtDest=0.0;
 
   double temporaryTemperature;
-  double temporaryTurbidity;
 
   //fprintf(stderr, "Trout >>>> moveToMaximizeExpectedMaturity >>>> BEGIN >>>> fish = %p\n", self);
   //fflush(0);
@@ -1491,7 +1490,6 @@ Boston, MA 02111-1307, USA.
   // Calculate the variables that depend only on the reach that a fish is in.
   //
   temporaryTemperature = [myCell getTemperature];
-  temporaryTurbidity =  [myCell getTurbidity];
   standardResp    = [self calcStandardRespirationAt: myCell];
   cMax            = [self calcCmax: temporaryTemperature];
   detectDistance  = [self calcDetectDistanceAt: myCell]; 
@@ -2313,8 +2311,16 @@ Boston, MA 02111-1307, USA.
   double fSA;
   double velocity=0.0;
   double habSearchProd=0.0;
-  double aMaxSwimSpeed = [self calcMaxSwimSpeedAt: aCell];
+  double aMaxSwimSpeed;
   
+  if ([aCell getPolyCellDepth] <= 0.0)
+  {
+     return 0.0;
+  }
+
+  else
+ {
+  aMaxSwimSpeed = [self calcMaxSwimSpeedAt: aCell];
   fSA = fishParams->fishSearchArea;
 
   velocity = [aCell getPolyCellVelocity];
@@ -2330,8 +2336,8 @@ Boston, MA 02111-1307, USA.
   }
 
   return aSearchIntake;
+ }
 }
-
 
 
 ///////////////////////////////////////
@@ -3076,6 +3082,7 @@ Boston, MA 02111-1307, USA.
 }
 
 - (void) drop {
+
      [spawnDist drop]; 
      [dieDist drop];
 
