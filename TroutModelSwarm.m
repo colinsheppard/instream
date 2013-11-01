@@ -733,7 +733,7 @@ char **speciesColor;
 
       *thisFishColor = FISH_COLOR;
 
-      FISH_COLOR++;
+      //FISH_COLOR++;
 
       [fishColorMap at: nextSpecies insert: (void *) thisFishColor];
 
