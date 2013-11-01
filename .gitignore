@@ -4,3 +4,4 @@ Doxyfile
 *.kdev*
 .libs
 instream.exe
+.DS_Store
