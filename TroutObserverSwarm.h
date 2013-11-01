@@ -126,8 +126,6 @@ Boston, MA 02111-1307, USA.
   id <EZBin> mortAgeClassHist;
   id <EZGraph> mortalityGraph;
 
-
-
   //
   // POLY Cell Display
   //
