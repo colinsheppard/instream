@@ -1,5 +1,7 @@
 inSTREAM Version 5.0
-Readme file revised 5 Dec 2011, SF Railsback
+Readme file revised 31 July 2014, SF Railsback
+
+***inSTREAM V. 5.0 updated 31 July 2014 to fix a bug in the aquatic predation survival functions, which previously eliminated the effect of piscivorous fish density on predation survival.***
 
 Version 5.0 of inSTREAM is largely a major software update, with few changes in model formulation. The model formulation remains as described in the documentation for version 4.2 (Railsback, S. F., B. C. Harvey, S. K. Jackson, and R. H. Lamberson. 2009. InSTREAM: the individual-based stream trout research and environmental assessment model. PSW-GTR-218, USDA Forest Service, Pacific Southwest Research Station, Albany, California. Available at: http://www.fs.fed.us/psw/publications/documents/psw_gtr218/psw_gtr218.pdf). Changes in model formulation are:
 
