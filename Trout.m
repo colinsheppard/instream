@@ -1222,6 +1222,8 @@ Boston, MA 02111-1307, USA.
 
   spawnedThisSeason = YES;
   fishWeight = fishWeight * (1.0 - fishParams->fishSpawnWtLossFraction);
+  // Condition update added 6 Aug 2014
+  fishCondition = [self getConditionForWeight: fishWeight andLength: fishLength];
 
   return self;
 }  
