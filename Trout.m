@@ -993,6 +993,8 @@ Boston, MA 02111-1307, USA.
   // reduce weight of spawners
   //
   fishWeight = fishWeight * (1.0 - fishParams->fishSpawnWtLossFraction);
+  // Condition update added 6 Aug 2014
+  fishCondition = [self getConditionForWeight: fishWeight andLength: fishLength];
 
   timeLastSpawned = [self getCurrentTimeT];
   spawnedThisSeason = YES;
