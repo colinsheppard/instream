@@ -59,6 +59,7 @@ Boston, MA 02111-1307, USA.
   double fishLength;  // cm
   double fishWeight;  // grams
   double fishCondition;
+  double fishWeightAtK1; // Fish weight for length when condition is 1.0
   double domValue;
   double shelterArea; //Doesn't mean that a fish has a shelter
 
