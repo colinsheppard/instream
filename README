@@ -1,5 +1,7 @@
 inSTREAM Version 5.0
-Readme file revised 31 July 2014, SF Railsback
+Readme file revised 28 August 2014, SF Railsback
+
+***inSTREAM V. 5.0 updated 28 August 2014 to fix a bug in how cells identify neighbor cells. This bug could cause significant errors (not identifying all neighbor cells, thereby restricting habitat selection by small fish) when habitat cells were laid out in the old approach of transects with rectangular cells (which was used in versions 4 and earlier of inSTREAM).***
 
 ***inSTREAM V. 5.0 updated 31 July 2014 to fix a bug in the aquatic predation survival functions, which previously eliminated the effect of piscivorous fish density on predation survival.***
 
