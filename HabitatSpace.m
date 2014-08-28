@@ -1629,6 +1629,9 @@ Boston, MA 02111-1307, USA.
 
     [polyCellList forEach: M(createPolyAdjacentCellsFrom:) :vertexKDTree];
 
+    // We no longer need the vertex tree so free it
+    kd_free(vertexKDTree);
+
     //fprintf(stdout, "HabitatSpace >>>> createPolyAdjacentCells >>>> END\n");
     //fflush(0);
 
@@ -4078,7 +4081,7 @@ Boston, MA 02111-1307, USA.
     habitatZone = nil;
 
     kd_free(centroidKDTree);
-    kd_free(vertexKDTree);
+    // kd_free(vertexKDTree);  Already dropped in createPolyAdjacentCells
     //fprintf(stdout, "HabitatSpace >>>> drop >>>> END\n");
     //fflush(0);
 }
