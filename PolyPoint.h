@@ -26,7 +26,6 @@ Boston, MA 02111-1307, USA.
 
 #import <objectbase/SwarmObject.h>
 
-
 @interface PolyPoint : SwarmObject 
 {
     id polyCell;
@@ -60,6 +59,8 @@ Boston, MA 02111-1307, USA.
 - setXCoordinate: (double) X
             andY: (double) Y;
 - createEnd;
+
+- (id) getPolyCell;
 
 - (double) getXCoordinate;
 - (double) getYCoordinate;

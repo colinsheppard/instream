@@ -30,6 +30,7 @@ Boston, MA 02111-1307, USA.
 
 #import <simtools.h>
 
+#import "KDTree.h"
 
 #import "PolyCell.h"
 
@@ -626,74 +627,141 @@ Boston, MA 02111-1307, USA.
 // createPolyAdjacentCellsFrom
 //
 ////////////////////////////////////////////////////////////////////////
-- createPolyAdjacentCellsFrom: (id <ListIndex>) habSpacePolyCellListNdx
-{
-   id <ListIndex> ndx = habSpacePolyCellListNdx;
-   PolyCell* otherPolyCell = nil;
-   id <ListIndex> ppNdx = nil;
+- createPolyAdjacentCellsFrom: (void *) vertexKDTree {
+  void *kdSet;
+  int i,j,numberOfPPoints = 0;
+  double iX,iY,jX,jY,tX,tY,midPointX,midPointY,edgeLength,dx,dy,distItoTemp,distJtoTemp;
+  PolyCell* otherPolyCell = nil;
+  //PolyCell* tempCell = nil;
+  PolyPoint* polyPointI = nil;
+  PolyPoint* polyPointJ = nil;
+  PolyPoint* tempPoint = nil;
 
-   //fprintf(stdout, "PolyCell >>>> createPolyAdjacentCells >>>> BEGIN\n");
-   //fflush(0);
+  //fprintf(stdout, "PolyCell >>>> createPolyAdjacentCells >>>> BEGIN\n");
+  //fflush(0);
 
-   listOfAdjacentCells = [List create: cellZone];
+  numberOfPPoints = [polyPointList getCount];
 
-   [ndx setLoc: Start];
+  // Cycle through each edge of the polygon
+  for(i = 0; i < numberOfPPoints; i++){
+    j = (i + 1) % numberOfPPoints;
+      
+    //fprintf(stdout, "PolyCell >>>> createPolyAdjacentCells >>>> Edge i,j = %d,%d \n",i,j);
+    //fflush(0);
+    
+    polyPointI = [polyPointList atOffset: i];
+    polyPointJ = [polyPointList atOffset: j];
 
-   ppNdx  = [polyPointList listBegin: scratchZone];
+    iX = [polyPointI getXCoordinate];
+    iY = [polyPointI getYCoordinate];
+    jX = [polyPointJ getXCoordinate];
+    jY = [polyPointJ getYCoordinate];
 
-   while(([ndx getLoc] != End) && ((otherPolyCell = [ndx next]) != nil))
-   {
-       id <List> otherPolyPointList = nil;
-       id <ListIndex> oppNdx = nil;
-       PolyPoint* polyPoint = nil;
-       PolyPoint* otherPolyPoint = nil;
+    // Find the midpoint and length
+    midPointX = (iX + jX) / 2.0;
+    midPointY = (iY + jY) / 2.0;
+    dx = iX - jX;
+    dy = iY - jY;
+    edgeLength = sqrt(dx*dx + dy*dy);
 
-       if(otherPolyCell == self)
-       {
-          continue;
-       }
+    // Use the kdtree to pull the set of points within 0.5L of the midpoint
+    kdSet = kd_nearest_range3(vertexKDTree, midPointX, midPointY, 0.0, edgeLength / 2.0 + 1.0); // the 1.0 is the tolerance, 1cm 
 
-       if((otherPolyPointList = [otherPolyCell getPolyPointList]) == nil)
-       {
-           fprintf(stderr, "ERROR: PolyCell >>> createPolyAdjacentCellsFrom >>>> nil polyPointList\n");
-           fflush(0);
-           exit(1);
-       }
- 
-       [ppNdx setLoc: Start];
-       while(([ppNdx getLoc] != End) && ((polyPoint = [ppNdx next]) != nil))
-       {
-           oppNdx = [otherPolyPointList listBegin: scratchZone];
-           while(([oppNdx getLoc] != End) && ((otherPolyPoint = [oppNdx next]) != nil))
-           {
-                if(([polyPoint getIntX] == [otherPolyPoint getIntX]) && ([polyPoint getIntY] == [otherPolyPoint getIntY]))
-                {
-                     if([listOfAdjacentCells contains: otherPolyCell])
-                     {
-                         continue;
-                     }
+    // Now iterate through these points and find any that are on the segment between I and J
+    while(kd_res_end(kdSet)==0){
+      tempPoint = kd_res_item_data(kdSet);
 
-                     [listOfAdjacentCells addLast: otherPolyCell];
-                }
-           } //while
-           [oppNdx drop];
-           oppNdx = nil;
-       }
-   }
-   [ppNdx drop];
-   ppNdx = nil;
+      //fprintf(stdout, "PolyCell >>>> createPolyAdjacentCells >>>> PP x,y = %f,%f \n",[tempPoint getXCoordinate],[tempPoint getYCoordinate]);
+      //fflush(0);
 
-   //
-   // Do not drop ndx, it belongs to HabitatSpace!!
-   //
+      // No need to consider this point if we already know it's from a neighboring cell
+      otherPolyCell = [tempPoint getPolyCell];
 
-   //fprintf(stdout, "PolyCell >>>> createPolyAdjacentCells >>>> END\n");
-   //fflush(0);
+      //BOOL printOutput = ([self getPolyCellNumber] == 1082 && [otherPolyCell getPolyCellNumber] == 1101) || ([self getPolyCellNumber] == 1101 && [otherPolyCell getPolyCellNumber] == 1082);
+      //if(printOutput){
+        //fprintf(stdout, "PolyCell >>>> createPolyAdjacentCells >>>> self = %d, other = %d \n",[self getPolyCellNumber],[otherPolyCell getPolyCellNumber]);
+        //fflush(0);
+        //fprintf(stdout, "PolyCell >>>> createPolyAdjacentCells >>>> self list of adjacent: ");
+        //id <ListIndex> ndx = [listOfAdjacentCells listBegin: scratchZone];
+        //while(([ndx getLoc] != End) && ((tempCell = [ndx next]) != nil)){
+          //fprintf(stdout, "%d, ",[tempCell getPolyCellNumber]);
+        //}
+        //fprintf(stdout, "\n");
+        //fflush(0);
+        //[ndx drop];
+        //fprintf(stdout, "PolyCell >>>> createPolyAdjacentCells >>>> other list of adjacent: ");
+        //ndx = [[otherPolyCell getListOfAdjacentCells] listBegin: scratchZone];
+        //while(([ndx getLoc] != End) && ((tempCell = [ndx next]) != nil)){
+          //fprintf(stdout, "%d, ",[tempCell getPolyCellNumber]);
+        //}
+        //fprintf(stdout, "\n");
+        //fflush(0);
+        //[ndx drop];
+      //}
 
-   return self;
+      if([listOfAdjacentCells contains: otherPolyCell]){
+        // do nothing
+        
+        //if(printOutput){
+          //fprintf(stdout, "PolyCell >>>> createPolyAdjacentCells >>>> do nothing \n");
+          //fflush(0);
+        //}
+      }else{
+        //if(printOutput){
+          //fprintf(stdout, "PolyCell >>>> createPolyAdjacentCells >>>> test neighbor\n");
+          //fflush(0);
+        //}
 
+          tX = [tempPoint getXCoordinate];
+          tY = [tempPoint getYCoordinate];
+
+          dx = iX - tX;
+          dy = iY - tY;
+          distItoTemp = sqrt(dx*dx + dy*dy);
+          dx = jX - tX;
+          dy = jY - tY;
+          distJtoTemp = sqrt(dx*dx + dy*dy);
+
+          if(abs(distItoTemp + distJtoTemp - edgeLength) < 1.0 && otherPolyCell != self){
+            // Found a neighbor
+            [listOfAdjacentCells addLast: otherPolyCell];
+
+            //if(printOutput){
+              //fprintf(stdout, "PolyCell >>>> createPolyAdjacentCells >>>> found neighbor!\n");
+              //fflush(0);
+            //}
+
+            if(![[otherPolyCell getListOfAdjacentCells] contains: self]){
+              // I am a neighbor to my neighbor -- this is important to avoid missing the case when one edge is a superset of the
+              // smaller edge (in which case no point on the larger egde lies on the segment of the smaller edge).  See illustration
+              // below where AB is on polygon C and XY on polygon Z.  Without the following we would know Z is a neighbor to C but
+              // not vice versa.
+              //
+              //	|   Z	|
+              //	|	    |
+              // A----X-------Y-----B
+              // |		          |
+              // |	    C	      |
+              //
+              [[otherPolyCell getListOfAdjacentCells] addLast: self];
+
+              //if(printOutput){
+                //fprintf(stdout, "PolyCell >>>> createPolyAdjacentCells >>>> neighbor to my neighbor\n");
+                //fflush(0);
+              //}
+            }
+          }
+      }
+      kd_res_next(kdSet);
+    }
+    kd_res_free(kdSet);
+  }
+  
+  //fprintf(stdout, "PolyCell >>>> createPolyAdjacentCells >>>> END\n");
+  //fflush(0);
+
+  return self;
 }
-
 
 /////////////////////////////////////
 //
