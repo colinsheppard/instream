@@ -223,22 +223,11 @@ Boston, MA 02111-1307, USA.
       }
   }
 
-
-
-  if(strncmp("SingleFunctionProb", aProbType, strlen("SingleFunctionProb")) == 0)
-  {
-
+  if(strncmp("SingleFunctionProb", aProbType, strlen("SingleFunctionProb")) == 0){
      aProb = [SingleFuncProb createBegin: mgrZone];
-
-  }
-  else if(strncmp("LimitingFunctionProb", aProbType, strlen("LimitingFunctionProb")) == 0)
-  {
-
+  }else if(strncmp("LimitingFunctionProb", aProbType, strlen("LimitingFunctionProb")) == 0){
      aProb = [LimitingFunctionProb createBegin: mgrZone];
-  }
-
-  else if(strncmp("CustomProb", aProbType, strlen("CustomProb")) == 0)
-  {
+  }else if(strncmp("CustomProb", aProbType, strlen("CustomProb")) == 0){
      //
      // SurvMGR knows nothing about the custom probablity
      // at compile time. This gets resolved at runtime...
@@ -248,10 +237,7 @@ Boston, MA 02111-1307, USA.
      aCustomProbClass = [objc_get_class([aProbSymbol getName]) class];
      
      aProb = [aCustomProbClass createBegin: mgrZone];
-
-  }
-  else
-  {
+  }else{
      [InternalError raiseEvent: "ERROR: SurvMGR >>>> Cannot create Probability type %s \n", aProbType];
   }  
 
