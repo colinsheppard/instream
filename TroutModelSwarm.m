@@ -433,15 +433,14 @@ char **speciesColor;
   //
   // set up the random number generator to be used throughout the model
   //
-  if(replicate != 0) 
-  {
+  if(replicate != 0){
       genSeed = randGenSeed * replicate;
-  }
-  else
-  {
+  }else{
       genSeed = randGenSeed;
   }
 
+  fprintf(stdout, "TroutModelSwarm >>>> buildObjects >>>> Creating randGen with seed %d \n",genSeed);
+  fflush(0);
   randGen = [MT19937gen create: modelZone 
               setStateFromSeed: genSeed];
 
@@ -893,14 +892,11 @@ char **speciesColor;
    //
    id randCellDist = nil;
    id <List> polyCellList = nil;
-
    id <ListIndex> fishInitNdx = [fishInitializationRecords listBegin: scratchZone];
    TroutInitializationRecord* fishInitRecord = (TroutInitializationRecord *) nil;
 
    id <Symbol> newSpecies = nil;
-
    id aHabitatSpace;
-
    int numFishThisAge = 0;
    int fishNdx = 0;
 
@@ -950,7 +946,6 @@ char **speciesColor;
            continue;
        }
 
-     
        aHabitatSpace = nil;
        aHabitatSpace = [habitatManager getReachWithName: fishInitRecord->reach];
         
@@ -963,8 +958,6 @@ char **speciesColor;
             fflush(0);
             continue;
        }
-
-
 
        polyCellList = [aHabitatSpace getPolyCellList];
 
@@ -989,11 +982,11 @@ char **speciesColor;
           // This distribution will only be used in this routine
           // and then goes out of scope.
           //
-          id doubleNormDist1; 
+	 id doubleNormDist1; 
 
-          doubleNormDist1 = [NormalDist create: modelZone setGenerator: randGen
-                                       setMean: fishInitRecord->meanLength
-                                     setStdDev: fishInitRecord->stdDevLength];
+    doubleNormDist1 = [NormalDist create: modelZone setGenerator: randGen
+				 setMean: fishInitRecord->meanLength
+			       setStdDev: fishInitRecord->stdDevLength];
 
           numFishThisAge = fishInitRecord->number;
  
@@ -1010,10 +1003,12 @@ char **speciesColor;
              //
 	     // set properties of the new Trout
              //
-	     while((length = [doubleNormDist1 getDoubleSample]) <= (0.5)*[doubleNormDist1 getMean])
-             {
-                 ; 
-             }
+	    while((length = [doubleNormDist1 getDoubleSample]) <= (0.5)*[doubleNormDist1 getMean])
+	    {
+	      //fprintf(stdout,"TroutModelSwarm >>>> findingLength = %f \n",length);
+	      //fflush(0);
+	      ;
+	    }
 
 	     newFish = [self createNewFishWithSpeciesIndex: fishInitRecord->speciesNdx  
                                                    Species: fishInitRecord->mySpecies 

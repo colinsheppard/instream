@@ -182,8 +182,7 @@ id toggledFishForHabSurvUpdate;
   double sensoryRadiusFactor; 
 
   id randGen;
-  id dieDist;
-  id spawnDist;
+  id unifDist; // used for spawning and death
 
   int rasterResolutionX;
   int rasterResolutionY;

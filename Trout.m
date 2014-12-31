@@ -135,38 +135,28 @@ Boston, MA 02111-1307, USA.
 // createEnd
 //
 //////////////////////////////////////////////////////////////////
-- createEnd 
-{
+- createEnd {
+  //fprintf(stdout, "Trout >>>> createEnd >>>> BEGIN\n");
+  //fflush(0);
 
   [super createEnd];
 
-  if(randGen == nil)
-  {
+  if(randGen == nil){
      fprintf(stderr, "ERROR: Trout >>>> createEnd >>>> fish %p doesn't have a randGen.", self);
      fflush(0);
      exit(1);
-  } 
-  else 
-  {
-     spawnDist = [UniformDoubleDist create: troutZone
-                              setGenerator: randGen
-                              setDoubleMin: 0.0
-                                    setMax: 1.0];
-
-     dieDist = [UniformDoubleDist create: troutZone
-                            setGenerator: randGen
-                            setDoubleMin: 0.0
-                                  setMax: 1.0];
+  }else{
+     unifDist = [UniformDoubleDist create: troutZone setGenerator: randGen setDoubleMin: 0.0 setMax: 1.0];
   }
 
   hourlyDriftConRate = 0.0;
   hourlySearchConRate = 0.0;
   deadOrAlive = "ALIVE";
- 
   spawnedThisSeason = NO;
-
   destCellList = [List create: troutZone];
 
+  //fprintf(stdout, "Trout >>>> createEnd >>>> END\n");
+  //fflush(0);
   return self;
 }
 
@@ -697,20 +687,11 @@ Boston, MA 02111-1307, USA.
 {
   double condition=LARGEINT;
 
-   #ifdef DEBUG_TROUT_FISHPARAMS
-     #ifdef DEBUG_GROW
-    /*
-   
-       fprintf(stderr,"\n");
-       fprintf(stderr,"<<<<<METHOD:  getConditionForWeight speciesNdx = %d >>>>>\n", speciesNdx);
-       xprint(self);
-       fprintf(stderr,"fishWeightParamA = %f fishWeightParamB = %f\n", fishParams->fishWeightParamA, fishParams->fishWeightParamB);
-       fprintf(stderr,"\n"); 
-    */
-     #endif
-   #endif
-
-
+   //fprintf(stdout, "Trout >>>> getConditionForWeight >>>> aWeight = %f\n", aWeight);
+   //fprintf(stdout, "Trout >>>> getConditionForWeight >>>> aLength = %f\n", aLength);
+   //fprintf(stdout, "Trout >>>> getConditionForWeight >>>> fishParams->fishWeightParamA = %f\n", fishParams->fishWeightParamA);
+   //fprintf(stdout, "Trout >>>> getConditionForWeight >>>> fishParams->fishWeightParamB = %f\n", fishParams->fishWeightParamB);
+   //fflush(0);
 
    condition = aWeight/
         (fishParams->fishWeightParamA*pow(aLength,fishParams->fishWeightParamB)); 
@@ -996,6 +977,7 @@ Boston, MA 02111-1307, USA.
   // reduce weight of spawners
   //
   fishWeight = fishWeight * (1.0 - fishParams->fishSpawnWtLossFraction);
+
   // Condition update added 6 Aug 2014
   fishCondition = [self getConditionForWeight: fishWeight andLength: fishLength];
 
@@ -1154,7 +1136,7 @@ Boston, MA 02111-1307, USA.
   //
   // FINALLY TEST AGAINST RANDOM DRAW
   //
-  if([spawnDist getDoubleSample] > fishParams->fishSpawnProb)
+  if([unifDist getDoubleSample] > fishParams->fishSpawnProb)
   {
       return NO;
   }
@@ -1225,6 +1207,7 @@ Boston, MA 02111-1307, USA.
 
   spawnedThisSeason = YES;
   fishWeight = fishWeight * (1.0 - fishParams->fishSpawnWtLossFraction);
+
   // Condition update added 6 Aug 2014
   fishCondition = [self getConditionForWeight: fishWeight andLength: fishLength];
 
@@ -1770,7 +1753,7 @@ Boston, MA 02111-1307, USA.
   fprintf(stdout, "Trout >>>> checkVars >>>> fishFeedingStrategy = %d\n", (int) fishFeedingStrategy);
   fprintf(stdout, "Trout >>>> checkVars >>>> fishSwimSpeed = %f\n", fishSwimSpeed);
   fprintf(stdout, "Trout >>>> checkVars >>>> activeResp = %f\n", activeResp);
-  fprintf(stdout, "Trout >>>> checkVars >>>> utmCellNumber = %d\n", [myCell getPolyCellNumber]);
+  //fprintf(stdout, "Trout >>>> checkVars >>>> utmCellNumber = %d\n", [myCell getPolyCellNumber]);
   fprintf(stdout, "Trout >>>> checkVars >>>> fishLength = %f\n", fishLength);
   fprintf(stdout, "Trout >>>> checkVars >>>> fishWeight = %f\n", fishWeight);
   fprintf(stdout, "Trout >>>> checkVars >>>> fishCondition = %f\n", fishCondition);
@@ -1815,7 +1798,7 @@ Boston, MA 02111-1307, USA.
      fflush(0);
      exit(1);
   }
-
+  
   netEnergyForCell = [self calcNetEnergyForCell: aCell];
   weightAtTForCell = [self getWeightWithIntake: (T * netEnergyForCell) ]; 
   lengthAtTForCell = [self getLengthForNewWeight: weightAtTForCell];
@@ -1837,6 +1820,12 @@ Boston, MA 02111-1307, USA.
   // Now update the survival manager...
   //
   [aCell updateFishSurvivalProbFor: self];
+
+   //fprintf(stdout, "Trout >>>> expectedMaturityAt >>>> fishCondition = %f\n", fishCondition);
+   //fprintf(stdout, "Trout >>>> expectedMaturityAt >>>> conditionAtTForCell = %f\n", conditionAtTForCell);
+   //fprintf(stdout, "Trout >>>> expectedMaturityAt >>>> starvPa = %f\n", starvPa);
+   //fprintf(stdout, "Trout >>>> expectedMaturityAt >>>> starvPb = %f\n", starvPb);
+   //fflush(0);
 
   if(fabs(fishCondition - conditionAtTForCell) < 0.001) 
   {
@@ -1996,7 +1985,7 @@ Boston, MA 02111-1307, USA.
      
        while(([lstNdx getLoc] != End) && ((aProb = [lstNdx next]) != nil))
        {
-            if([dieDist getDoubleSample] > [aProb getSurvivalProb]) 
+            if([unifDist getDoubleSample] > [aProb getSurvivalProb]) 
             {
                  char* deathName = (char *) [[aProb getProbSymbol] getName];
                  size_t strLen = strlen(deathName) + 1;
@@ -3094,8 +3083,8 @@ Boston, MA 02111-1307, USA.
 
 - (void) drop {
 
-     [spawnDist drop]; 
-     [dieDist drop];
+     [unifDist drop]; 
+     //[dieDist drop];
 
      [destCellList drop];
      destCellList = nil; 
