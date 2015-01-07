@@ -61,6 +61,7 @@ typedef struct PolyPixelCoordStruct PolyPixelCoord;
   
   int numPolyCoords;        // this is a count of the number of coords read in form the 
                             // geometry file
+  int polyCoordArrayLength; // counter tracking the active length of the polycoord array
 
   double** polyCoordinates; // not all of these will be valid.
                             // duplicates will be tossed

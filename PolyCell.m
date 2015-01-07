@@ -131,8 +131,7 @@ Boston, MA 02111-1307, USA.
 // createPolyCoordinateArray
 //
 /////////////////////////////////////////////////
-- createPolyCoordinateArray
-{
+- createPolyCoordinateArray{
     int i;
 
     //fprintf(stdout, "PolyCell >>>> createPolyCoordinateArray >>> BEGIN\n");
@@ -140,58 +139,33 @@ Boston, MA 02111-1307, USA.
 
     polyCoordinates = (double **) [cellZone alloc: (2*numPolyCoords) * sizeof(double *)];
 
-    for(i = 0; i < numPolyCoords; i++)
-    {
-         polyCoordinates[i] = (double *) [cellZone alloc: 2*sizeof(double)]; 
-
-         polyCoordinates[i][0] = -1;
-         polyCoordinates[i][1] = -1;
-    }
-
     //fprintf(stdout, "PolyCell >>>> createPolyCoordinateArray >>> END\n");
     //fflush(0);
 
     return self;
 }
 
-
-
 //////////////////////////////////////////////////
 //
 // setPolyCooordsWith
 //
 //////////////////////////////////////////////////
-- setPolyCoordsWith: (double) aPolyCoordX
-                and: (double) aPolyCoordY;
-{
-     int i;
-
-  if(aPolyCoordX < 0.0 || aPolyCoordY < 0.0){
-    fprintf(stderr, "ERROR: PolyCell >>>> setPolyCoordsWith >>>> attempted to set X,Y coordinate to value of %f, %f but coordinates must be positive\n", aPolyCoordX, aPolyCoordY);
-    fflush(0);
-    exit(1);
-  }
+- setPolyCoordsWith: (double) aPolyCoordX and: (double) aPolyCoordY{
      //fprintf(stdout, "PolyCell >>>> setPolyCoordsWith >>>>  polyCellNumber = %d\n", polyCellNumber);
      //fprintf(stdout, "PolyCell >>>> setPolyCoordsWith >>>>  numPolyCoords = %d\n", numPolyCoords);
      //fprintf(stdout, "PolyCell >>>> setPolyCoordsWith >>>> X = %f >>>> Y = %f\n", aPolyCoordX, aPolyCoordY);
      //fflush(0); 
+     
+  if(polyCoordArrayLength+1 > numPolyCoords){
+    fprintf(stderr, "ERROR: PolyCell >>>> setPolyCoordsWith >>>> Attempted to add more coordinates to polyCoordinates array than specified by numPolyCoords.");
+    fflush(0);
+    exit(1);
+  }
+  polyCoordinates[polyCoordArrayLength][0] = aPolyCoordX; 
+  polyCoordinates[polyCoordArrayLength][1] = aPolyCoordY; 
+  polyCoordArrayLength++;
 
-     for(i = 0; i < numPolyCoords; i++)
-     {     
-            if((polyCoordinates[i][0] != -1) && (polyCoordinates[i][1] != -1))
-            {
-                continue;
-            }
-
-            break;
-     }
-
-     polyCoordinates[i][0] = aPolyCoordX; 
-     polyCoordinates[i][1] = aPolyCoordY; 
-     //fprintf(stdout, "PolyCell >>>> setPolyCoordsWith >>>> X = %f >>>> Y = %f\n", aPolyCoordX, aPolyCoordY);
-     //fflush(0); 
-
-     return self;
+  return self;
 }
 
 
@@ -413,25 +387,17 @@ Boston, MA 02111-1307, USA.
   //fprintf(stdout, "PolyCell >>>> createPolyCellPixels >>>> BEGIN\n");
   //fflush(0);
 
-  maxDisplayX = -1;
-  maxDisplayY = -1;
+  maxDisplayX = LLONG_MIN;
+  maxDisplayY = LLONG_MIN;
+  minDisplayX = LLONG_MAX;
+  minDisplayY = LLONG_MAX;
 
-  while(([ndx getLoc] != End) && ((polyPoint = [ndx next]) != nil))
-  {
+  while(([ndx getLoc] != End) && ((polyPoint = [ndx next]) != nil)){
       long int ppDisplayX = [polyPoint getDisplayX];
       long int ppDisplayY = [polyPoint getDisplayY];
 
       maxDisplayX = (maxDisplayX > ppDisplayX) ? maxDisplayX : ppDisplayX;
       maxDisplayY = (maxDisplayY > ppDisplayY) ? maxDisplayY : ppDisplayY;
-  }
-
-  [ndx setLoc: Start];
-  minDisplayX = maxDisplayX;
-  minDisplayY = maxDisplayY;
-  while(([ndx getLoc] != End) && ((polyPoint = [ndx next]) != nil))
-  {
-      long int ppDisplayX = [polyPoint getDisplayX];
-      long int ppDisplayY = [polyPoint getDisplayY];
       minDisplayX = (minDisplayX < ppDisplayX) ? minDisplayX : ppDisplayX;
       minDisplayY = (minDisplayY < ppDisplayY) ? minDisplayY : ppDisplayY;
   }
