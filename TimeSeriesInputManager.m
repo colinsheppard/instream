@@ -966,8 +966,8 @@ Boston, MA 02111-1307, USA.
            fflush(0);
            exit(1);
       }
-      fprintf(stdout, "TimeSeriesInputManager >>>>> readInputRecords >>>> number data records created = %d\n", inputNdx);
-      fflush(0);
+      //fprintf(stdout, "TimeSeriesInputManager >>>>> readInputRecords >>>> number data records created = %d\n", inputNdx);
+      //fflush(0);
   }else{
       //numRecords == 0
       fprintf(stderr, "ERROR: TimeSeriesInputManager >>>>> readInputRecords >>>> No data found between starting and ending dates for file %s\n", inputFileName);

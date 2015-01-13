@@ -217,10 +217,10 @@ Boston, MA 02111-1307, USA.
      displayX = intXCoordinate - aMinX; 
      displayX = displayX/rasterResolutionX + 0.5;
 
-         //fprintf(stdout, "ERROR: PolyPoint >>>> calcDisplayX >>>> aMinX %ld\n", aMinX);
-         //fprintf(stdout, "ERROR: PolyPoint >>>> calcDisplayX >>>> intXCoordinate %ld\n", intXCoordinate);
-         //fprintf(stdout, "ERROR: PolyPoint >>>> calcDisplayX >>>> displayX %ld\n", displayX);
-         //fflush(0);
+     //fprintf(stdout, "PolyPoint >>>> calcDisplayX >>>> aMinX %ld\n", aMinX);
+     //fprintf(stdout, "PolyPoint >>>> calcDisplayX >>>> intXCoordinate %ld\n", intXCoordinate);
+     //fprintf(stdout, "PolyPoint >>>> calcDisplayX >>>> displayX %ld\n", displayX);
+     //fflush(0);
  
      return self;
 }

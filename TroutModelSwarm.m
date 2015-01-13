@@ -377,8 +377,8 @@ char **speciesColor;
   int genSeed;
   time_t newYearTime = (time_t) 0;
 
-  fprintf(stdout, "TroutModelSwarm >>>> buildObjects >>>> BEGIN\n");
-  fflush(0);
+  //fprintf(stdout, "TroutModelSwarm >>>> buildObjects >>>> BEGIN\n");
+  //fflush(0);
 
   shadeColorMax = aShadeColorMax;
 
@@ -589,8 +589,8 @@ char **speciesColor;
      }
   }
 
-  fprintf(stdout, "TroutModelSwarm >>>> buildObjects >>>> END\n");
-  fflush(0);
+  //fprintf(stdout, "TroutModelSwarm >>>> buildObjects >>>> END\n");
+  //fflush(0);
 
   return self;
 
@@ -1395,8 +1395,8 @@ char **speciesColor;
  
   [super buildActions];
 
-  fprintf(stdout,"TroutModelSwarm >>>> buildActions >>>> BEGIN\n");
-  fflush(0);
+  //fprintf(stdout,"TroutModelSwarm >>>> buildActions >>>> BEGIN\n");
+  //fflush(0);
 
   // create the action group with sequential ordering --the only ordering
   // available now, anyway
@@ -1513,8 +1513,8 @@ char **speciesColor;
               [modelSchedule at: 0 createAction: overheadActions];
               [modelSchedule at: 0 createAction: updateLFTAction];
 
-  fprintf(stdout,"TroutModelSwarm >>>> buildActions >>>> END\n");
-  fflush(0);
+              //fprintf(stdout,"TroutModelSwarm >>>> buildActions >>>> END\n");
+              //fflush(0);
 
   return self;
 

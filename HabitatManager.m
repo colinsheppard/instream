@@ -390,13 +390,13 @@ Boston, MA 02111-1307, USA.
 ///////////////////////////////////
 - buildObjects
 {
-   fprintf(stdout, "HabitatManager >>>> buildObjects >>>> BEGIN\n");
-   fflush(0);
+  //fprintf(stdout, "HabitatManager >>>> buildObjects >>>> BEGIN\n");
+  //fflush(0);
 
    [self finishBuildingTheHabitatSpaces];
 
-   fprintf(stdout, "HabitatManager >>>> buildObjects >>>> END\n");
-   fflush(0);
+   //fprintf(stdout, "HabitatManager >>>> buildObjects >>>> END\n");
+   //fflush(0);
    return self;
 }
 
@@ -616,7 +616,8 @@ Boston, MA 02111-1307, USA.
 ////////////////////////////////////////////
 - finishBuildingTheHabitatSpaces
 {
-
+  //fprintf(stdout, "HabitatManager >>>> finishBuildingTheHabitatSpaces >>>> BEGIN\n");
+  //fflush(0);
   HabitatSpace* habitatSpace = nil;
   int habitatSpaceCount;
 
@@ -713,9 +714,8 @@ Boston, MA 02111-1307, USA.
    id aReach = nil;
    id aJReach = nil;
 
-   fprintf(stdout, "HabitatManager >>>> buildReachJunctions >>>> BEGIN\n");
-   fflush(0);
-
+   //fprintf(stdout, "HabitatManager >>>> buildReachJunctions >>>> BEGIN\n");
+   //fflush(0);
 
    [reachNdx setLoc: Start];
 
@@ -769,8 +769,8 @@ Boston, MA 02111-1307, USA.
 
    [reachNdx drop];
 
-   fprintf(stdout, "HabitatManager >>>> buildReachJunctions >>>> END\n");
-   fflush(0);
+   //fprintf(stdout, "HabitatManager >>>> buildReachJunctions >>>> END\n");
+   //fflush(0);
 
    return self;
 }

@@ -132,12 +132,15 @@ Boston, MA 02111-1307, USA.
 //
 /////////////////////////////////////////////////
 - createPolyCoordinateArray{
-    int i;
-
-    //fprintf(stdout, "PolyCell >>>> createPolyCoordinateArray >>> BEGIN\n");
+  int i;
+    //fprintf(stdout, "PolyCell >>>> createPolyCoordinateArray >>> BEGIN %d \n",numPolyCoords);
     //fflush(0);
 
-    polyCoordinates = (double **) [cellZone alloc: (2*numPolyCoords) * sizeof(double *)];
+    polyCoordinates = (double **) [cellZone alloc: (numPolyCoords) * sizeof(double *)];
+
+    for(i=0; i<numPolyCoords; i++){
+      polyCoordinates[i] = (double *) [cellZone alloc: 2 * sizeof(double)];
+    }
 
     //fprintf(stdout, "PolyCell >>>> createPolyCoordinateArray >>> END\n");
     //fflush(0);
@@ -151,10 +154,11 @@ Boston, MA 02111-1307, USA.
 //
 //////////////////////////////////////////////////
 - setPolyCoordsWith: (double) aPolyCoordX and: (double) aPolyCoordY{
-     //fprintf(stdout, "PolyCell >>>> setPolyCoordsWith >>>>  polyCellNumber = %d\n", polyCellNumber);
-     //fprintf(stdout, "PolyCell >>>> setPolyCoordsWith >>>>  numPolyCoords = %d\n", numPolyCoords);
-     //fprintf(stdout, "PolyCell >>>> setPolyCoordsWith >>>> X = %f >>>> Y = %f\n", aPolyCoordX, aPolyCoordY);
-     //fflush(0); 
+  //fprintf(stdout, "PolyCell >>>> setPolyCoordsWith >>>>  polyCellNumber = %d\n", polyCellNumber);
+  //fprintf(stdout, "PolyCell >>>> setPolyCoordsWith >>>>  numPolyCoords = %d\n", numPolyCoords);
+  //fprintf(stdout, "PolyCell >>>> setPolyCoordsWith >>>>  polyCoordArrayLength = %d\n", polyCoordArrayLength);
+  //fprintf(stdout, "PolyCell >>>> setPolyCoordsWith >>>> X = %f >>>> Y = %f\n", aPolyCoordX, aPolyCoordY);
+  //fflush(0); 
      
   if(polyCoordArrayLength+1 > numPolyCoords){
     fprintf(stderr, "ERROR: PolyCell >>>> setPolyCoordsWith >>>> Attempted to add more coordinates to polyCoordinates array than specified by numPolyCoords.");
@@ -165,6 +169,8 @@ Boston, MA 02111-1307, USA.
   polyCoordinates[polyCoordArrayLength][1] = aPolyCoordY; 
   polyCoordArrayLength++;
 
+  //fprintf(stdout, "PolyCell >>>> setPolyCoordsWith >>>> END");
+  //fflush(0); 
   return self;
 }
 
@@ -216,8 +222,7 @@ Boston, MA 02111-1307, USA.
 
     polyPointList = [List create: cellZone]; 
 
-    for(i = 0; i < numPolyCoords; i++)
-    {
+    for(i = 0; i < numPolyCoords; i++){
          PolyPoint* polyPoint = [PolyPoint createBegin: cellZone];
  
          [polyPoint setPolyCell: self];
@@ -229,26 +234,20 @@ Boston, MA 02111-1307, USA.
 
          [polyPointList addFirst: polyPoint];
 
-         if(i == 0)
-         {
+         if(i == 0){
               forSurePolyPoint = polyPoint;
               forSurePointX = [forSurePolyPoint getIntX];
               forSurePointY = [forSurePolyPoint getIntY];
          }
 
-         if(forSurePolyPoint != polyPoint)
-         {
-              if((forSurePointX == [polyPoint getIntX]) && (forSurePointY == [polyPoint getIntY]))
-              {
+         if(forSurePolyPoint != polyPoint){
+              if((forSurePointX == [polyPoint getIntX]) && (forSurePointY == [polyPoint getIntY])){
                     [polyPointList remove: polyPoint];
                     [polyPoint drop];
                     polyPoint = nil;
               }
          }
-    
     }
-
-         
 
     //fprintf(stdout, "PolyCell >>>> createPolyPoints >>>> END\n");
     //fflush(0);
@@ -387,10 +386,10 @@ Boston, MA 02111-1307, USA.
   //fprintf(stdout, "PolyCell >>>> createPolyCellPixels >>>> BEGIN\n");
   //fflush(0);
 
-  maxDisplayX = LLONG_MIN;
-  maxDisplayY = LLONG_MIN;
-  minDisplayX = LLONG_MAX;
-  minDisplayY = LLONG_MAX;
+  maxDisplayX = LONG_MIN;
+  maxDisplayY = LONG_MIN;
+  minDisplayX = LONG_MAX;
+  minDisplayY = LONG_MAX;
 
   while(([ndx getLoc] != End) && ((polyPoint = [ndx next]) != nil)){
       long int ppDisplayX = [polyPoint getDisplayX];
@@ -401,6 +400,8 @@ Boston, MA 02111-1307, USA.
       minDisplayX = (minDisplayX < ppDisplayX) ? minDisplayX : ppDisplayX;
       minDisplayY = (minDisplayY < ppDisplayY) ? minDisplayY : ppDisplayY;
   }
+  //fprintf(stdout, "PolyCell >>>> createPolyCellPixels >>>> %ld %ld %ld %ld \n",minDisplayX,minDisplayY,maxDisplayX,maxDisplayY);
+  //fflush(0);
 
   pixelCount = 0;
   for(aDisplayX = minDisplayX; aDisplayX <= maxDisplayX; aDisplayX++)

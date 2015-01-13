@@ -347,6 +347,8 @@ Boston, MA 02111-1307, USA.
 //////////////////////////////////////////////
 - buildObjects 
 {
+  //fprintf(stdout, "Cell >>>> buildObjects >>>> BEGIN\n");
+  //fflush(0);
   if(myRandGen == nil)
   {
      fprintf(stderr, "ERROR: FishCell >>>> buildObjects >>>> myRandGen is nil\n");
@@ -373,6 +375,8 @@ Boston, MA 02111-1307, USA.
   foodReportFirstTime=YES;
   depthVelRptFirstTime=YES;
  
+  //fprintf(stdout, "Cell >>>> buildObjects >>>> END\n");
+  //fflush(0);
   return self;
 }
 

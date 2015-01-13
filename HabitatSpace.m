@@ -903,8 +903,8 @@ Boston, MA 02111-1307, USA.
 /////////////////////////////////////////////
 - buildPolyCells
 {
-    //fprintf(stdout, "HabitatSpace >>>> buildPolyCells >>>> BEGIN\n");
-    //fflush(0);
+  //fprintf(stdout, "HabitatSpace >>>> buildPolyCells >>>> BEGIN\n");
+  //fflush(0);
 
     polyCellList = [List create: habitatZone];
    
@@ -922,8 +922,6 @@ Boston, MA 02111-1307, USA.
       [self outputCellCentroidRpt];
     }
     //[self outputCellCorners];
-
-  
     //fprintf(stdout, "HabitatSpace >>>> buildPolyCells >>>> END\n");
     //fflush(0);
 
@@ -977,8 +975,7 @@ Boston, MA 02111-1307, USA.
     //fprintf(stdout, "HabitatSpace >>>> read2DGeometryFile >>>> BEGIN : %s \n", polyCellGeomFile);
     //fflush(0);
 
-    if((dataFPTR = fopen(polyCellGeomFile, "r")) == NULL)
-    {
+    if((dataFPTR = fopen(polyCellGeomFile, "r")) == NULL){
          fprintf(stderr, "ERROR: HabitatSpace >>>> read2DGeometryFile >>>> unable to open %s for reading\n", polyCellGeomFile);
          fflush(0);
          exit(1);
@@ -986,35 +983,28 @@ Boston, MA 02111-1307, USA.
 
     isNewCell = YES;
     isDataValid = YES;
-    while(!feof(dataFPTR))
-    {
+    while(!feof(dataFPTR)){
           FishCell* newPolyCell = (FishCell *) nil;
 
           (void) fgets(inputString, 300, dataFPTR);
+          //fprintf(stdout, "HabitatSpace >>>> read2DGeometryFile >>>> inpStr: %s ", inputString);
+          //fflush(0);
 
-          if(strchr(inputString, '-') != NULL)
-          { 
-                 isNewCell = NO;
-                 isDataValid = NO;
-                 continue;
-          }
-
-          if(strncmp(inputString, "END", 3) == 0)
-          { 
+          if(strncmp(inputString, "END", 3) == 0){ 
                isNewCell = YES;
                isDataValid = YES;
                continue;
           }
 
-          if(isNewCell && isDataValid)
-          {
+          if(isNewCell && isDataValid){
               char sCellNumber[8];
               char sCentroidX[25];
               char sCentroidY[25];
 
               int cellNumber;
+              //fprintf(stdout, "HabitatSpace >>>> read2DGeometryFile >>>> before create fishcell\n");
+              //fflush(0);
 
-          
               newPolyCell = [FishCell create: habitatZone]; 
               [newPolyCell setSpace: self];
               [newPolyCell setReach: self];
@@ -1034,23 +1024,23 @@ Boston, MA 02111-1307, USA.
 
               cellNumber = atoi(sCellNumber);
 
+              //fprintf(stdout, "HabitatSpace >>>> read2DGeometryFile >>>>\n");
               //fprintf(stdout, "%s\n", sCellNumber);
               //fprintf(stdout, "%s\n", sCentroidX);
               //fprintf(stdout, "%s\n", sCentroidY);
               //fflush(0);
 
               [newPolyCell setPolyCellNumber: cellNumber]; 
-         
-
               continue;
           }
 
           //
           // Now parse the data string if it is valid data
           //
-          if(!isNewCell && isDataValid)
-          {
+          if(!isNewCell && isDataValid){
                  newPolyCell = [polyCellList getLast];
+                 //fprintf(stdout, "HabitatSpace >>>> read2DGeometryFile >>>> before increment\n");
+                 //fflush(0);
 
                  //
                  // newPolyCell needs to know how much
@@ -1058,9 +1048,7 @@ Boston, MA 02111-1307, USA.
                  //
                  [newPolyCell incrementNumCoordinates: 1];
           }                              
-
     }
-
     fclose(dataFPTR);
 
     [polyCellList forEach: M(createPolyCoordinateArray)];
@@ -1068,8 +1056,7 @@ Boston, MA 02111-1307, USA.
     //
     // reopen the file 
     //
-    if((dataFPTR = fopen(polyCellGeomFile, "r")) == NULL)
-    {
+    if((dataFPTR = fopen(polyCellGeomFile, "r")) == NULL){
          fprintf(stderr, "ERROR: HabitatSpace >>>> read2DGeometryFile >>>> unable to open %s for reading\n", polyCellGeomFile);
          fflush(0);
          exit(1);
@@ -1077,28 +1064,22 @@ Boston, MA 02111-1307, USA.
 
     isNewCell = YES;
     isDataValid = YES;
-    while(!feof(dataFPTR))
-    {
+    while(!feof(dataFPTR)){
 
           (void) fgets(inputString, 300, dataFPTR);
 
-          if(strncmp(inputString, "END", 3) == 0)
-          { 
+          if(strncmp(inputString, "END", 3) == 0){ 
                isNewCell = YES;
                isDataValid = YES;
                continue;
           }
-
-          if(isNewCell && isDataValid)
-          {
+          if(isNewCell && isDataValid){
               char sCellNumber[8];
               char sCentroidX[25];
               char sCentroidY[25];
-
               int cellNumber;
           
-              if(polyCellNdx == nil)
-              {
+              if(polyCellNdx == nil){
                    polyCellNdx = [polyCellList listBegin: scratchZone];
               }
 
@@ -1107,19 +1088,14 @@ Boston, MA 02111-1307, USA.
               cellNumber = atoi(sCellNumber);
 
               [polyCellNdx setLoc: Start];
-              while(([polyCellNdx getLoc] != End) && ((polyCell = [polyCellNdx next]) != nil))
-              {
-                    if([polyCell getPolyCellNumber]  == cellNumber)
-                    {
+              while(([polyCellNdx getLoc] != End) && ((polyCell = [polyCellNdx next]) != nil)){
+                    if([polyCell getPolyCellNumber]  == cellNumber){
                           id <ListIndex>  chckDupPolyCellNdx = [polyCellList listBegin: scratchZone];
                           FishCell* aFishCell = nil;
  
-                          while(([chckDupPolyCellNdx getLoc] != End) && ((aFishCell = [chckDupPolyCellNdx next]) != nil))
-                          {
-                               if(aFishCell != polyCell)
-                               {
-                                    if([aFishCell getPolyCellNumber] == cellNumber)
-                                    {
+                          while(([chckDupPolyCellNdx getLoc] != End) && ((aFishCell = [chckDupPolyCellNdx next]) != nil)){
+                               if(aFishCell != polyCell){
+                                    if([aFishCell getPolyCellNumber] == cellNumber){
                                           fprintf(stderr, "ERROR: HabitatSpace >>>> read2DGeometryFile >>>> duplicate polyCellNumber = %d\n", cellNumber);
                                           fflush(0);
                                           exit(1);
@@ -1128,12 +1104,9 @@ Boston, MA 02111-1307, USA.
                           }
                           [chckDupPolyCellNdx drop];
                           chckDupPolyCellNdx  = nil;
-
                           break;
                     }
               }
-              
-
               isNewCell = NO;
               continue;
           }
@@ -1141,30 +1114,26 @@ Boston, MA 02111-1307, USA.
           //
           // Now parse the data string if it is valid data
           //
-          if(!isNewCell && isDataValid)
-          {
-                 char sCoordX[25]; 
-                 char sCoordY[25]; 
+          if(!isNewCell && isDataValid){
+            //char sCoordX[25]; 
+            //char sCoordY[25]; 
 
                  double coordX;
                  double coordY;
 
-                 sscanf(inputString, "%s %s", sCoordX, sCoordY);
+                 //sscanf(inputString, "%s %s", sCoordX, sCoordY);
+                 //coordX = atof(sCoordX);
+                 //coordY = atof(sCoordY);
 
-                 coordX = atof(sCoordX);
-                 coordY = atof(sCoordY);
+                 sscanf(inputString, "%lf %lf", &coordX, &coordY);
 
                  [polyCell  setPolyCoordsWith: coordX
                                           and: coordY];
 
-          }                              
-
+          }
     }
 
-
-
     [polyCellNdx drop];
-
     [polyCellList forEach: M(createPolyPoints)]; 
 
     if((polyRasterResolutionX <= 0) || (polyRasterResolutionY <= 0))
@@ -1177,62 +1146,53 @@ Boston, MA 02111-1307, USA.
     // We need to find the min x- and y- coordinates also the max
     //
     {
-          minXCoordinate = (long int) 1E10;
-          minYCoordinate = (long int) 1E10;
-          maxXCoordinate = -1;  // The polyPoints should have positive coordinates. 
-          maxYCoordinate = -1;
+          minXCoordinate = LONG_MAX;
+          minYCoordinate = LONG_MAX;
+          maxXCoordinate = LONG_MIN;
+          maxYCoordinate = LONG_MIN;
 
           id <ListIndex> ndx = [polyCellList listBegin: scratchZone];
 
-          while(([ndx getLoc] != End) && ((polyCell = [ndx next]) != nil))
-          {
+          while(([ndx getLoc] != End) && ((polyCell = [ndx next]) != nil)){
               id <List> polyPointList = nil;
 
-              //
               // set the ZoomRaster raster variables
-              //
               [polyCell setPolyRasterResolutionX: polyRasterResolutionX];
               [polyCell setPolyRasterResolutionY: polyRasterResolutionY];
 
-
-              if((polyPointList = [polyCell getPolyPointList]) == nil)
-              {
+              if((polyPointList = [polyCell getPolyPointList]) == nil){
                    fprintf(stderr, "HabitatSpace >>> read2DGeometry >>>> nil polyPointList\n");
                    fflush(0);
                    exit(1);
-              }
-              else
-              { 
+              }else{ 
                   id <ListIndex> ppNdx = [polyPointList listBegin: scratchZone];
                   PolyPoint* polyPoint = nil;
                   
-                  while(([ppNdx getLoc] != End) && ((polyPoint = [ppNdx next]) != nil))
-                  {
-                      double intXCoord = [polyPoint getIntX];
-                      double intYCoord = [polyPoint getIntY];
+                  while(([ppNdx getLoc] != End) && ((polyPoint = [ppNdx next]) != nil)){
+                      long int intXCoord = [polyPoint getIntX];
+                      long int intYCoord = [polyPoint getIntY];
+                      //fprintf(stdout, "HabitatSpace >>>> createPolyCells >>>> intXCoord = %ld intYCoord = %ld \n",intXCoord,intYCoord);
+                      //fprintf(stdout, "HabitatSpace >>>> createPolyCells >>>> minX = %ld minY = %ld \n",minXCoordinate,minYCoordinate);
+                      //fprintf(stdout, "HabitatSpace >>>> createPolyCells >>>> maxX = %ld maxY = %ld \n",maxXCoordinate,maxYCoordinate);
+                      //fflush(0); 
 
                       minXCoordinate = (minXCoordinate < intXCoord) ? minXCoordinate : intXCoord;
                       minYCoordinate = (minYCoordinate < intYCoord) ? minYCoordinate : intYCoord;
-
                       maxXCoordinate = (maxXCoordinate > intXCoord) ? maxXCoordinate : intXCoord;
                       maxYCoordinate = (maxYCoordinate > intYCoord) ? maxYCoordinate : intYCoord;
                   }
-
                   [ppNdx drop];
                   ppNdx = nil;
-
               } //else
-            
            } // while
 
-           //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> polyRasterResolution = %ld\n", polyRasterResolution);
-           //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> polyRasterResolutionX = %ld\n", polyRasterResolutionX);
-           //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> polyRasterResolutionY = %ld\n", polyRasterResolutionY);
-           //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> aMinXCoordinate = %ld\n", minXCoordinate);
-           //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> aMinYCoordinate = %ld\n", minYCoordinate);
-           //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> aMaxXCoordinate = %ld\n", maxXCoordinate);
-           //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> aMaxYCoordinate = %ld\n", maxYCoordinate);
-           //fflush(0);
+          //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> polyRasterResolutionX = %d\n", polyRasterResolutionX);
+          //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> polyRasterResolutionY = %d\n", polyRasterResolutionY);
+          //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> aMinXCoordinate = %ld\n", minXCoordinate);
+          //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> aMinYCoordinate = %ld\n", minYCoordinate);
+          //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> aMaxXCoordinate = %ld\n", maxXCoordinate);
+          //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> aMaxYCoordinate = %ld\n", maxYCoordinate);
+          //fflush(0);
 
            [ndx setLoc: Start];
            while(([ndx getLoc] != End) && ((polyCell = [ndx next]) != nil))
@@ -1268,16 +1228,7 @@ Boston, MA 02111-1307, USA.
 
            spaceDimX = polySpaceSizeX;
            spaceDimY = polySpaceSizeY;
-
-           //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> aMinXCoordinate = %ld\n", minXCoordinate);
-           //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> aMinYCoordinate = %ld\n", minYCoordinate);
-           //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> aMaxXCoordinate = %ld\n", maxXCoordinate);
-           //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> aMaxYCoordinate = %ld\n", maxYCoordinate);
-           //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> polySpaceSizeX = %ld\n", (long int) polySpaceSizeX);
-           //fprintf(stdout, "HabitatSpace >>> read2DGeometry >>>> polySpaceSizeY = %ld\n", (long int) polySpaceSizeY);
-           //fflush(0);
     }
-
 
     [polyCellList forEach: M(createPolyCellPixels)];
 
@@ -1285,7 +1236,6 @@ Boston, MA 02111-1307, USA.
     // Do not drop the following list index
     //
     polyCellListNdx = [polyCellList listBegin: habitatZone];
-
 
     fclose(dataFPTR);
     //fprintf(stdout, "HabitatSpace >>>> read2DGeometry >>>> END\n");
